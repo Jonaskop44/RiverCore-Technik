@@ -7,7 +7,7 @@ const Home = () => {
       <Navbar />
       <div className="w-full overflow-x-hidden">
         <section className="relative h-[550px] overflow-hidden pb-5 pt-20 lg:h-[90vh]">
-          <div className="absolute -left-8 bottom-0 -z-50 h-[120%] w-[130%] origin-top-left -rotate-6 rounded-[3rem] bg-sky-600 bg-[url('/images/start-background.webp')] bg-[length:auto_75%] bg-[-160px_140%] bg-no-repeat" />
+          <div className="absolute -left-8 bottom-0 -z-50 h-[120%] w-[130%] origin-top-left -rotate-6 rounded-[3rem] bg-sky-500 bg-[url('/images/start-background.webp')] bg-[length:auto_75%] bg-[-160px_140%] bg-no-repeat" />
           <div className="flex h-full w-full flex-col items-center justify-around pb-10 text-center">
             <div className="flex flex-col items-center gap-6 px-6 font-medium text-white">
               <h2 className="text-3xl md:text-4xl">

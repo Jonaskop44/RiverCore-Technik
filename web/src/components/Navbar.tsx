@@ -11,10 +11,10 @@ const Navbar = () => {
 
   const links = [
     { name: "Start", page: "start" },
-    { name: "Musikanlagen", page: "musikanlagen" },
-    { name: "Lichttechnik", page: "lichttechnik" },
-    { name: "DJ-Equipment", page: "dj-equipment" },
-    { name: "Party-Sets", page: "party-sets" },
+    { name: "Dienstleistung", page: "1" },
+    { name: "Team", page: "2" },
+    { name: "Place", page: "3" },
+    { name: "holder", page: "4" },
   ];
 
   return (
