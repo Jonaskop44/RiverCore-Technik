@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { BsList } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
-import { Button, ButtonGroup } from "@nextui-org/button";
+import { Button } from "@nextui-org/button";
 
 const navigation = [
   { name: "Start", href: "#" },
@@ -20,7 +20,7 @@ const Home = () => {
       <div className="max-w-7xl mx-auto">
         <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
           <svg
-            className="hidden lg:block absolute right-0 inset-y-0 h-screen w-48 text-black transform translate-x-1/2"
+            className="hidden lg:block absolute right-0 inset-y-0 h-screen w-48 text-white transform translate-x-1/2"
             fill="currentColor"
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
@@ -43,9 +43,9 @@ const Home = () => {
                       />
                     </a>
                     <div className="-mr-2 flex items-center md:hidden">
-                      <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100">
+                      <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 outline-none">
                         <span className="sr-only">Open main menu</span>
-                        <BsList className="h-6 w-6" aria-hidden="true" />
+                        <BsList className="h-6 w-6" />
                       </Popover.Button>
                     </div>
                   </div>
@@ -87,7 +87,7 @@ const Home = () => {
                       />
                     </div>
                     <div className="-mr-2">
-                      <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100">
+                      <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 outline-none">
                         <span className="sr-only">Close main menu</span>
                         <IoMdClose className="h-6 w-6" aria-hidden="true" />
                       </Popover.Button>
@@ -117,9 +117,9 @@ const Home = () => {
 
           <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
             <div className="sm:text-center lg:text-left">
-              <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+              <h1 className="text-4xl tracking-tight font-extrabold text-gray-800 sm:text-5xl md:text-6xl">
                 <span className="block xl:inline">Innovationen nutzen</span>{" "}
-                <span className="block text-indigo-600 xl:inline">
+                <span className="block text-blue-600 xl:inline">
                   erfolgreich umsetzen
                 </span>
               </h1>
