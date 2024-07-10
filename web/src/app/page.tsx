@@ -39,6 +39,7 @@ const Home = () => {
                       <img
                         className="h-8 w-auto sm:h-10"
                         src="/images/Logo_ELBE-1-749x800.png"
+                        alt="Logo Elbe Technik"
                       />
                     </a>
                     <div className="-mr-2 flex items-center md:hidden">
