@@ -9,6 +9,7 @@ declare module "react-infinite-logo-slider" {
     blurBorders?: boolean;
     blurBorderColor?: string;
     children?: React.ReactNode;
+    toRight?: boolean;
   }
 
   interface SlideProps {
