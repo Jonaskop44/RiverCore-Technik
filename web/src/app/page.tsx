@@ -1,17 +1,13 @@
-"use client";
-
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import Slider from "react-infinite-logo-slider";
-import CompanySlider from "@/components/CompanySlider";
 
-const Home: React.FC = () => {
+const Home = () => {
   return (
     <div>
       <Navbar />
       <div className="w-full overflow-x-hidden">
         <section className="relative h-[550px] overflow-hidden pb-5 pt-20 lg:h-[90vh]">
-          <div className="absolute -left-8 bottom-0 -z-50 h-[120%] w-[130%] origin-top-left -rotate-6 rounded-[3rem] bg-sky-500" />
+          <div className="absolute -left-8 bottom-0 -z-50 h-[120%] w-[130%] origin-top-left -rotate-6 rounded-[3rem] bg-sky-500 bg-[url('/images/start-background.webp')] bg-[length:auto_75%] bg-[-160px_140%] bg-no-repeat" />
           <div className="flex h-full w-full flex-col items-center justify-around pb-10 text-center">
             <div className="flex flex-col items-center gap-6 px-6 font-medium text-white">
               <h2 className="text-3xl md:text-4xl">
@@ -30,76 +26,6 @@ const Home: React.FC = () => {
               >
                 Mehr Erfahren
               </Link>
-            </div>
-          </div>
-
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-10 mt-10 -translate-x-[600px]">
-            <div className="w-full max-w-xl p-4">
-              <Slider
-                width="250px"
-                duration={30}
-                pauseOnHover={false}
-                blurBorders={false}
-                blurBorderColor="#fff"
-              >
-                <Slider.Slide>
-                  <h1>Slide 1</h1>
-                </Slider.Slide>
-                <Slider.Slide>
-                  <h1>Slide 2</h1>
-                </Slider.Slide>
-                <Slider.Slide>
-                  <h1>Slide 3</h1>
-                </Slider.Slide>
-                <Slider.Slide>
-                  <div>Other component...</div>
-                </Slider.Slide>
-              </Slider>
-            </div>
-            <div className="w-full max-w-xl p-4">
-              <Slider
-                width="250px"
-                duration={30}
-                pauseOnHover={false}
-                blurBorders={false}
-                toRight
-                blurBorderColor="#fff"
-              >
-                <Slider.Slide>
-                  <h1>Slide 1</h1>
-                </Slider.Slide>
-                <Slider.Slide>
-                  <h1>Slide 2</h1>
-                </Slider.Slide>
-                <Slider.Slide>
-                  <h1>Slide 3</h1>
-                </Slider.Slide>
-                <Slider.Slide>
-                  <div>Other component...</div>
-                </Slider.Slide>
-              </Slider>
-            </div>
-            <div className="w-full max-w-xl p-4">
-              <Slider
-                width="250px"
-                duration={30}
-                pauseOnHover={true}
-                blurBorders={false}
-                blurBorderColor="#fff"
-              >
-                <Slider.Slide>
-                  <h1>Slide 1</h1>
-                </Slider.Slide>
-                <Slider.Slide>
-                  <h1>Slide 2</h1>
-                </Slider.Slide>
-                <Slider.Slide>
-                  <h1>Slide 3</h1>
-                </Slider.Slide>
-                <Slider.Slide>
-                  <div>Other component...</div>
-                </Slider.Slide>
-              </Slider>
             </div>
           </div>
         </section>
