@@ -16,7 +16,7 @@ const navigation = [
 
 const Home = () => {
   return (
-    <div className="relative bg-white overflow-hidden h-screen">
+    <div className="relative bg-green-500 overflow-hidden h-screen">
       <div className="max-w-7xl mx-auto">
         <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
           <svg
@@ -124,7 +124,7 @@ const Home = () => {
                 </span>
               </h1>
               <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                Bei <b>Elbe - Technik</b> bieten wir maßgeschneiderte
+                Bei <b>Just - Technik</b> bieten wir maßgeschneiderte
                 Techniklösungen für Ihr Unternehmen. Kontaktieren Sie uns per
                 Telefon oder E-Mail und profitieren Sie von unserer umfassenden
                 Beratung und Unterstützung. Setzen Sie Ihre Projekte mit
@@ -147,7 +147,7 @@ const Home = () => {
           src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80"
           alt=""
         />
-      </div>{" "}
+      </div>
     </div>
   );
 };
