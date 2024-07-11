@@ -165,10 +165,15 @@ const Home = () => {
       </main>
 
       {/*Company*/}
-      <section className="bg-black pt-[85vh] pb-[85vh] relative text-[#fafafa]">
+      <section className="pt-[12vh] pb-[12vh] relative">
         <ParallaxText baseVelocity={-5}>Framer Motion</ParallaxText>
         <ParallaxText baseVelocity={5}>Scroll velocity</ParallaxText>
       </section>
+
+      {/*Business Areas*/}
+      <div className="flex justify-center items-center">
+        <h1>Unsere Geschäftsbereiche</h1>
+      </div>
     </div>
   );
 };
