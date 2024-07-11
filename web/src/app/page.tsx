@@ -175,16 +175,7 @@ const Home = () => {
       </section>
 
       {/*Business Areas*/}
-      <div className="flex flex-col items-center">
-        <h1>Unsere Geschäftsbereiche</h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          <BusinessAreaCard
-            title="Drucker & Multifunktionsgeräte"
-            description="Wir bieten Ihnen eine große Auswahl an Druckern und
-          Multifunktionsgeräten für den privaten und gewerblichen Bereich."
-          />
-        </div>
-      </div>
+      <BusinessAreaCard />
     </div>
   );
 };
