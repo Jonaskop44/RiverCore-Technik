@@ -6,8 +6,9 @@ import { Popover, Transition } from "@headlessui/react";
 import { BsList } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/button";
-import { motion } from "framer-motion";
+import { motion, useViewportScroll, useTransform } from "framer-motion";
 import ParallaxText from "@/components/ParallaxText";
+import BusinessAreaCard from "@/components/BusinessAreaCard";
 
 const navigation = [
   { name: "Start", href: "#" },
@@ -17,6 +18,9 @@ const navigation = [
 ];
 
 const Home = () => {
+  const { scrollYProgress } = useViewportScroll();
+  const scale = useTransform(scrollYProgress, [0, 1], [0.2, 2]);
+
   return (
     <div>
       {/*Hero*/}
@@ -171,8 +175,16 @@ const Home = () => {
       </section>
 
       {/*Business Areas*/}
-      <div className="flex justify-center items-center">
+      <div className="flex flex-col items-center">
         <h1>Unsere Geschäftsbereiche</h1>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <BusinessAreaCard />
+          <BusinessAreaCard />
+          <BusinessAreaCard />
+          <BusinessAreaCard />
+          <BusinessAreaCard />
+          <BusinessAreaCard />
+        </div>
       </div>
     </div>
   );
