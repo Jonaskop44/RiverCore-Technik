@@ -33,3 +33,12 @@ body {
 ::-webkit-scrollbar-corner {
   background: var(--background);
 }
+
+.grayscale {
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.grayscale:hover {
+  filter: grayscale(0%);
+}

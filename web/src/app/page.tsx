@@ -171,9 +171,25 @@ const Home = () => {
       {/*Company*/}
       <section className="lg:pt-[12vh] lg:pb-[12vh] relative">
         <ParallaxText baseVelocity={-5}>
-          <img src="/images/partner/sharp.png" alt="" />
+          <div className="flex">
+            <span className="block mr-[30px] grayscale">
+              <img src="/images/partner/sharp.png" alt="Sharp" />
+            </span>
+            <span className="block mr-[30px] grayscale">
+              <img src="/images/partner/brother.png" alt="Brother" />
+            </span>
+          </div>
         </ParallaxText>
-        <ParallaxText baseVelocity={5}>Scroll velocity</ParallaxText>
+        <ParallaxText baseVelocity={5}>
+          <div className="flex">
+            <span className="block mr-[30px] grayscale">
+              <img src="/images/partner/sharp.png" alt="Sharp" />
+            </span>
+            <span className="block mr-[30px] grayscale">
+              <img src="/images/partner/brother.png" alt="Brother" />
+            </span>
+          </div>
+        </ParallaxText>
       </section>
 
       {/*Business Areas*/}
