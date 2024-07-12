@@ -11,7 +11,7 @@ import {
 import { wrap } from "@motionone/utils";
 
 interface ParallaxProps {
-  children: string;
+  children: React.ReactNode;
   baseVelocity: number;
 }
 

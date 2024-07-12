@@ -24,7 +24,7 @@ const Home = () => {
   return (
     <div>
       {/*Hero*/}
-      <main className="relative bg-white overflow-hidden h-screen">
+      <main className="relative bg-white overflow-hidden lg:h-screen">
         <div className="max-w-7xl mx-auto">
           <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
             <svg
@@ -169,8 +169,10 @@ const Home = () => {
       </main>
 
       {/*Company*/}
-      <section className="pt-[12vh] pb-[12vh] relative">
-        <ParallaxText baseVelocity={-5}>Framer Motion</ParallaxText>
+      <section className="lg:pt-[12vh] lg:pb-[12vh] relative">
+        <ParallaxText baseVelocity={-5}>
+          <img src="/images/partner/sharp.png" alt="" />
+        </ParallaxText>
         <ParallaxText baseVelocity={5}>Scroll velocity</ParallaxText>
       </section>
 
