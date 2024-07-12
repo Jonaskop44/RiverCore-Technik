@@ -38,21 +38,20 @@ const sections = [
 const BusinessSections = () => {
   const controls = useAnimation();
   const ref = useRef(null);
-  const hasAnimated = useRef(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasAnimated.current) {
+          if (entry.isIntersecting) {
             controls.start("visible");
-            hasAnimated.current = true;
-            observer.disconnect(); // Stop observing after the first animation
+          } else {
+            controls.start("hidden");
           }
         });
       },
       {
-        threshold: 0.1, // Trigger when 10% of the element is visible
+        threshold: 0.5, // Trigger when 50% of the element is visible
       }
     );
 
@@ -61,7 +60,9 @@ const BusinessSections = () => {
     }
 
     return () => {
-      observer.disconnect();
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
     };
   }, [controls]);
 
