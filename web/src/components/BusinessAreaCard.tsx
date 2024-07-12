@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-// components/BusinessSections.tsx
+import { useEffect, useRef } from "react";
+import { motion, useAnimation } from "framer-motion";
 
 const sections = [
   {
@@ -35,15 +36,70 @@ const sections = [
 ];
 
 const BusinessSections = () => {
+  const controls = useAnimation();
+  const ref = useRef(null);
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated.current) {
+            controls.start("visible");
+            hasAnimated.current = true;
+            observer.disconnect(); // Stop observing after the first animation
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Trigger when 10% of the element is visible
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [controls]);
+
+  const container = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
+
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-3xl mb-8 font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-700  to-sky-500">
+    <div ref={ref} className="container mx-auto p-8">
+      <h1 className="text-3xl mb-8 font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-sky-500">
         Unsere Geschäftsbereiche
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate={controls}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+      >
         {sections.map((section) => (
-          <div
+          <motion.div
             key={section.title}
+            variants={item}
             className="bg-[#f3f3f3] p-6 rounded-lg shadow-lg text-center"
           >
             <img
@@ -55,9 +111,9 @@ const BusinessSections = () => {
               {section.title}
             </h2>
             <p className="text-gray-700">{section.description}</p>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };

@@ -21,7 +21,7 @@ body {
 
 ::-webkit-scrollbar {
   height: 5px;
-  width: 5px;
+  width: 0px;
   background: var(--background);
 }
 
