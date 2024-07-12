@@ -183,10 +183,10 @@ const Home = () => {
         <ParallaxText baseVelocity={5}>
           <div className="flex">
             <span className="block mr-[30px] grayscale">
-              <img src="/images/partner/sharp.png" alt="Sharp" />
+              <img src="/images/partner/brother.png" alt="Brother" />
             </span>
             <span className="block mr-[30px] grayscale">
-              <img src="/images/partner/brother.png" alt="Brother" />
+              <img src="/images/partner/sharp.png" alt="Sharp" />
             </span>
           </div>
         </ParallaxText>
