@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 const navigation = [
   {
@@ -139,14 +140,14 @@ const App = () => {
         </div>
         <motion.div
           variants={mobileMenuVariant}
-          className="mobile-menu fixed top-0 left-0 h-screen w-full flex flex-col items-center bg-black/70 "
+          className="fixed top-0 left-0 h-screen w-full flex flex-col items-center bg-black/70 bg-blur"
         >
           <motion.button
             variants={fadeInVariant}
             onClick={() => setMobileNavOpen(false)}
             className="self-end mr-[45px] mt-[35px] outline-none border-none bg-transparent uppercase text-sm text-white hover:cursor-pointer"
           >
-            Close
+            <IoMdCloseCircleOutline className="text-white text-4xl" />
           </motion.button>
           <motion.ul variants={ulVariant} className="list-none mt-[40px]">
             {navigation.map((item) => (
@@ -157,7 +158,7 @@ const App = () => {
               >
                 <motion.div
                   variants={liVariant}
-                  className="text-center capitalize text-[34px] hover:cursor-pointer "
+                  className="text-center capitalize text-[34px] hover:cursor-pointer link-underline"
                 >
                   <Link href={item.href}>{item.name}</Link>
                 </motion.div>
