@@ -1,27 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
-const MOBILE_NAV_ITEMS = [
+const navigation = [
   {
-    id: 0,
-    navTitle: "home",
+    name: "home",
+    href: "#",
   },
   {
-    id: 1,
-    navTitle: "showreel",
+    name: "services",
+    href: "#",
   },
   {
-    id: 2,
-    navTitle: "services",
+    name: "about",
+    href: "#",
   },
   {
-    id: 3,
-    navTitle: "about",
-  },
-  {
-    id: 4,
-    navTitle: "contact",
+    name: "contact",
+    href: "#",
   },
 ];
 
@@ -113,6 +110,9 @@ const App = () => {
 
   return (
     <main className="text-[#f5f5dc] overflow-y-hidden">
+      <div
+        className={`content-wrapper ${mobileNavOpen ? "blur-sm" : ""}`}
+      ></div>
       <motion.nav
         initial="closed"
         animate={mobileNavOpen ? "opened" : "closed"}
@@ -139,7 +139,7 @@ const App = () => {
         </div>
         <motion.div
           variants={mobileMenuVariant}
-          className="mobile-menu fixed top-0 left-0 h-screen w-full flex flex-col items-center bg-black"
+          className="mobile-menu fixed top-0 left-0 h-screen w-full flex flex-col items-center bg-black/70 "
         >
           <motion.button
             variants={fadeInVariant}
@@ -149,17 +149,17 @@ const App = () => {
             Close
           </motion.button>
           <motion.ul variants={ulVariant} className="list-none mt-[40px]">
-            {MOBILE_NAV_ITEMS.map((navItem) => (
+            {navigation.map((item) => (
               <motion.li
                 whileTap={{ scale: 0.95 }}
-                key={navItem.id}
+                key={item.name}
                 className="my-5 mx-0 overflow-y-hidden select-none"
               >
                 <motion.div
                   variants={liVariant}
                   className="text-center capitalize text-[34px] hover:cursor-pointer "
                 >
-                  {navItem.navTitle}
+                  <Link href={item.href}>{item.name}</Link>
                 </motion.div>
               </motion.li>
             ))}
