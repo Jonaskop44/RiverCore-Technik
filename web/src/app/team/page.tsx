@@ -1,43 +1,37 @@
 "use client";
 
-import * as React from "react";
-import { motion, useCycle } from "framer-motion";
+import { motion } from "framer-motion";
 
-/**
- * An example of animating between different value types
- */
+const Team = () => {
+  const text =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.".split(
+      ""
+    );
 
-const App = () => {
-  const [width, nextWidth] = useCycle("0", "100%", "calc(50% + 100px)");
+  const charVariants = {
+    hidden: { opacity: 0 },
+    reveal: { opacity: 1 },
+  };
 
   return (
-    <div style={stretch} onClick={() => nextWidth()} className="bg-black">
-      <motion.div
-        initial={false}
-        animate={{ width }}
-        transition={{ duration: 5 }}
-        style={style}
-      />
+    <div>
+      <motion.h1
+        initial="hidden"
+        whileInView="reveal"
+        transition={{ staggerChildren: 0.02 }}
+      >
+        {text.map((char) => (
+          <motion.span
+            key={char}
+            transition={{ duration: 0.5 }}
+            variants={charVariants}
+          >
+            {char}
+          </motion.span>
+        ))}
+      </motion.h1>
     </div>
   );
 };
 
-const style = {
-  width: 100,
-  height: 100,
-  background: "white",
-};
-
-const stretch: React.CSSProperties = {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  inset: 0,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
-
-export default App;
+export default Team;

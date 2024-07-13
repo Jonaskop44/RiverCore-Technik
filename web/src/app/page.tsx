@@ -6,7 +6,7 @@ import { Popover, Transition } from "@headlessui/react";
 import { BsList } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@nextui-org/button";
-import { motion, useViewportScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import ParallaxText from "@/components/ParallaxText";
 import BusinessAreaCard from "@/components/BusinessAreaCard";
 
@@ -18,8 +18,17 @@ const navigation = [
 ];
 
 const Home = () => {
-  const { scrollYProgress } = useViewportScroll();
-  const scale = useTransform(scrollYProgress, [0, 1], [0.2, 2]);
+  const texth1span1 = "Innovationen nutzen".split("");
+  const texth1span2 = "erfolgreich umsetzen".split("");
+  const paragraph =
+    `Bei Elbe - Technik bieten wir maßgeschneiderte Techniklösungen für Ihr Unternehmen. Kontaktieren Sie uns per Telefon oder E-Mail und profitieren Sie von unserer umfassenden Beratung und Unterstützung. Setzen Sie Ihre Projekte mit modernster Technik erfolgreich um!`.split(
+      ""
+    );
+
+  const charVariants = {
+    hidden: { opacity: 0 },
+    reveal: { opacity: 1 },
+  };
 
   return (
     <div>
@@ -124,19 +133,44 @@ const Home = () => {
             </Popover>
 
             <section className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28 lg:h-screen">
-              <div className="sm:text-center lg:text-left">
+              <motion.div
+                initial="hidden"
+                whileInView="reveal"
+                transition={{ staggerChildren: 0.02 }}
+                className="sm:text-center lg:text-left"
+              >
                 <h1 className="text-4xl tracking-tight font-extrabold text-gray-800 sm:text-5xl md:text-6xl">
-                  <span className="block xl:inline">Innovationen nutzen</span>{" "}
-                  <span className="block text-blue-600 xl:inline">
-                    erfolgreich umsetzen
-                  </span>
+                  {texth1span1.map((char) => (
+                    <motion.span
+                      key={char}
+                      transition={{ duration: 0.5 }}
+                      variants={charVariants}
+                      className="block xl:inline"
+                    >
+                      {char}
+                    </motion.span>
+                  ))}{" "}
+                  {texth1span2.map((char) => (
+                    <motion.span
+                      key={char}
+                      transition={{ duration: 0.5 }}
+                      variants={charVariants}
+                      className="block text-blue-600 xl:inline"
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
                 </h1>
                 <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                  Bei <b>Elbe - Technik</b> bieten wir maßgeschneiderte
-                  Techniklösungen für Ihr Unternehmen. Kontaktieren Sie uns per
-                  Telefon oder E-Mail und profitieren Sie von unserer
-                  umfassenden Beratung und Unterstützung. Setzen Sie Ihre
-                  Projekte mit modernster Technik erfolgreich um!
+                  {paragraph.map((char) => (
+                    <motion.span
+                      key={char}
+                      transition={{ duration: 0.5 }}
+                      variants={charVariants}
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                   <div className="rounded-md shadow">
@@ -155,7 +189,7 @@ const Home = () => {
                     </motion.div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </section>
           </div>
         </div>
