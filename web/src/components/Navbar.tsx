@@ -111,12 +111,8 @@ const App = () => {
     },
   };
 
-  const fadeInStart = { opacity: 0 };
-  const fadeInEnd = { opacity: 1 };
-  const fadeInTransition = { duration: 1 };
-
   return (
-    <main className="h-screen overflow-y-hidden">
+    <main className="text-[#f5f5dc] overflow-y-hidden">
       <motion.nav
         initial="closed"
         animate={mobileNavOpen ? "opened" : "closed"}
@@ -136,7 +132,7 @@ const App = () => {
           <motion.div
             variants={hideNavItemsVariant}
             onClick={() => setMobileNavOpen(true)}
-            className="uppercase text-[13px] hover:cursor-pointer"
+            className="uppercase text-[13px] hover:cursor-pointer text-black"
           >
             Menu
           </motion.div>
@@ -161,15 +157,15 @@ const App = () => {
               >
                 <motion.div
                   variants={liVariant}
-                  className="text-center capitalize text-[34px] hover:cursor-pointer text-white"
+                  className="text-center capitalize text-[34px] hover:cursor-pointer "
                 >
                   {navItem.navTitle}
                 </motion.div>
               </motion.li>
             ))}
           </motion.ul>
-          <motion.div variants={fadeInVariant} className="mt-[80px] text-white">
-            <h5 className="font-normal">+852 5650 2233</h5>
+          <motion.div variants={fadeInVariant} className="flex mt-[80px] ">
+            <h5 className="font-normal mr-[40px]">+852 5650 2233</h5>
             <h5 className="font-normal">hi@designagency.com</h5>
           </motion.div>
         </motion.div>
