@@ -1,107 +1,181 @@
-"use client";
+/* eslint-disable @next/next/no-img-element */
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 
-import { Fragment, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { BsList } from "react-icons/bs";
-import { IoMdClose } from "react-icons/io";
-import { Popover, Transition } from "@headlessui/react";
+const MOBILE_NAV_ITEMS = [
+  {
+    id: 0,
+    navTitle: "home",
+  },
+  {
+    id: 1,
+    navTitle: "showreel",
+  },
+  {
+    id: 2,
+    navTitle: "services",
+  },
+  {
+    id: 3,
+    navTitle: "about",
+  },
+  {
+    id: 4,
+    navTitle: "contact",
+  },
+];
 
-const Navbar = () => {
-  const [sidebar, setSidebar] = useState(false);
+const App = () => {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
-  const navigation = [
-    { name: "Start", href: "#" },
-    { name: "Dienstleistung", href: "#" },
-    { name: "Team", href: "#" },
-    { name: "Placeholder", href: "#" },
-  ];
+  const hideNavItemsVariant = {
+    opened: {
+      opacity: 0,
+      y: "-100%",
+      transition: {
+        duration: 0.5,
+        ease: "easeInOut",
+      },
+    },
+    closed: {
+      opacity: 1,
+      y: "0%",
+      transition: {
+        delay: 1.1,
+        duration: 0.5,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  const mobileMenuVariant = {
+    opened: {
+      y: "0%",
+      transition: {
+        delay: 0.15,
+        duration: 1.1,
+        ease: [0.74, 0, 0.19, 1.02],
+      },
+    },
+    closed: {
+      y: "-100%",
+      transition: {
+        delay: 0.35,
+        duration: 0.63,
+        ease: [0.74, 0, 0.19, 1.02],
+      },
+    },
+  };
+
+  const fadeInVariant = {
+    opened: {
+      opacity: 1,
+      transition: {
+        delay: 1.2,
+      },
+    },
+    closed: { opacity: 0 },
+  };
+
+  const ulVariant = {
+    opened: {
+      transition: {
+        delayChildren: 1,
+        staggerChildren: 0.18,
+      },
+    },
+    closed: {
+      transition: {
+        staggerChildren: 0.06,
+        staggerDirection: -1,
+      },
+    },
+  };
+
+  const liVariant = {
+    opened: {
+      opacity: 1,
+      y: "0%",
+      transition: {
+        duration: 0.65,
+        ease: "easeOut",
+      },
+    },
+    closed: {
+      opacity: 0,
+      y: "100%",
+      transition: {
+        duration: 0.25,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  const fadeInStart = { opacity: 0 };
+  const fadeInEnd = { opacity: 1 };
+  const fadeInTransition = { duration: 1 };
 
   return (
-    <Popover>
-      <div className="relative pt-6 px-4 sm:px-6 lg:px-8 h-[50px]">
-        <nav className="relative flex items-center justify-between sm:h-10 lg:justify-start">
-          <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
-            <div className="flex items-center justify-between w-full md:w-auto">
-              <a href="#">
-                <span className="sr-only">Workflow</span>
-                <img
-                  className="h-8 w-auto sm:h-10"
-                  src="/images/Logo_ELBE-1-749x800.png"
-                  alt="Logo Elbe Technik"
-                />
-              </a>
-              <div className="-mr-2 flex items-center md:hidden">
-                <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 outline-none">
-                  <BsList className="h-6 w-6" />
-                </Popover.Button>
-              </div>
-            </div>
-          </div>
-          <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-            {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="font-medium text-gray-500 hover:text-gray-900"
-              >
-                {item.name}
-              </a>
-            ))}
-          </div>
-        </nav>
-      </div>
-
-      <Transition
-        as={Fragment}
-        enter="duration-150 ease-out"
-        enterFrom="opacity-0 scale-95"
-        enterTo="opacity-100 scale-100"
-        leave="duration-100 ease-in"
-        leaveFrom="opacity-100 scale-100"
-        leaveTo="opacity-0 scale-95"
+    <main className="h-screen overflow-y-hidden">
+      <motion.nav
+        initial="closed"
+        animate={mobileNavOpen ? "opened" : "closed"}
+        className="flex justify-between p-[35px]"
       >
-        <Popover.Panel
-          focus
-          className="absolute z-10 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
+        <div className="overflow-y-hidden">
+          <motion.h1 variants={hideNavItemsVariant}>
+            <img
+              src="/images/Logo.png"
+              alt="Logo"
+              className="h-8 w-auto sm:h-10"
+            />
+          </motion.h1>
+        </div>
+
+        <div className="overflow-y-hidden">
+          <motion.div
+            variants={hideNavItemsVariant}
+            onClick={() => setMobileNavOpen(true)}
+            className="uppercase text-[13px] hover:cursor-pointer"
+          >
+            Menu
+          </motion.div>
+        </div>
+        <motion.div
+          variants={mobileMenuVariant}
+          className="mobile-menu fixed top-0 left-0 h-screen w-full flex flex-col items-center bg-black"
         >
-          <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
-            <div className="px-5 pt-4 flex items-center justify-between">
-              <div>
-                <img
-                  className="h-8 w-auto"
-                  src="/images/Logo_ELBE-1-749x800.png"
-                  alt=""
-                />
-              </div>
-              <div className="-mr-2">
-                <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 outline-none">
-                  <IoMdClose className="h-6 w-6" aria-hidden="true" />
-                </Popover.Button>
-              </div>
-            </div>
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+          <motion.button
+            variants={fadeInVariant}
+            onClick={() => setMobileNavOpen(false)}
+            className="self-end mr-[45px] mt-[35px] outline-none border-none bg-transparent uppercase text-sm text-white hover:cursor-pointer"
+          >
+            Close
+          </motion.button>
+          <motion.ul variants={ulVariant} className="list-none mt-[40px]">
+            {MOBILE_NAV_ITEMS.map((navItem) => (
+              <motion.li
+                whileTap={{ scale: 0.95 }}
+                key={navItem.id}
+                className="my-5 mx-0 overflow-y-hidden select-none"
+              >
+                <motion.div
+                  variants={liVariant}
+                  className="text-center capitalize text-[34px] hover:cursor-pointer text-white"
                 >
-                  {item.name}
-                </a>
-              ))}
-            </div>
-            <a
-              href="#"
-              className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
-            >
-              Log in
-            </a>
-          </div>
-        </Popover.Panel>
-      </Transition>
-    </Popover>
+                  {navItem.navTitle}
+                </motion.div>
+              </motion.li>
+            ))}
+          </motion.ul>
+          <motion.div variants={fadeInVariant} className="mt-[80px] text-white">
+            <h5 className="font-normal">+852 5650 2233</h5>
+            <h5 className="font-normal">hi@designagency.com</h5>
+          </motion.div>
+        </motion.div>
+      </motion.nav>
+    </main>
   );
 };
 
-export default Navbar;
+export default App;
