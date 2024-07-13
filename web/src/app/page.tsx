@@ -20,14 +20,43 @@ const navigation = [
 const Home = () => {
   const texth1span1 = "Innovationen nutzen".split("");
   const texth1span2 = "erfolgreich umsetzen".split("");
-  const paragraph =
-    `Bei Elbe - Technik bieten wir maßgeschneiderte Techniklösungen für Ihr Unternehmen. Kontaktieren Sie uns per Telefon oder E-Mail und profitieren Sie von unserer umfassenden Beratung und Unterstützung. Setzen Sie Ihre Projekte mit modernster Technik erfolgreich um!`.split(
-      ""
-    );
 
   const charVariants = {
     hidden: { opacity: 0 },
     reveal: { opacity: 1 },
+  };
+
+  const getFormattedParagraph = () => {
+    const paragraphText =
+      "Bei Elbe - Technik bieten wir maßgeschneiderte Techniklösungen für Ihr Unternehmen. Kontaktieren Sie uns per Telefon oder E-Mail und profitieren Sie von unserer umfassenden Beratung und Unterstützung. Setzen Sie Ihre Projekte mit modernster Technik erfolgreich um!";
+    const parts = paragraphText.split(/(Elbe - Technik)/);
+    return parts.map((part, index) => (
+      <Fragment key={index}>
+        {part === "Elbe - Technik" ? (
+          <strong>
+            {part.split("").map((char, i) => (
+              <motion.span
+                key={i}
+                transition={{ duration: 0.5 }}
+                variants={charVariants}
+              >
+                {char}
+              </motion.span>
+            ))}
+          </strong>
+        ) : (
+          part.split("").map((char, i) => (
+            <motion.span
+              key={i}
+              transition={{ duration: 0.5 }}
+              variants={charVariants}
+            >
+              {char}
+            </motion.span>
+          ))
+        )}
+      </Fragment>
+    ));
   };
 
   return (
@@ -140,9 +169,9 @@ const Home = () => {
                 className="sm:text-center lg:text-left"
               >
                 <h1 className="text-4xl tracking-tight font-extrabold text-gray-800 sm:text-5xl md:text-6xl">
-                  {texth1span1.map((char) => (
+                  {texth1span1.map((char, index) => (
                     <motion.span
-                      key={char}
+                      key={index}
                       transition={{ duration: 0.5 }}
                       variants={charVariants}
                       className="block xl:inline"
@@ -150,9 +179,9 @@ const Home = () => {
                       {char}
                     </motion.span>
                   ))}{" "}
-                  {texth1span2.map((char) => (
+                  {texth1span2.map((char, index) => (
                     <motion.span
-                      key={char}
+                      key={index}
                       transition={{ duration: 0.5 }}
                       variants={charVariants}
                       className="block text-blue-600 xl:inline"
@@ -162,15 +191,7 @@ const Home = () => {
                   ))}
                 </h1>
                 <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                  {paragraph.map((char) => (
-                    <motion.span
-                      key={char}
-                      transition={{ duration: 0.5 }}
-                      variants={charVariants}
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
+                  {getFormattedParagraph()}
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                   <div className="rounded-md shadow">
