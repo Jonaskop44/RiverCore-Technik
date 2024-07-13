@@ -1,74 +1,106 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BsList } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
+import { Popover, Transition } from "@headlessui/react";
 
 const Navbar = () => {
   const [sidebar, setSidebar] = useState(false);
 
-  const links = [
-    { name: "Start", page: "start" },
-    { name: "Dienstleistung", page: "1" },
-    { name: "Team", page: "2" },
-    { name: "Place", page: "3" },
-    { name: "holder", page: "4" },
+  const navigation = [
+    { name: "Start", href: "#" },
+    { name: "Dienstleistung", href: "#" },
+    { name: "Team", href: "#" },
+    { name: "Placeholder", href: "#" },
   ];
 
   return (
-    <header className="absolute z-50 flex h-20 w-full items-center justify-between px-6 text-white lg:px-[5%] xl:px-[10%]">
-      <Link href="/" className="flex h-3/5 items-center justify-between gap-4">
-        <img
-          src="/images/Logo_ELBE-1-749x800.png"
-          alt="RentYourBeat Logo"
-          className="h-3/4 xl:h-full"
-        />
-        <h1 className="text-2xl font-bold xl:text-4xl">Elbe - Technik</h1>
-      </Link>
-      <nav>
-        <ul className="hidden space-x-4 lg:flex">
-          {links.map((link) => (
-            <li key={link.page}>
-              <Link
-                href={`/${link.page}`}
-                className={`delay font-normal transition-colors duration-150 ease-in-out hover:text-gray-300 `}
+    <Popover>
+      <div className="relative pt-6 px-4 sm:px-6 lg:px-8 h-[50px]">
+        <nav className="relative flex items-center justify-between sm:h-10 lg:justify-start">
+          <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
+            <div className="flex items-center justify-between w-full md:w-auto">
+              <a href="#">
+                <span className="sr-only">Workflow</span>
+                <img
+                  className="h-8 w-auto sm:h-10"
+                  src="/images/Logo_ELBE-1-749x800.png"
+                  alt="Logo Elbe Technik"
+                />
+              </a>
+              <div className="-mr-2 flex items-center md:hidden">
+                <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 outline-none">
+                  <BsList className="h-6 w-6" />
+                </Popover.Button>
+              </div>
+            </div>
+          </div>
+          <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
+            {navigation.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="font-medium text-gray-500 hover:text-gray-900"
               >
-                {link.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        {sidebar && (
-          <div className="fixed right-0 top-0 z-50 flex h-lvh w-full flex-col items-start justify-start bg-black bg-opacity-20 pt-20 backdrop-blur md:w-60 lg:hidden">
-            {links.map((link) => (
-              <Link
-                key={link.page}
-                href={`/${link.page}`}
-                onClick={() => setSidebar(false)}
-                className="w-full pb-1.5 pl-5 pt-1.5 text-xl font-semibold transition-colors duration-150 ease-in-out hover:bg-black hover:bg-opacity-10 hover:text-gray-300"
-              >
-                {link.name}
-              </Link>
+                {item.name}
+              </a>
             ))}
           </div>
-        )}
-      </nav>
-      {sidebar ? (
-        <IoMdClose
-          size="32px"
-          className="right-6 transition-colors duration-150 ease-in-out lg:!hidden fixed z-50"
-          onClick={() => setSidebar(false)}
-        />
-      ) : (
-        <BsList
-          size="32px"
-          className="right-6 transition-colors duration-150 ease-in-out lg:!hidden"
-          onClick={() => setSidebar(true)}
-        />
-      )}
-    </header>
+        </nav>
+      </div>
+
+      <Transition
+        as={Fragment}
+        enter="duration-150 ease-out"
+        enterFrom="opacity-0 scale-95"
+        enterTo="opacity-100 scale-100"
+        leave="duration-100 ease-in"
+        leaveFrom="opacity-100 scale-100"
+        leaveTo="opacity-0 scale-95"
+      >
+        <Popover.Panel
+          focus
+          className="absolute z-10 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
+        >
+          <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
+            <div className="px-5 pt-4 flex items-center justify-between">
+              <div>
+                <img
+                  className="h-8 w-auto"
+                  src="/images/Logo_ELBE-1-749x800.png"
+                  alt=""
+                />
+              </div>
+              <div className="-mr-2">
+                <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 outline-none">
+                  <IoMdClose className="h-6 w-6" aria-hidden="true" />
+                </Popover.Button>
+              </div>
+            </div>
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {navigation.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
+            <a
+              href="#"
+              className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
+            >
+              Log in
+            </a>
+          </div>
+        </Popover.Panel>
+      </Transition>
+    </Popover>
   );
 };
 

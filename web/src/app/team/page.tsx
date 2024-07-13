@@ -1,5 +1,6 @@
 "use client";
 
+import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 
 const Team = () => {
@@ -15,6 +16,7 @@ const Team = () => {
 
   return (
     <div>
+      <Navbar />
       <motion.h1
         initial="hidden"
         whileInView="reveal"
