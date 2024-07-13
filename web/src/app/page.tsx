@@ -86,7 +86,6 @@ const Home = () => {
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                   <div className="rounded-md shadow">
                     <motion.div
-                      className="box"
                       whileHover={{ scale: 1.1 }}
                       transition={{
                         type: "spring",
@@ -94,7 +93,7 @@ const Home = () => {
                         damping: 20,
                       }}
                     >
-                      <Button className="w-full flex items-center justify-center px-8 py-6 text-base font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 md:py-8 md:text-lg md:px-10 -z-10">
+                      <Button className="w-full flex items-center justify-center px-8 py-6 text-base font-medium rounded-md text-white bg-sky-600 md:py-8 md:text-lg md:px-10 -z-10">
                         Mehr Erfahren
                       </Button>
                     </motion.div>
