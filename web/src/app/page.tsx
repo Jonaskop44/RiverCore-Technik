@@ -94,7 +94,7 @@ const Home = () => {
                         damping: 20,
                       }}
                     >
-                      <Button className="w-full flex items-center justify-center px-8 py-6 text-base font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 md:py-8 md:text-lg md:px-10">
+                      <Button className="w-full flex items-center justify-center px-8 py-6 text-base font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 md:py-8 md:text-lg md:px-10 -z-10">
                         Mehr Erfahren
                       </Button>
                     </motion.div>
