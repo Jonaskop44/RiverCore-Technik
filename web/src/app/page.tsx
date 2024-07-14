@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Fragment } from "react";
 import { Button } from "@nextui-org/button";
 import { motion } from "framer-motion";
 import ParallaxText from "@/components/ParallaxText";
@@ -9,47 +8,6 @@ import BusinessAreaCard from "@/components/BusinessAreaCard";
 import Navbar from "@/components/Navbar";
 
 const Home = () => {
-  const texth1span1 = "Innovationen nutzen".split("");
-  const texth1span2 = "erfolgreich umsetzen".split("");
-
-  const charVariants = {
-    hidden: { opacity: 0 },
-    reveal: { opacity: 1 },
-  };
-
-  const getFormattedParagraph = () => {
-    const paragraphText =
-      "Bei Elbe - Technik bieten wir maßgeschneiderte Techniklösungen für Ihr Unternehmen. Kontaktieren Sie uns per Telefon oder E-Mail und profitieren Sie von unserer umfassenden Beratung und Unterstützung. Setzen Sie Ihre Projekte mit modernster Technik erfolgreich um!";
-    const parts = paragraphText.split(/(Elbe - Technik)/);
-    return parts.map((part, index) => (
-      <Fragment key={index}>
-        {part === "Elbe - Technik" ? (
-          <strong>
-            {part.split("").map((char, i) => (
-              <motion.span
-                key={i}
-                transition={{ duration: 0.5 }}
-                variants={charVariants}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </strong>
-        ) : (
-          part.split("").map((char, i) => (
-            <motion.span
-              key={i}
-              transition={{ duration: 0.5 }}
-              variants={charVariants}
-            >
-              {char}
-            </motion.span>
-          ))
-        )}
-      </Fragment>
-    ));
-  };
-
   return (
     <div>
       {/*Hero*/}

@@ -1,39 +1,49 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import { motion } from "framer-motion";
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
+import { useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  MotionValue,
+} from "framer-motion";
 
-const Team = () => {
-  const text =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.".split(
-      ""
-    );
+function useParallax(value: MotionValue<number>, distance: number) {
+  return useTransform(value, [0, 1], [-distance, distance]);
+}
 
-  const charVariants = {
-    hidden: { opacity: 0 },
-    reveal: { opacity: 1 },
-  };
+function Image({ id }: { id: number }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref });
+  const y = useParallax(scrollYProgress, 300);
 
   return (
-    <div>
-      <Navbar />
-      <motion.h1
-        initial="hidden"
-        whileInView="reveal"
-        transition={{ staggerChildren: 0.02 }}
-      >
-        {text.map((char) => (
-          <motion.span
-            key={char}
-            transition={{ duration: 0.5 }}
-            variants={charVariants}
-          >
-            {char}
-          </motion.span>
-        ))}
-      </motion.h1>
-    </div>
+    <section>
+      <div ref={ref}>
+        <img src={`/images/test/${id}.png`} alt="A London skyscraper" />
+      </div>
+      <motion.h2 style={{ y }}>{`#00${id}`}</motion.h2>
+    </section>
   );
-};
+}
 
-export default Team;
+export default function App() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
+  return (
+    <>
+      {[1, 2, 3, 4, 5].map((image) => (
+        <Image id={image} key={image} />
+      ))}
+      <motion.div className="progress" style={{ scaleX }} />
+    </>
+  );
+}

@@ -88,34 +88,41 @@ const BusinessSections = () => {
   };
 
   return (
-    <div ref={ref} className="container mx-auto p-8">
-      <h1 className="text-3xl mb-8 font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-sky-500">
-        Unsere Geschäftsbereiche
-      </h1>
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate={controls}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-      >
-        {sections.map((section) => (
-          <motion.div
-            key={section.title}
-            variants={item}
-            className="bg-[#f3f3f3] p-6 rounded-lg shadow-lg text-center"
-          >
-            <img
-              src={section.icon}
-              alt={section.title}
-              className="mx-auto mb-4 w-12 h-12"
-            />
-            <h2 className="text-xl font-semibold text-red-600 mb-2">
-              {section.title}
-            </h2>
-            <p className="text-gray-700">{section.description}</p>
-          </motion.div>
-        ))}
-      </motion.div>
+    <div>
+      <div className="items-start ml-40">
+        <span className="text-sm gap-2 text-[#0c0b0b99] font-normal">
+          Geschäftsbereiche
+        </span>
+        <h1 className="text-3xl mb-8 font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-sky-500">
+          Unsere Geschäftsbereiche
+        </h1>
+      </div>
+      <div ref={ref} className="mx-auto p-8">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate={controls}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {sections.map((section) => (
+            <motion.div
+              key={section.title}
+              variants={item}
+              className="bg-[#f3f3f3] p-6 rounded-lg shadow-lg text-center"
+            >
+              <img
+                src={section.icon}
+                alt={section.title}
+                className="mx-auto mb-4 w-12 h-12"
+              />
+              <h2 className="text-xl font-semibold text-red-600 mb-2">
+                {section.title}
+              </h2>
+              <p className="text-gray-700">{section.description}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
     </div>
   );
 };
