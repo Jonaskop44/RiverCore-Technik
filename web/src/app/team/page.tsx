@@ -1,49 +1,34 @@
 "use client";
 
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable @next/next/no-img-element */
-import { useRef } from "react";
-import {
-  motion,
-  useScroll,
-  useSpring,
-  useTransform,
-  MotionValue,
-} from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
-function useParallax(value: MotionValue<number>, distance: number) {
-  return useTransform(value, [0, 1], [-distance, distance]);
-}
-
-function Image({ id }: { id: number }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref });
-  const y = useParallax(scrollYProgress, 300);
-
+const Team = () => {
+  const items = [
+    { id: 1, title: "First", subtitle: "First" },
+    { id: 2, title: "Second", subtitle: "Second" },
+    { id: 3, title: "Third", subtitle: "Third" },
+  ];
+  const [selectedId, setSelectedId] = useState(null);
   return (
-    <section>
-      <div ref={ref}>
-        <img src={`/images/test/${id}.png`} alt="A London skyscraper" />
-      </div>
-      <motion.h2 style={{ y }}>{`#00${id}`}</motion.h2>
-    </section>
-  );
-}
-
-export default function App() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
-  return (
-    <>
-      {[1, 2, 3, 4, 5].map((image) => (
-        <Image id={image} key={image} />
+    <div>
+      {items.map((item) => (
+        <motion.div layoutId={item.id} onClick={() => setSelectedId(item.id)}>
+          <motion.h5>{item.subtitle}</motion.h5>
+          <motion.h2>{item.title}</motion.h2>
+        </motion.div>
       ))}
-      <motion.div className="progress" style={{ scaleX }} />
-    </>
+      <AnimatePresence>
+        {selectedId && (
+          <motion.div layoutId={selectedId}>
+            <motion.h5>{item.subtitle}</motion.h5>
+            <motion.h2>{item.title}</motion.h2>
+            <motion.button onClick={() => setSelectedId(null)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
-}
+};
+
+export default Team;
