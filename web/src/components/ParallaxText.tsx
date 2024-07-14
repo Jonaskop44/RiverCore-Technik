@@ -69,18 +69,10 @@ const ParallaxText: React.FC<ParallaxProps> = ({
         className="scroller font-semibold uppercase text-[64px] flex flex-nowrap whitespace-nowrap"
         style={{ x }}
       >
-        <span className="block mr-[30px] text-black transition duration-1000 hover:text-green-400 ">
-          {children}{" "}
-        </span>
-        <span className="block mr-[30px] text-black transition duration-1000 hover:text-green-400 ">
-          {children}{" "}
-        </span>
-        <span className="block mr-[30px] text-black transition duration-1000 hover:text-green-400 ">
-          {children}{" "}
-        </span>
-        <span className="block mr-[30px] text-black transition duration-1000 hover:text-green-400 ">
-          {children}{" "}
-        </span>
+        <span>{children}</span>
+        <span>{children}</span>
+        <span>{children}</span>
+        <span>{children}</span>
       </motion.div>
     </div>
   );

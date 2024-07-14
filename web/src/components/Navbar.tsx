@@ -166,8 +166,8 @@ const App = () => {
             ))}
           </motion.ul>
           <motion.div variants={fadeInVariant} className="flex mt-[80px] ">
-            <h5 className="font-normal mr-[40px]">+852 5650 2233</h5>
-            <h5 className="font-normal">hi@designagency.com</h5>
+            <h5 className="font-normal mr-[40px]">+43 664 4792033</h5>
+            <h5 className="font-normal">example@example.com</h5>
           </motion.div>
         </motion.div>
       </motion.nav>
