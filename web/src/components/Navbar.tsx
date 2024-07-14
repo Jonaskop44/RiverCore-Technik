@@ -115,16 +115,16 @@ const Navbar = () => {
         <div className="flex w-full items-center justify-between xl:w-1/4">
           <a href="/">
             <Image
-              src="/images/logo/logo-dark.svg"
+              src="/images/Logo.png"
               alt="logo"
-              width={119.03}
+              width={40}
               height={30}
               className="hidden w-full dark:block"
             />
             <Image
-              src="/images/logo/logo-light.svg"
+              src="/images/Logo.png"
               alt="logo"
-              width={119.03}
+              width={40}
               height={30}
               className="w-full dark:hidden"
             />

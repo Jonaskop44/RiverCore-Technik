@@ -4,6 +4,7 @@ import "./globals.css";
 import Lines from "@/components/Lines";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "next-themes";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
           <Lines />
           <Navbar />
           {children}
+          <ScrollToTop />
         </ThemeProvider>
       </body>
     </html>

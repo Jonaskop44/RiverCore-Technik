@@ -27,17 +27,15 @@ const SingleBrand = ({ brand }: { brand: Brand }) => {
         href={href}
         className="animate_top mx-w-full relative block h-10 w-[98px]"
       >
-        <Image
-          className="opacity-65 transition-all duration-300 hover:opacity-100 dark:hidden"
+        <img
           src={image}
-          alt={name}
-          fill
+          alt="daw"
+          className="grayscale transition-all duration-300 hover:opacity-100 dark:hidden"
         />
-        <Image
-          className="hidden opacity-50 transition-all duration-300 hover:opacity-100 dark:block"
+        <img
           src={imageLight}
-          alt={name}
-          fill
+          alt=""
+          className="hidden grayscale transition-all duration-300 hover:opacity-100 dark:block"
         />
       </motion.a>
     </>
