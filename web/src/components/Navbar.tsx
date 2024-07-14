@@ -15,19 +15,19 @@ const navigation: Navigation[] = [
   },
   {
     id: 2,
-    title: "Features",
+    title: "Geschäft",
     newTab: false,
     path: "/#features",
   },
   {
     id: 2.1,
-    title: "Blog",
+    title: "Team",
     newTab: false,
-    path: "/blog",
+    path: "/team",
   },
   {
     id: 2.3,
-    title: "Docs",
+    title: "Placeholder",
     newTab: false,
     path: "/docs",
   },
