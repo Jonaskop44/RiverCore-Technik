@@ -105,9 +105,9 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed left-0 top-0 z-99999 w-full py-7 ${
+      className={`fixed left-0 top-0 z-99999 w-full pb-7 ${
         stickyMenu
-          ? "bg-white !py-4 shadow transition duration-100 dark:bg-black"
+          ? "bg-white !pb-4 shadow transition duration-100 dark:bg-black"
           : ""
       }`}
     >
@@ -179,7 +179,7 @@ const Navbar = () => {
           }`}
         >
           <nav>
-            <ul className="flex flex-col gap-5 xl:flex-row xl:items-center xl:gap-10">
+            <ul className="flex flex-col gap-5 xl:flex-row xl:items-center xl:gap-10 mt-2">
               {navigation.map((menuItem, key) => (
                 <li key={key} className={menuItem.submenu && "group relative"}>
                   {menuItem.submenu ? (
@@ -227,7 +227,7 @@ const Navbar = () => {
             </ul>
           </nav>
 
-          <div className="mt-7 flex items-center gap-6 xl:mt-0">
+          <div className="mt-4 flex items-center gap-6 xl:mt-4">
             <ThemeToggler />
           </div>
         </div>
