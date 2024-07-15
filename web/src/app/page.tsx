@@ -7,11 +7,11 @@ import Feature from "@/components/Features/Feature";
 
 const Home = () => {
   return (
-    <div>
+    <>
       <Hero />
       <Brands />
       <Feature />
-    </div>
+    </>
   );
 };
 
