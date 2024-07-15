@@ -29,12 +29,12 @@ const SingleBrand = ({ brand }: { brand: Brand }) => {
       >
         <img
           src={image}
-          alt="daw"
+          alt="comany"
           className="grayscale transition-all duration-300 hover:opacity-100 dark:hidden"
         />
         <img
           src={imageLight}
-          alt=""
+          alt="comany"
           className="hidden grayscale transition-all duration-300 hover:opacity-100 dark:block"
         />
       </motion.a>
