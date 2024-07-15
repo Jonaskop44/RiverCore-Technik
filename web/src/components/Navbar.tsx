@@ -1,7 +1,7 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { IoMdCloseCircleOutline } from "react-icons/io";
@@ -26,8 +26,20 @@ const navigation = [
   },
 ];
 
-const App = () => {
+const Navbar = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  useEffect(() => {
+    if (mobileNavOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileNavOpen]);
 
   const hideNavItemsVariant = {
     opened: {
@@ -131,7 +143,9 @@ const App = () => {
             />
           </motion.h1>
         </div>
-
+        <div className="mt-4 flex items-center gap-6 xl:mt-4">
+          <ThemeToggler />
+        </div>
         <div className="overflow-y-hidden mt-4 flex items-center gap-6 xl:mt-4">
           <motion.div
             variants={hideNavItemsVariant}
@@ -140,9 +154,6 @@ const App = () => {
           >
             Menu
           </motion.div>
-        </div>
-        <div className="mt-4 flex items-center gap-6 xl:mt-4">
-          <ThemeToggler />
         </div>
         <motion.div
           variants={mobileMenuVariant}
@@ -181,4 +192,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Navbar;

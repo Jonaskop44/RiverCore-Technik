@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export default function ScrollToTop() {
+const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   // Top: 0 takes us all the way back to the top of the page
@@ -43,4 +43,6 @@ export default function ScrollToTop() {
       )}
     </div>
   );
-}
+};
+
+export default ScrollToTop;
