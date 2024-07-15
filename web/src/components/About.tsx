@@ -26,7 +26,7 @@ const About = () => {
               whileInView="visible"
               transition={{ duration: 0.5, delay: 0.1 }}
               viewport={{ once: true }}
-              className="animate_left relative mx-auto hidden aspect-[588/526.5] md:block md:w-1/2"
+              className="animate_left relative mx-auto hidden aspect-[588/526.5] md:block md:w-1/2 -z-10"
             >
               <Image
                 src="/images/blog/blog-03.png"
@@ -65,7 +65,7 @@ const About = () => {
                 </span>{" "}
                 Über Uns
               </span>
-              <h2 className="relative mb-6 text-3xl font-bold text-black dark:text-white xl:text-hero">
+              <h2 className="relative mb-6 text-3xl -z-10 font-bold text-black dark:text-white xl:text-hero">
                 Erfrahrung in der
                 <span className="relative inline-block before:absolute before:bottom-2.5 before:left-0 before:-z-1 before:h-3 before:w-full before:bg-titlebg dark:before:bg-titlebg/70">
                   Drucker Branche
@@ -140,7 +140,7 @@ const About = () => {
               <h4 className="font-medium uppercase text-black dark:text-white">
                 Erfahrung
               </h4>
-              <h2 className="relative mb-6 text-3xl font-bold text-black dark:text-white xl:text-hero">
+              <h2 className="relative mb-6 text-3xl -z-10 font-bold text-black dark:text-white xl:text-hero">
                 Upgrade auf das nächste{" "}
                 <span className="relative inline-block before:absolute before:bottom-2.5 before:left-0 before:-z-1 before:h-3 before:w-full before:bg-titlebg2 dark:before:bg-titlebg2/70">
                   Level
@@ -185,7 +185,7 @@ const About = () => {
               whileInView="visible"
               transition={{ duration: 1, delay: 0.1 }}
               viewport={{ once: true }}
-              className="animate_right relative mx-auto hidden aspect-[588/526.5] md:block md:w-1/2"
+              className="animate_right relative mx-auto hidden aspect-[588/526.5] md:block md:w-1/2 -z-10"
             >
               <Image
                 src="/images/blog/blog-04.png"
