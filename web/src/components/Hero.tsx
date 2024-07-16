@@ -54,7 +54,7 @@ const Hero = () => {
 
             <div className="animate_right hidden md:w-1/2 lg:block">
               <div className="relative 2xl:-mr-7.5">
-                <div className=" relative aspect-[700/444] w-full -z-10">
+                <div className="relative aspect-[700/444] w-full -z-10">
                   <Image
                     className="shadow-solid-l dark:hidden"
                     src="/images/blog/blog-big.png"
