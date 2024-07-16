@@ -8,6 +8,7 @@ import About from "@/components/About";
 import FeaturesTab from "@/components/FeaturesTab/FeaturesTab";
 import FunFact from "@/components/FunFact";
 import Integration from "@/components/Integration";
+import CTA from "@/components/CTA";
 
 const Home = () => {
   return (
@@ -19,6 +20,7 @@ const Home = () => {
       <FeaturesTab />
       <FunFact />
       <Integration />
+      <CTA />
     </>
   );
 };

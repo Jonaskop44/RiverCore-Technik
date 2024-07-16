@@ -1,36 +1,96 @@
 "use client";
-
-/* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
-import { IoCloseOutline } from "react-icons/io5";
-import { SlMenu } from "react-icons/sl";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
+import { Navigation } from "@/types/navigation";
 
-const navigation = [
+const menuData: Navigation[] = [
   {
-    name: "Startseite",
-    href: "#",
+    id: 1,
+    title: "Home",
+    newTab: false,
+    path: "/",
   },
   {
-    name: "Geschäftsbereiche",
-    href: "#",
+    id: 2,
+    title: "Features",
+    newTab: false,
+    path: "/#features",
   },
   {
-    name: "Über Uns",
-    href: "#",
+    id: 2.1,
+    title: "Blog",
+    newTab: false,
+    path: "/blog",
   },
   {
-    name: "contact",
-    href: "#",
+    id: 2.3,
+    title: "Docs",
+    newTab: false,
+    path: "/docs",
+  },
+  {
+    id: 3,
+    title: "Pages",
+    newTab: false,
+    submenu: [
+      {
+        id: 31,
+        title: "Blog Grid",
+        newTab: false,
+        path: "/blog",
+      },
+      {
+        id: 34,
+        title: "Sign In",
+        newTab: false,
+        path: "/auth/signin",
+      },
+      {
+        id: 35,
+        title: "Sign Up",
+        newTab: false,
+        path: "/auth/signup",
+      },
+      {
+        id: 35,
+        title: "Docs",
+        newTab: false,
+        path: "/docs",
+      },
+      {
+        id: 35.1,
+        title: "Support",
+        newTab: false,
+        path: "/support",
+      },
+      {
+        id: 36,
+        title: "404",
+        newTab: false,
+        path: "/error",
+      },
+    ],
+  },
+
+  {
+    id: 4,
+    title: "Support",
+    newTab: false,
+    path: "/support",
   },
 ];
 
 const Navbar = () => {
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [navigationOpen, setNavigationOpen] = useState(false);
+  const [dropdownToggler, setDropdownToggler] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
 
+  const pathUrl = usePathname();
+
+  // Sticky menu
   const handleStickyMenu = () => {
     if (window.scrollY >= 80) {
       setStickyMenu(true);
@@ -43,173 +103,153 @@ const Navbar = () => {
     window.addEventListener("scroll", handleStickyMenu);
   });
 
-  useEffect(() => {
-    if (mobileNavOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileNavOpen]);
-
-  const hideNavItemsVariant = {
-    opened: {
-      opacity: 0,
-      y: "-100%",
-      transition: {
-        duration: 0.5,
-        ease: "easeInOut",
-      },
-    },
-    closed: {
-      opacity: 1,
-      y: "0%",
-      transition: {
-        delay: 1.1,
-        duration: 0.5,
-        ease: "easeInOut",
-      },
-    },
-  };
-
-  const mobileMenuVariant = {
-    opened: {
-      y: "0%",
-      transition: {
-        delay: 0.15,
-        duration: 1.1,
-        ease: [0.74, 0, 0.19, 1.02],
-      },
-    },
-    closed: {
-      y: "-100%",
-      transition: {
-        delay: 0.35,
-        duration: 0.63,
-        ease: [0.74, 0, 0.19, 1.02],
-      },
-    },
-  };
-
-  const fadeInVariant = {
-    opened: {
-      opacity: 1,
-      transition: {
-        delay: 1.2,
-      },
-    },
-    closed: { opacity: 0 },
-  };
-
-  const ulVariant = {
-    opened: {
-      transition: {
-        delayChildren: 1,
-        staggerChildren: 0.18,
-      },
-    },
-    closed: {
-      transition: {
-        staggerChildren: 0.06,
-        staggerDirection: -1,
-      },
-    },
-  };
-
-  const liVariant = {
-    opened: {
-      opacity: 1,
-      y: "0%",
-      transition: {
-        duration: 0.65,
-        ease: "easeOut",
-      },
-    },
-    closed: {
-      opacity: 0,
-      y: "100%",
-      transition: {
-        duration: 0.25,
-        ease: "easeInOut",
-      },
-    },
-  };
-
   return (
-    <main
-      className={`text-[#f5f5dc] overflow-y-hidden z-99999 fixed left-0 top-0 w-full pb-4 ${
+    <header
+      className={`fixed left-0 top-0 z-99999 w-full ${
         stickyMenu
-          ? "bg-white shadow transition duration-100 dark:bg-black"
+          ? "bg-white pb-4 shadow transition duration-100 dark:bg-black"
           : ""
       }`}
     >
-      <div
-        className={`content-wrapper ${mobileNavOpen ? "blur-sm" : ""}`}
-      ></div>
-      <motion.nav
-        initial="closed"
-        animate={mobileNavOpen ? "opened" : "closed"}
-        className="flex justify-between px-67"
-      >
-        <div className="overflow-y-hidden">
-          <motion.h1 variants={hideNavItemsVariant}>
-            <img
-              src="/images/Logo.png"
-              alt="Logo"
-              className="h-8 w-auto sm:h-12"
+      <div className="relative mx-auto max-w-c-1390 items-center justify-between px-4 md:px-8 xl:flex 2xl:px-0">
+        <div className="flex w-full items-center justify-between xl:w-1/4">
+          <a href="/">
+            <Image
+              src="/images/logo/ELBE_Technik_Logo-mitSchatten.png"
+              alt="logo"
+              width={60}
+              height={30}
+              className="hidden w-full dark:block"
             />
-          </motion.h1>
-        </div>
-        <div className="overflow-y-hidden mt-4 flex items-center gap-6 xl:mt-4">
-          <motion.div
-            variants={hideNavItemsVariant}
-            className="uppercase text-[13px] hover:cursor-pointer text-black flex gap-5"
+            <Image
+              src="/images/logo/ELBE_Technik_Logo-mitSchatten.png"
+              alt="logo"
+              width={60}
+              height={30}
+              className="w-full dark:hidden"
+            />
+          </a>
+
+          {/* <!-- Hamburger Toggle BTN --> */}
+          <button
+            aria-label="hamburger Toggler"
+            className="block xl:hidden"
+            onClick={() => setNavigationOpen(!navigationOpen)}
           >
-            <SlMenu
-              className="text-xl font-semibold text-[#757693]"
-              onClick={() => setMobileNavOpen(true)}
-            />
-            <ThemeToggler />
-          </motion.div>
+            <span className="relative block h-5.5 w-5.5 cursor-pointer">
+              <span className="absolute right-0 block h-full w-full">
+                <span
+                  className={`relative left-0 top-0 my-1 block h-0.5 rounded-sm bg-black delay-[0] duration-200 ease-in-out dark:bg-white ${
+                    !navigationOpen ? "!w-full delay-300" : "w-0"
+                  }`}
+                ></span>
+                <span
+                  className={`relative left-0 top-0 my-1 block h-0.5 rounded-sm bg-black delay-150 duration-200 ease-in-out dark:bg-white ${
+                    !navigationOpen ? "delay-400 !w-full" : "w-0"
+                  }`}
+                ></span>
+                <span
+                  className={`relative left-0 top-0 my-1 block h-0.5 rounded-sm bg-black delay-200 duration-200 ease-in-out dark:bg-white ${
+                    !navigationOpen ? "!w-full delay-500" : "w-0"
+                  }`}
+                ></span>
+              </span>
+              <span className="du-block absolute right-0 h-full w-full rotate-45">
+                <span
+                  className={`absolute left-2.5 top-0 block h-full w-0.5 rounded-sm bg-black delay-300 duration-200 ease-in-out dark:bg-white ${
+                    !navigationOpen ? "!h-0 delay-[0]" : "h-full"
+                  }`}
+                ></span>
+                <span
+                  className={`delay-400 absolute left-0 top-2.5 block h-0.5 w-full rounded-sm bg-black duration-200 ease-in-out dark:bg-white ${
+                    !navigationOpen ? "!h-0 delay-200" : "h-0.5"
+                  }`}
+                ></span>
+              </span>
+            </span>
+          </button>
+          {/* <!-- Hamburger Toggle BTN --> */}
         </div>
-        <motion.div
-          variants={mobileMenuVariant}
-          className="fixed top-0 left-0 h-screen w-full flex flex-col items-center bg-black/70 bg-blur"
+
+        {/* Nav Menu Start   */}
+        <div
+          className={`invisible h-0 w-full items-center justify-between xl:visible xl:flex xl:h-auto xl:w-full ${
+            navigationOpen &&
+            "navbar !visible mt-4 h-auto max-h-[400px] rounded-md bg-white p-7.5 shadow-solid-5 dark:bg-blacksection xl:h-auto xl:p-0 xl:shadow-none xl:dark:bg-transparent"
+          }`}
         >
-          <motion.button
-            variants={fadeInVariant}
-            onClick={() => setMobileNavOpen(false)}
-            className="self-end mr-[45px] mt-[35px] outline-none border-none bg-transparent uppercase text-sm text-white hover:cursor-pointer"
-          >
-            <IoCloseOutline className="text-white text-4xl" />
-          </motion.button>
-          <motion.ul variants={ulVariant} className="list-none mt-[40px]">
-            {navigation.map((item) => (
-              <motion.li
-                whileTap={{ scale: 0.95 }}
-                key={item.name}
-                className="my-5 mx-0 overflow-y-hidden select-none"
-              >
-                <motion.div
-                  variants={liVariant}
-                  className="text-center capitalize mt-4 text-[34px] hover:cursor-pointer link-underline"
-                >
-                  <Link href={item.href}>{item.name}</Link>
-                </motion.div>
-              </motion.li>
-            ))}
-          </motion.ul>
-          <motion.div variants={fadeInVariant} className="flex mt-[80px] ">
-            <h5 className="font-normal mr-[40px]">+43 664 4792033</h5>
-            <h5 className="font-normal">example@example.com</h5>
-          </motion.div>
-        </motion.div>
-      </motion.nav>
-    </main>
+          <nav>
+            <ul className="flex flex-col gap-5 xl:flex-row xl:items-center xl:gap-10">
+              {menuData.map((menuItem, key) => (
+                <li key={key} className={menuItem.submenu && "group relative"}>
+                  {menuItem.submenu ? (
+                    <>
+                      <button
+                        onClick={() => setDropdownToggler(!dropdownToggler)}
+                        className="flex cursor-pointer items-center justify-between gap-3 hover:text-primary"
+                      >
+                        {menuItem.title}
+                        <span>
+                          <svg
+                            className="h-3 w-3 cursor-pointer fill-waterloo group-hover:fill-primary"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"
+                          >
+                            <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+                          </svg>
+                        </span>
+                      </button>
+
+                      <ul
+                        className={`dropdown ${dropdownToggler ? "flex" : ""}`}
+                      >
+                        {menuItem.submenu.map((item, key) => (
+                          <li key={key} className="hover:text-primary">
+                            <Link href={item.path || "#"}>{item.title}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <Link
+                      href={`${menuItem.path}`}
+                      className={
+                        pathUrl === menuItem.path
+                          ? "text-primary hover:text-primary"
+                          : "hover:text-primary"
+                      }
+                    >
+                      {menuItem.title}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="mt-7 flex items-center gap-6 xl:mt-0">
+            <ThemeToggler />
+
+            <Link
+              href="https://github.com/NextJSTemplates/solid-nextjs"
+              className="text-regular font-medium text-waterloo hover:text-primary"
+            >
+              GitHub Repo 🌟
+            </Link>
+
+            <Link
+              href="https://nextjstemplates.com/templates/solid"
+              className="flex items-center justify-center rounded-full bg-primary px-7.5 py-2.5 text-regular text-white duration-300 ease-in-out hover:bg-primaryho"
+            >
+              Get Pro 🔥
+            </Link>
+          </div>
+        </div>
+      </div>
+    </header>
   );
 };
+
+// w-full delay-300
 
 export default Navbar;
