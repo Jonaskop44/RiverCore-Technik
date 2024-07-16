@@ -7,6 +7,7 @@ import Feature from "@/components/Features/Feature";
 import About from "@/components/About";
 import FeaturesTab from "@/components/FeaturesTab/FeaturesTab";
 import FunFact from "@/components/FunFact";
+import Integration from "@/components/Integration";
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
       <About />
       <FeaturesTab />
       <FunFact />
+      <Integration />
     </>
   );
 };
