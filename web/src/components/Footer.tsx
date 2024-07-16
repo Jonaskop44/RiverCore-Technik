@@ -86,7 +86,7 @@ const Footer = () => {
                 <p className="mb-10 mt-5">Slogan goes here.</p>
 
                 <p className="mb-1.5 text-sectiontitle uppercase tracking-[5px]">
-                  contact
+                  Kontakt
                 </p>
                 <a
                   href="#"
@@ -283,7 +283,7 @@ const Footer = () => {
               className="animate_top"
             >
               <p>
-                &copy; {new Date().getFullYear()} Solid. All rights reserved
+                &copy; {new Date().getFullYear()} Elbe. Alle Rechte vorbehalten
               </p>
             </motion.div>
 
