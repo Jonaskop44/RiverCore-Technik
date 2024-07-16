@@ -18,9 +18,9 @@ const Reviews = () => {
           <div className="animate_top mx-auto text-center">
             <SectionHeader
               headerInfo={{
-                title: `TESTIMONIALS`,
-                subtitle: `Client’s Testimonials`,
-                description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam ante in maximus.`,
+                title: `Bewertungen`.toUpperCase(),
+                subtitle: `Was unsere Kunden sagen`,
+                description: `Unsere Kunden sind begeistert von unserem Service und unserer Plattform. Lesen Sie, was sie über uns sagen.`,
               }}
             />
           </div>
