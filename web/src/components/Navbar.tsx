@@ -4,7 +4,8 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { IoMdCloseCircleOutline } from "react-icons/io";
+import { IoCloseOutline } from "react-icons/io5";
+import { SlMenu } from "react-icons/sl";
 import ThemeToggler from "./ThemeToggler";
 
 const navigation = [
@@ -28,6 +29,19 @@ const navigation = [
 
 const Navbar = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [stickyMenu, setStickyMenu] = useState(false);
+
+  const handleStickyMenu = () => {
+    if (window.scrollY >= 80) {
+      setStickyMenu(true);
+    } else {
+      setStickyMenu(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleStickyMenu);
+  });
 
   useEffect(() => {
     if (mobileNavOpen) {
@@ -125,7 +139,13 @@ const Navbar = () => {
   };
 
   return (
-    <main className="text-[#f5f5dc] overflow-y-hidden z-99999">
+    <main
+      className={`text-[#f5f5dc] overflow-y-hidden z-99999 fixed left-0 top-0 w-full pb-4 ${
+        stickyMenu
+          ? "bg-white shadow transition duration-100 dark:bg-black"
+          : ""
+      }`}
+    >
       <div
         className={`content-wrapper ${mobileNavOpen ? "blur-sm" : ""}`}
       ></div>
@@ -143,16 +163,16 @@ const Navbar = () => {
             />
           </motion.h1>
         </div>
-        <div className="mt-4 flex items-center gap-6 xl:mt-4">
-          <ThemeToggler />
-        </div>
         <div className="overflow-y-hidden mt-4 flex items-center gap-6 xl:mt-4">
           <motion.div
             variants={hideNavItemsVariant}
-            onClick={() => setMobileNavOpen(true)}
-            className="uppercase text-[13px] hover:cursor-pointer text-black"
+            className="uppercase text-[13px] hover:cursor-pointer text-black flex gap-5"
           >
-            Menu
+            <SlMenu
+              className="text-xl font-semibold text-[#757693]"
+              onClick={() => setMobileNavOpen(true)}
+            />
+            <ThemeToggler />
           </motion.div>
         </div>
         <motion.div
@@ -164,7 +184,7 @@ const Navbar = () => {
             onClick={() => setMobileNavOpen(false)}
             className="self-end mr-[45px] mt-[35px] outline-none border-none bg-transparent uppercase text-sm text-white hover:cursor-pointer"
           >
-            <IoMdCloseCircleOutline className="text-white text-4xl" />
+            <IoCloseOutline className="text-white text-4xl" />
           </motion.button>
           <motion.ul variants={ulVariant} className="list-none mt-[40px]">
             {navigation.map((item) => (
