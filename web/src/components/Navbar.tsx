@@ -195,7 +195,7 @@ const Navbar = () => {
               >
                 <motion.div
                   variants={liVariant}
-                  className="text-center capitalize text-[34px] hover:cursor-pointer link-underline"
+                  className="text-center capitalize mt-4 text-[34px] hover:cursor-pointer link-underline"
                 >
                   <Link href={item.href}>{item.name}</Link>
                 </motion.div>
