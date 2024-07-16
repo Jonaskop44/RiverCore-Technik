@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import Brands from "@/components/Brands/Brands";
 import Feature from "@/components/Features/Feature";
 import About from "@/components/About";
+import FeaturesTab from "@/components/FeaturesTab/FeaturesTab";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <Brands />
       <Feature />
       <About />
+      <FeaturesTab />
     </>
   );
 };

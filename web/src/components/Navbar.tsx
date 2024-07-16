@@ -10,15 +10,15 @@ import ThemeToggler from "./ThemeToggler";
 
 const navigation = [
   {
-    name: "home",
+    name: "Startseite",
     href: "#",
   },
   {
-    name: "services",
+    name: "Geschäftsbereiche",
     href: "#",
   },
   {
-    name: "about",
+    name: "Über Uns",
     href: "#",
   },
   {
