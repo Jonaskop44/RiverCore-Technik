@@ -66,11 +66,11 @@ const Footer = () => {
                 viewport={{ once: true }}
                 className="animate_top w-1/2 lg:w-1/4"
               >
-                <a href="index.html" className="relative">
+                <Link href="index.html" className="relative">
                   <Image
                     width={110}
                     height={80}
-                    src="/images/ELBE_Technik_Logo-mitSchatten.png"
+                    src="/images/logo/ELBE_Technik_Logo-mitSchatten.png"
                     alt="Logo"
                     className="dark:hidden"
                   />
@@ -81,19 +81,16 @@ const Footer = () => {
                     alt="Logo"
                     className="hidden dark:block"
                   />
-                </a>
+                </Link>
 
                 <p className="mb-10 mt-5">Slogan goes here.</p>
 
                 <p className="mb-1.5 text-sectiontitle uppercase tracking-[5px]">
                   Kontakt
                 </p>
-                <a
-                  href="#"
-                  className="text-itemtitle font-medium text-black dark:text-white"
-                >
+                <p className="text-itemtitle font-medium text-black dark:text-white">
                   example@example.com
-                </a>
+                </p>
               </motion.div>
 
               <div className="flex w-full flex-col gap-8 md:flex-row md:justify-between md:gap-0 lg:w-2/3 xl:w-7/12">
@@ -252,14 +249,14 @@ const Footer = () => {
             >
               <ul className="flex items-center gap-8">
                 <li>
-                  <a href="#" className="hover:text-primary">
+                  <Link href="#" className="hover:text-primary">
                     Datenschutzerklärung
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-primary">
+                  <Link href="/impressum" className="hover:text-primary">
                     Impressum
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </motion.div>
