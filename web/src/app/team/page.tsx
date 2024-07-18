@@ -4,6 +4,7 @@
 import SectionHeader from "@/components/Common/SectionHeader";
 import { Image } from "@nextui-org/react";
 import { motion } from "framer-motion";
+import { toast } from "react-hot-toast";
 
 const people = [
   {
@@ -38,10 +39,13 @@ const people = [
 const Team = () => {
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard", {
+      position: "bottom-right",
+    });
   };
 
   return (
-    <div className="flex justify-center items-center h-screen py-[67rem] xl:py-[47rem] lg:py-[47rem] md:py-[43rem] sm:py-[45rem]">
+    <div className="flex justify-center items-center h-screen py-[80rem] xl:py-[47rem] lg:py-[47rem] md:py-[43rem] sm:py-[45rem]">
       <div>
         <SectionHeader
           headerInfo={{
