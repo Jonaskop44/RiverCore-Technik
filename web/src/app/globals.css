@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+:root {
+  scroll-behavior: smooth;
+}
+
 .testimonial-01 .swiper-pagination-bullet {
   @apply h-2.5 w-2.5 bg-stroke opacity-100;
 }
