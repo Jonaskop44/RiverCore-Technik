@@ -1,6 +1,8 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/react";
 
 const Hero = () => {
   const [email, setEmail] = useState("");
@@ -60,12 +62,19 @@ const Hero = () => {
                     placeholder="Ihre E-Mail-Adresse"
                     className="rounded-full border border-stroke px-6 py-2.5 shadow-solid-2 focus:border-primary focus:outline-none dark:border-strokedark dark:bg-black dark:shadow-none dark:focus:border-primary"
                   />
+                  <Input placeholder="Ihre E-Mail-Adresse" />
                   <button
                     aria-label="get started button"
                     className="flex rounded-full bg-black px-7.5 py-2.5 text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
                   >
                     Abonnieren
                   </button>
+                  <Button
+                    aria-label="get started button"
+                    className="flex rounded-full bg-black px-7.5 py-2.5 text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
+                  >
+                    Abonnieren
+                  </Button>
                 </div>
 
                 <p className="mt-5 text-black dark:text-white">
