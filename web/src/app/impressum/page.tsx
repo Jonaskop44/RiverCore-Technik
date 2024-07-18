@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 const Impressum = () => {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-screen my-[600px] xl:my-[300px] lg:my-[250px] md:my-[250px] sm:my-[300px]">
       <div>
         <SectionHeader
           headerInfo={{
@@ -80,6 +80,14 @@ const Impressum = () => {
               fehlerhafte Informationen verursacht wurden. Darüber hinaus
               distanzieren wir uns hiermit ausdrücklich von allen Inhalten aller
               gelinkten Seiten auf unseren Webseiten im Internet.
+            </p>
+            <h1 className="mb-5 mt-7.5 text-xl font-semibold text-black dark:text-white xl:text-itemtitle">
+              Links auf die ELBE GmbH Webseiten
+            </h1>
+            <p>
+              Ein Link auf die ELBE GmbH Webseiten darf nur dann gesetzt werden,
+              wenn er auf die Homepage www.elbe.at zeigt und in einem neuen
+              Browserfenster geöffnet wird.
             </p>
           </div>
         </motion.div>
