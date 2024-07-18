@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "next-themes";
 import ScrollToTop from "@/components/ScrollToTop";
 import Footer from "@/components/Footer";
+import { NextUIProvider } from "@nextui-org/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,11 +29,13 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="light"
         >
-          <Lines />
-          <Navbar />
-          {children}
-          <Footer />
-          <ScrollToTop />
+          <NextUIProvider>
+            <Lines />
+            <Navbar />
+            {children}
+            <Footer />
+            <ScrollToTop />
+          </NextUIProvider>
         </ThemeProvider>
       </body>
     </html>
