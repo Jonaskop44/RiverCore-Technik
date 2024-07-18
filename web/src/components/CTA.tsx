@@ -60,7 +60,7 @@ const CTA = () => {
                   height={299}
                   src="/images/shape/shape-06.png"
                   alt="Saly"
-                  className="hidden xl:block"
+                  className="hidden lg:block"
                 />
                 <a
                   href="signup.html"

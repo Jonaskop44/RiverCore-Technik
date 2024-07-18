@@ -20,6 +20,26 @@ const Hero = () => {
                   erfolgreich umsetzen
                 </span>
               </h1>
+              <div className="animate_right md:w-1/2 md:hidden">
+                <div className="relative 2xl:-mr-7.5">
+                  <div className="relative aspect-[700/444] max-w-[600px]">
+                    <Image
+                      className="shadow-solid-l dark:hidden"
+                      draggable={false}
+                      src="/images/blog/blog-big.png"
+                      alt="Hero"
+                      fill
+                    />
+                    <Image
+                      className="hidden shadow-solid-l dark:block"
+                      src="/images/blog/blog-big.png"
+                      draggable={false}
+                      alt="Hero"
+                      fill
+                    />
+                  </div>
+                </div>
+              </div>
               <p>
                 Bei <b>Elbe - Technik</b> bieten wir maßgeschneiderte
                 Techniklösungen für Ihr Unternehmen. Kontaktieren Sie uns per
@@ -57,6 +77,7 @@ const Hero = () => {
                 <div className="relative aspect-[700/444] w-full">
                   <Image
                     className="shadow-solid-l dark:hidden"
+                    draggable={false}
                     src="/images/blog/blog-big.png"
                     alt="Hero"
                     fill
@@ -64,6 +85,7 @@ const Hero = () => {
                   <Image
                     className="hidden shadow-solid-l dark:block"
                     src="/images/blog/blog-big.png"
+                    draggable={false}
                     alt="Hero"
                     fill
                   />

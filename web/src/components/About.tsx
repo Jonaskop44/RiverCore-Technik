@@ -71,6 +71,37 @@ const About = () => {
                   Drucker Branche
                 </span>
               </h2>
+              <motion.div
+                variants={{
+                  hidden: {
+                    opacity: 0,
+                    x: -20,
+                  },
+
+                  visible: {
+                    opacity: 1,
+                    x: 0,
+                  },
+                }}
+                initial="hidden"
+                whileInView="visible"
+                transition={{ duration: 0.5, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="animate_left mb-3 relative md:hidden aspect-[588/526.5] md:w-1/2 max-w-[600px]"
+              >
+                <Image
+                  src="/images/blog/blog-03.png"
+                  alt="About"
+                  className="dark:hidden"
+                  fill
+                />
+                <Image
+                  src="/images/blog/blog-03.png"
+                  alt="About"
+                  className="hidden dark:block"
+                  fill
+                />
+              </motion.div>
               <p>
                 Mit über 20 Jahren Erfahrung in der Druckerbranche, haben wir
                 uns auf die Wartung und Reparatur von Druckern spezialisiert.
@@ -146,6 +177,37 @@ const About = () => {
                   Level
                 </span>
               </h2>
+              <motion.div
+                variants={{
+                  hidden: {
+                    opacity: 0,
+                    x: 20,
+                  },
+
+                  visible: {
+                    opacity: 1,
+                    x: 0,
+                  },
+                }}
+                initial="hidden"
+                whileInView="visible"
+                transition={{ duration: 1, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="animate_right relative mb-3 aspect-[588/526.5] md:hidden md:w-1/2 max-w-[600px]"
+              >
+                <Image
+                  src="/images/blog/blog-04.png"
+                  alt="About"
+                  className="dark:hidden"
+                  fill
+                />
+                <Image
+                  src="/images/blog/blog-04.png"
+                  alt="About"
+                  className="hidden dark:block"
+                  fill
+                />
+              </motion.div>
               <p>
                 Wir bieten Ihnen die Möglichkeit, Ihre Technishcen Geräte auf
                 das nächste Level zu bringen.
