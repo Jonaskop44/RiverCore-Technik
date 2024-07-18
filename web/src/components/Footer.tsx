@@ -77,7 +77,7 @@ const Footer = () => {
                   <Image
                     width={110}
                     height={80}
-                    src="/images/ELBE_Technik_Logo-mitSchatten.png"
+                    src="/images/logo/ELBE_Technik_Logo-mitSchatten.png"
                     alt="Logo"
                     className="hidden dark:block"
                   />
