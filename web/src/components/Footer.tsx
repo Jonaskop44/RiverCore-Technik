@@ -17,8 +17,8 @@ const links = [
     href: "#",
   },
   {
-    name: "Preise",
-    href: "#",
+    name: "Team",
+    href: "/team",
   },
 ];
 
