@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 const Impressum = () => {
   return (
-    <div className="flex justify-center items-center h-screen my-[600px] xl:my-[300px] lg:my-[250px] md:my-[250px] sm:my-[300px]">
+    <div className="flex justify-center items-center h-screen py-[67rem] xl:py-[47rem] lg:py-[47rem] md:py-[43rem] sm:py-[45rem]">
       <div>
         <SectionHeader
           headerInfo={{
