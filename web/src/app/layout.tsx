@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes";
 import ScrollToTop from "@/components/ScrollToTop";
 import Footer from "@/components/Footer";
 import { NextUIProvider } from "@nextui-org/react";
+import ToasterContext from "@/context/ToasterContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,6 +36,7 @@ export default function RootLayout({
             {children}
             <Footer />
             <ScrollToTop />
+            <ToasterContext />
           </NextUIProvider>
         </ThemeProvider>
       </body>
