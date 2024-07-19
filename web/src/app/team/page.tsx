@@ -45,7 +45,7 @@ const Team = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen py-[80rem] xl:py-[47rem] lg:py-[47rem] md:py-[43rem] sm:py-[45rem]">
+    <div className="flex justify-center items-center h-screen py-[80rem] xl:py-[58rem] lg:py-[47rem] md:py-[43rem] sm:py-[45rem]">
       <div>
         <SectionHeader
           headerInfo={{
@@ -74,10 +74,7 @@ const Team = () => {
           <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
             <div className="space-y-12 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
               <div className="lg:col-span-2">
-                <ul
-                  role="list"
-                  className="space-y-12 sm:divide-y sm:divide-gray-200 sm:space-y-0 sm:-mt-8 lg:gap-x-8 lg:space-y-0"
-                >
+                <ul role="list">
                   {people.map((person) => (
                     <li key={person.name} className="sm:py-8">
                       <div className="space-y-4 sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:space-y-0 animate_top rounded-lg border border-white bg-white p-7.5 shadow-solid-3 transition-all hover:shadow-solid-4 dark:border-strokedark dark:bg-blacksection dark:hover:bg-hoverdark xl:p-12.5">
