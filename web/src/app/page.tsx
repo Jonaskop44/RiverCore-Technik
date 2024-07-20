@@ -10,6 +10,7 @@ import FunFact from "@/components/FunFact";
 import Integration from "@/components/Integration";
 import CTA from "@/components/CTA";
 import Reviews from "@/components/Reviews/Reviews";
+import Pricing from "@/components/Pricing";
 
 const Home = () => {
   return (
@@ -22,6 +23,7 @@ const Home = () => {
       <FunFact />
       <Integration />
       <CTA />
+      <Pricing />
       <Reviews />
     </>
   );
