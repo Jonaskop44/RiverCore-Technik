@@ -81,6 +81,7 @@ const Team = () => {
                         <div className="aspect-w-3 aspect-h-2 sm:aspect-w-3 sm:aspect-h-4">
                           <Image
                             isZoomed
+                            draggable={false}
                             src={person.imageUrl}
                             alt="Person Image"
                             className="object-cover shadow-lg rounded-lg"
