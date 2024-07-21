@@ -31,12 +31,14 @@ const About = () => {
               <Image
                 src="/images/blog/blog-03.png"
                 alt="About"
+                draggable={false}
                 className="dark:hidden"
                 fill
               />
               <Image
                 src="/images/blog/blog-03.png"
                 alt="About"
+                draggable={false}
                 className="hidden dark:block"
                 fill
               />
@@ -93,12 +95,14 @@ const About = () => {
                   src="/images/blog/blog-03.png"
                   alt="About"
                   className="dark:hidden"
+                  draggable={false}
                   fill
                 />
                 <Image
                   src="/images/blog/blog-03.png"
                   alt="About"
                   className="hidden dark:block"
+                  draggable={false}
                   fill
                 />
               </motion.div>
@@ -199,12 +203,14 @@ const About = () => {
                   src="/images/blog/blog-04.png"
                   alt="About"
                   className="dark:hidden"
+                  draggable={false}
                   fill
                 />
                 <Image
                   src="/images/blog/blog-04.png"
                   alt="About"
                   className="hidden dark:block"
+                  draggable={false}
                   fill
                 />
               </motion.div>
@@ -253,12 +259,14 @@ const About = () => {
                 src="/images/blog/blog-04.png"
                 alt="About"
                 className="dark:hidden"
+                draggable={false}
                 fill
               />
               <Image
                 src="/images/blog/blog-04.png"
                 alt="About"
                 className="hidden dark:block"
+                draggable={false}
                 fill
               />
             </motion.div>
