@@ -13,11 +13,18 @@ const SingleFeaturesTab = ({ featureTab }: { featureTab: FeatureTab }) => {
             {title}
           </h2>
           <div className="relative aspect-[562/366] max-w-[550px] md:hidden md:w-1/2">
-            <Image src={image} alt={title} fill className="dark:hidden" />
+            <Image
+              src={image}
+              alt={title}
+              fill
+              className="dark:hidden"
+              draggable={false}
+            />
             <Image
               src={imageDark}
               alt={title}
               fill
+              draggable={false}
               className="hidden dark:block"
             />
           </div>
@@ -25,10 +32,17 @@ const SingleFeaturesTab = ({ featureTab }: { featureTab: FeatureTab }) => {
           <p className="w-11/12">{desc2}</p>
         </div>
         <div className="relative mx-auto hidden aspect-[562/366] max-w-[550px] md:block md:w-1/2">
-          <Image src={image} alt={title} fill className="dark:hidden" />
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="dark:hidden"
+            draggable={false}
+          />
           <Image
             src={imageDark}
             alt={title}
+            draggable={false}
             fill
             className="hidden dark:block"
           />
