@@ -39,7 +39,7 @@ const people = [
 const Team = () => {
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    toast.success("Copied to clipboard", {
+    toast.success("In die Zwischenablage kopiert", {
       position: "bottom-right",
     });
   };
