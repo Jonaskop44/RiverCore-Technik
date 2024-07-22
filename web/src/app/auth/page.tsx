@@ -1,15 +1,17 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { Checkbox } from "@nextui-org/checkbox";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 
+type Variant = "LOGIN" | "SIGNUP";
+
 const Signup = () => {
+  const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isVisible, setIsVisible] = useState(false);
   const [data, setData] = useState({
     firstName: "",
@@ -54,6 +56,14 @@ const Signup = () => {
     );
   }, [isInvalidEmail, isFirstnameValid, isLastnameValid, isPasswordValid]);
 
+  const toggleVariant = useCallback(() => {
+    if (variant === "LOGIN") {
+      setVariant("SIGNUP");
+    } else {
+      setVariant("LOGIN");
+    }
+  }, [variant]);
+
   return (
     <>
       {/* <!-- ===== SignUp Form Start ===== --> */}
@@ -94,47 +104,51 @@ const Signup = () => {
             className="animate_top rounded-lg bg-white px-7.5 pt-7.5 shadow-solid-8 dark:border dark:border-strokedark dark:bg-black xl:px-15 xl:pt-15"
           >
             <h2 className="mb-15 text-center text-3xl font-semibold text-black dark:text-white xl:text-sectiontitle2">
-              Erstelle ein Konto
+              {variant === "LOGIN" ? "Anmelden" : "Erstelle ein Konto"}
             </h2>
 
             <form>
-              <div className="mb-7.5 flex flex-col gap-7.5 lg:mb-12.5 lg:flex-row lg:justify-between lg:gap-14">
-                <Input
-                  label="Vorname"
-                  isRequired
-                  type="text"
-                  variant="underlined"
-                  className="w-full pb-3.5 lg:w-1/2"
-                  value={data.firstName}
-                  onChange={(e) =>
-                    setData({ ...data, firstName: e.target.value })
-                  }
-                  onBlur={() => handleBlur("firstName")}
-                  isInvalid={touched.firstName && isFirstnameValid}
-                  errorMessage="Bitte geben Sie Ihren Vornamen ein"
-                  color={
-                    touched.firstName && isFirstnameValid ? "danger" : "default"
-                  }
-                />
+              {variant === "SIGNUP" && (
+                <div className="mb-7.5 flex flex-col gap-7.5 lg:mb-12.5 lg:flex-row lg:justify-between lg:gap-14">
+                  <Input
+                    label="Vorname"
+                    isRequired
+                    type="text"
+                    variant="underlined"
+                    className="w-full pb-3.5 lg:w-1/2"
+                    value={data.firstName}
+                    onChange={(e) =>
+                      setData({ ...data, firstName: e.target.value })
+                    }
+                    onBlur={() => handleBlur("firstName")}
+                    isInvalid={touched.firstName && isFirstnameValid}
+                    errorMessage="Bitte geben Sie Ihren Vornamen ein"
+                    color={
+                      touched.firstName && isFirstnameValid
+                        ? "danger"
+                        : "default"
+                    }
+                  />
 
-                <Input
-                  label="Nachname"
-                  isRequired
-                  type="text"
-                  variant="underlined"
-                  className="w-full pb-3.5 lg:w-1/2"
-                  value={data.lastName}
-                  onChange={(e) =>
-                    setData({ ...data, lastName: e.target.value })
-                  }
-                  onBlur={() => handleBlur("lastName")}
-                  isInvalid={touched.lastName && isLastnameValid}
-                  errorMessage="Bitte geben Sie Ihren Nachnamen ein"
-                  color={
-                    touched.lastName && isLastnameValid ? "danger" : "default"
-                  }
-                />
-              </div>
+                  <Input
+                    label="Nachname"
+                    isRequired
+                    type="text"
+                    variant="underlined"
+                    className="w-full pb-3.5 lg:w-1/2"
+                    value={data.lastName}
+                    onChange={(e) =>
+                      setData({ ...data, lastName: e.target.value })
+                    }
+                    onBlur={() => handleBlur("lastName")}
+                    isInvalid={touched.lastName && isLastnameValid}
+                    errorMessage="Bitte geben Sie Ihren Nachnamen ein"
+                    color={
+                      touched.lastName && isLastnameValid ? "danger" : "default"
+                    }
+                  />
+                </div>
+              )}
 
               <div className="mb-7.5 flex flex-col gap-7.5 lg:mb-12.5 lg:flex-row lg:justify-between lg:gap-14">
                 <Input
@@ -195,7 +209,7 @@ const Signup = () => {
                   className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
                   size="lg"
                 >
-                  Konto erstellen
+                  {variant === "LOGIN" ? "Anmelden" : "Konto erstellen"}
                   <svg
                     className="fill-white"
                     width="14"
@@ -214,13 +228,15 @@ const Signup = () => {
 
               <div className="mt-12.5 border-t border-stroke py-5 text-center dark:border-strokedark">
                 <p>
-                  Sie besitzen bereits ein Konto?{" "}
-                  <Link
+                  {variant === "LOGIN"
+                    ? "Sie besitzen kein Konto?"
+                    : "Sie besitzen bereits ein Konto?"}{" "}
+                  <button
                     className="text-black hover:text-primary dark:text-white dark:hover:text-primary"
-                    href="/auth/signin"
+                    onClick={toggleVariant}
                   >
-                    Anmelden
-                  </Link>
+                    {variant === "LOGIN" ? "Registrieren" : "Anmelden"}
+                  </button>
                 </p>
               </div>
             </form>
