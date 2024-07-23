@@ -204,32 +204,22 @@ const Signup = () => {
               {variant === "SIGNUP" && (
                 <div className="mb-7.5 flex flex-col gap-7.5 lg:mb-12.5 lg:flex-row lg:justify-between lg:gap-14">
                   <Autocomplete
-                    isRequired
-                    defaultItems={designation}
                     label="Anrede"
                     variant="underlined"
+                    defaultItems={designation}
                     className="w-full pb-3.5 lg:w-1/2"
-                    value={data.designation}
-                    selectedKey={data.designation}
-                    onChange={(e) =>
-                      setData({ ...data, designation: e.target.value })
-                    }
-                    onBlur={() => handleBlur("designation")}
-                    isInvalid={touched.designation && isDesignationValid}
-                    errorMessage="Bitte wählen Sie eine Anrede aus"
-                    color={
-                      touched.designation && isDesignationValid
-                        ? "danger"
-                        : "default"
-                    }
+                    onInputChange={(value) => {
+                      const selectedItem = designation.find(
+                        (item) => item.label === value
+                      );
+                      setData({
+                        ...data,
+                        designation: selectedItem?.value || "",
+                      });
+                    }}
                   >
                     {(item) => (
-                      <AutocompleteItem
-                        key={item.value}
-                        onClick={(e) =>
-                          setData({ ...data, designation: item.value })
-                        }
-                      >
+                      <AutocompleteItem key={item.value}>
                         {item.label}
                       </AutocompleteItem>
                     )}
@@ -237,7 +227,7 @@ const Signup = () => {
 
                   <Input
                     label="Firmenname"
-                    isRequired
+                    isRequired={data.designation === "COMPANY"}
                     type="text"
                     variant="underlined"
                     className="w-full pb-3.5 lg:w-1/2"
