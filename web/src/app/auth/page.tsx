@@ -48,15 +48,32 @@ const Signup = () => {
   };
 
   const isFormValid = useMemo(() => {
-    return (
-      !isInvalidEmail &&
-      !isFirstnameValid &&
-      !isLastnameValid &&
-      !isPasswordValid
-    );
-  }, [isInvalidEmail, isFirstnameValid, isLastnameValid, isPasswordValid]);
+    if (variant === "SIGNUP") {
+      return (
+        !isInvalidEmail &&
+        !isFirstnameValid &&
+        !isLastnameValid &&
+        !isPasswordValid
+      );
+    } else {
+      return !isInvalidEmail && !isPasswordValid;
+    }
+  }, [
+    isInvalidEmail,
+    isFirstnameValid,
+    isLastnameValid,
+    isPasswordValid,
+    variant,
+  ]);
 
   const toggleVariant = useCallback(() => {
+    setData({ firstName: "", lastName: "", email: "", password: "" });
+    setTouched({
+      firstName: false,
+      lastName: false,
+      email: false,
+      password: false,
+    });
     if (variant === "LOGIN") {
       setVariant("SIGNUP");
     } else {
@@ -206,7 +223,9 @@ const Signup = () => {
 
                 <Button
                   disabled={!isFormValid}
-                  className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
+                  className={`inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho ${
+                    isFormValid ? "" : "opacity-50 cursor-not-allowed"
+                  }`}
                   size="lg"
                 >
                   {variant === "LOGIN" ? "Anmelden" : "Konto erstellen"}
@@ -231,12 +250,12 @@ const Signup = () => {
                   {variant === "LOGIN"
                     ? "Sie besitzen kein Konto?"
                     : "Sie besitzen bereits ein Konto?"}{" "}
-                  <button
-                    className="text-black hover:text-primary dark:text-white dark:hover:text-primary"
+                  <span
+                    className="text-black hover:text-primary dark:text-white dark:hover:text-primary cursor-pointer"
                     onClick={toggleVariant}
                   >
                     {variant === "LOGIN" ? "Registrieren" : "Anmelden"}
-                  </button>
+                  </span>
                 </p>
               </div>
             </form>
