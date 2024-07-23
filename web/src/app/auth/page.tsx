@@ -319,6 +319,7 @@ const Signup = () => {
                 <div className="mb-4 flex items-center">
                   <Checkbox
                     size="md"
+                    isSelected={data.rememberMe}
                     onValueChange={(value) => {
                       setData({ ...data, rememberMe: value });
                     }}
