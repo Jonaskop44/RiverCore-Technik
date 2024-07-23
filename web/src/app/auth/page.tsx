@@ -25,6 +25,7 @@ const Signup = () => {
     companyName: "",
     email: "",
     password: "",
+    rememberMe: false,
   });
   const [touched, setTouched] = useState({
     firstName: false,
@@ -95,6 +96,7 @@ const Signup = () => {
       password: "",
       designation: "",
       companyName: "",
+      rememberMe: false,
     });
     setTouched({
       firstName: false,
@@ -315,7 +317,12 @@ const Signup = () => {
 
               <div className="flex flex-wrap gap-10 md:justify-between xl:gap-15">
                 <div className="mb-4 flex items-center">
-                  <Checkbox size="md" />
+                  <Checkbox
+                    size="md"
+                    onValueChange={(value) => {
+                      setData({ ...data, rememberMe: value });
+                    }}
+                  />
                   <p className="flex max-w-[425px] pl-3">Angemeldet bleiben</p>
                 </div>
 
