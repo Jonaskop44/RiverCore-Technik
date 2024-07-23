@@ -205,6 +205,7 @@ const Signup = () => {
                 <div className="mb-7.5 flex flex-col gap-7.5 lg:mb-12.5 lg:flex-row lg:justify-between lg:gap-14">
                   <Autocomplete
                     label="Anrede"
+                    isRequired
                     variant="underlined"
                     defaultItems={designation}
                     className="w-full pb-3.5 lg:w-1/2"
@@ -212,11 +213,21 @@ const Signup = () => {
                       const selectedItem = designation.find(
                         (item) => item.label === value
                       );
+
                       setData({
                         ...data,
                         designation: selectedItem?.value || "",
+                        companyName: "",
                       });
                     }}
+                    onBlur={() => handleBlur("designation")}
+                    isInvalid={touched.designation && isDesignationValid}
+                    errorMessage="Bitte wählen Sie eine Anrede aus"
+                    color={
+                      touched.designation && isDesignationValid
+                        ? "danger"
+                        : "default"
+                    }
                   >
                     {(item) => (
                       <AutocompleteItem key={item.value}>
@@ -228,6 +239,7 @@ const Signup = () => {
                   <Input
                     label="Firmenname"
                     isRequired={data.designation === "COMPANY"}
+                    isDisabled={data.designation !== "COMPANY"}
                     type="text"
                     variant="underlined"
                     className="w-full pb-3.5 lg:w-1/2"
@@ -236,10 +248,16 @@ const Signup = () => {
                       setData({ ...data, companyName: e.target.value })
                     }
                     onBlur={() => handleBlur("companyName")}
-                    isInvalid={touched.companyName && isCompanyValid}
+                    isInvalid={
+                      touched.companyName &&
+                      isCompanyValid &&
+                      data.designation === "COMPANY"
+                    }
                     errorMessage="Bitte geben Sie Ihren Vornamen ein"
                     color={
-                      touched.companyName && isCompanyValid
+                      touched.companyName &&
+                      isCompanyValid &&
+                      data.designation === "COMPANY"
                         ? "danger"
                         : "default"
                     }
