@@ -19,6 +19,17 @@ enum Role {
   USER
 }
 
+enum Status {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum Designation {
+  COMPANY
+  PERSON
+}
+
 model User {
   id        String   @id @default(cuid())
   firstName String
@@ -43,10 +54,10 @@ model Author {
 model Review {
   id        String   @id @default(cuid())
   title     String
-  designation String
+  designation Designation
   rating    Int
   body      String
-  accepted  Boolean  @default(false)
+  status    Status   @default(PENDING)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   author    Author     @relation(fields: [id], references: [id])

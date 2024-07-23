@@ -1,14 +1,19 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { Checkbox } from "@nextui-org/checkbox";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 
 type Variant = "LOGIN" | "SIGNUP";
+const designation = [
+  { label: "Privatperson", value: "PERSON" },
+  { label: "Firma", value: "COMPANY" },
+];
 
 const Signup = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
@@ -16,6 +21,8 @@ const Signup = () => {
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
+    designation: "",
+    companyName: "",
     email: "",
     password: "",
   });
@@ -24,6 +31,8 @@ const Signup = () => {
     lastName: false,
     email: false,
     password: false,
+    designation: false,
+    companyName: false,
   });
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -43,6 +52,14 @@ const Signup = () => {
     return data.password.trim() === "";
   }, [data.password]);
 
+  const isCompanyValid = useMemo(() => {
+    return data.companyName.trim() === "";
+  }, [data.companyName]);
+
+  const isDesignationValid = useMemo(() => {
+    return data.designation.trim() === "";
+  }, [data.designation]);
+
   const handleBlur = (field: string) => {
     setTouched({ ...touched, [field]: true });
   };
@@ -53,7 +70,9 @@ const Signup = () => {
         !isInvalidEmail &&
         !isFirstnameValid &&
         !isLastnameValid &&
-        !isPasswordValid
+        !isPasswordValid &&
+        !isCompanyValid &&
+        !isDesignationValid
       );
     } else {
       return !isInvalidEmail && !isPasswordValid;
@@ -63,16 +82,27 @@ const Signup = () => {
     isFirstnameValid,
     isLastnameValid,
     isPasswordValid,
+    isCompanyValid,
+    isDesignationValid,
     variant,
   ]);
 
   const toggleVariant = useCallback(() => {
-    setData({ firstName: "", lastName: "", email: "", password: "" });
+    setData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      designation: "",
+      companyName: "",
+    });
     setTouched({
       firstName: false,
       lastName: false,
       email: false,
       password: false,
+      designation: false,
+      companyName: false,
     });
     if (variant === "LOGIN") {
       setVariant("SIGNUP");
@@ -80,6 +110,10 @@ const Signup = () => {
       setVariant("LOGIN");
     }
   }, [variant]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <>
@@ -162,6 +196,62 @@ const Signup = () => {
                     errorMessage="Bitte geben Sie Ihren Nachnamen ein"
                     color={
                       touched.lastName && isLastnameValid ? "danger" : "default"
+                    }
+                  />
+                </div>
+              )}
+
+              {variant === "SIGNUP" && (
+                <div className="mb-7.5 flex flex-col gap-7.5 lg:mb-12.5 lg:flex-row lg:justify-between lg:gap-14">
+                  <Autocomplete
+                    isRequired
+                    defaultItems={designation}
+                    label="Anrede"
+                    variant="underlined"
+                    className="w-full pb-3.5 lg:w-1/2"
+                    value={data.designation}
+                    selectedKey={data.designation}
+                    onChange={(e) =>
+                      setData({ ...data, designation: e.target.value })
+                    }
+                    onBlur={() => handleBlur("designation")}
+                    isInvalid={touched.designation && isDesignationValid}
+                    errorMessage="Bitte wählen Sie eine Anrede aus"
+                    color={
+                      touched.designation && isDesignationValid
+                        ? "danger"
+                        : "default"
+                    }
+                  >
+                    {(item) => (
+                      <AutocompleteItem
+                        key={item.value}
+                        onClick={(e) =>
+                          setData({ ...data, designation: item.value })
+                        }
+                      >
+                        {item.label}
+                      </AutocompleteItem>
+                    )}
+                  </Autocomplete>
+
+                  <Input
+                    label="Firmenname"
+                    isRequired
+                    type="text"
+                    variant="underlined"
+                    className="w-full pb-3.5 lg:w-1/2"
+                    value={data.companyName}
+                    onChange={(e) =>
+                      setData({ ...data, companyName: e.target.value })
+                    }
+                    onBlur={() => handleBlur("companyName")}
+                    isInvalid={touched.companyName && isCompanyValid}
+                    errorMessage="Bitte geben Sie Ihren Vornamen ein"
+                    color={
+                      touched.companyName && isCompanyValid
+                        ? "danger"
+                        : "default"
                     }
                   />
                 </div>
