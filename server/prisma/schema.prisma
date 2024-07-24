@@ -43,22 +43,24 @@ model User {
 }
 
 model Author {
-  id        Int      @id @default(autoincrement())
-  blocked   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [id], references: [id])
-  reviews   Review?
+  id          Int         @id @default(autoincrement())
+  blocked     Boolean     @default(false)
+  designation Designation
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  userId  Int     @unique
+  user    User    @relation(fields: [userId], references: [id])
+  reviews Review?
 }
 
 model Review {
-  id          Int         @id @default(autoincrement())
-  title       String
-  designation Designation
-  rating      Int
-  body        String
-  status      Status      @default(PENDING)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  author      Author      @relation(fields: [id], references: [id])
+  id        Int      @id @default(autoincrement())
+  title     String
+  rating    Int
+  body      String
+  status    Status   @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author    Author   @relation(fields: [id], references: [id])
 }
