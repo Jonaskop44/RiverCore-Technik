@@ -47,6 +47,16 @@ CREATE TABLE "Review" (
     CONSTRAINT "Review_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Newsletters" (
+    "id" SERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Newsletters_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -55,6 +65,9 @@ CREATE UNIQUE INDEX "Author_userId_key" ON "Author"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Review_authorId_key" ON "Review"("authorId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Newsletters_email_key" ON "Newsletters"("email");
 
 -- AddForeignKey
 ALTER TABLE "Author" ADD CONSTRAINT "Author_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
