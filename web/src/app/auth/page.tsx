@@ -316,16 +316,20 @@ const Signup = () => {
               </div>
 
               <div className="flex flex-wrap gap-10 md:justify-between xl:gap-15">
-                <div className="mb-4 flex items-center">
-                  <Checkbox
-                    size="md"
-                    isSelected={data.rememberMe}
-                    onValueChange={(value) => {
-                      setData({ ...data, rememberMe: value });
-                    }}
-                  />
-                  <p className="flex max-w-[425px] pl-3">Angemeldet bleiben</p>
-                </div>
+                {variant === "LOGIN" && (
+                  <div className="mb-4 flex items-center">
+                    <Checkbox
+                      size="md"
+                      isSelected={data.rememberMe}
+                      onValueChange={(value) => {
+                        setData({ ...data, rememberMe: value });
+                      }}
+                    />
+                    <p className="flex max-w-[425px] pl-3">
+                      Angemeldet bleiben
+                    </p>
+                  </div>
+                )}
 
                 <Button
                   disabled={!isFormValid}
