@@ -1,27 +1,27 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { MailService } from './mail.service';
-import { MailController } from './mail.controller';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
+@Global()
 @Module({
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.mailtrap.io',
-        port: 2525,
-        secure: false,
+        host: 'w01dce97.kasserver.com',
+        port: 465,
+        secure: true,
         auth: {
-          user: 'your-username',
-          pass: 'your-password',
+          user: 'jonas@codeflexx.com',
+          pass: 'JonasCode2023!',
         },
       },
       defaults: {
-        from: '"No Reply" <>',
+        from: '"No Reply" <jonas@codeflexx.com>',
       },
       template: {
-        dir: join(__dirname, 'templates'),
+        dir: join(__dirname, '../../mail/templates'),
         adapter: new HandlebarsAdapter(),
         options: {
           strict: true,
@@ -29,7 +29,6 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       },
     }),
   ],
-  controllers: [MailController],
   providers: [MailService],
   exports: [MailService],
 })

@@ -15,7 +15,7 @@ export class MailService {
       subject: 'Elbe Technik KG - Email Adresse bestätigen',
       template: './confirmation',
       context: {
-        name: user.name,
+        name: user.firstName,
         url,
       },
     });
