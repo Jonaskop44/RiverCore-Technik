@@ -25,5 +25,7 @@ export class UserService {
     });
 
     const { password, ...result } = newUser;
+
+    return result;
   }
 }
