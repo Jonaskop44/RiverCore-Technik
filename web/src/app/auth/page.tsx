@@ -8,7 +8,9 @@ import { Checkbox } from "@nextui-org/checkbox";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
+import Client from "@/client";
 
+const client = new Client();
 type Variant = "LOGIN" | "SIGNUP";
 const designation = [
   { label: "Privatperson", value: "PERSON" },
@@ -27,6 +29,7 @@ const Signup = () => {
     password: "",
     rememberMe: false,
   });
+
   const [touched, setTouched] = useState({
     firstName: false,
     lastName: false,
@@ -112,6 +115,14 @@ const Signup = () => {
       setVariant("LOGIN");
     }
   }, [variant]);
+  const onSubmitLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const _login = await client.auth.login.post(data.email, data.password);
+
+    if (_login.status === false) return console.log("Not Login");
+
+    console.log(_login);
+  };
 
   useEffect(() => {
     console.log(data);
@@ -160,7 +171,7 @@ const Signup = () => {
               {variant === "LOGIN" ? "Anmelden" : "Erstelle ein Konto"}
             </h2>
 
-            <form>
+            <form onSubmit={onSubmitLogin}>
               {variant === "SIGNUP" && (
                 <div className="mb-7.5 flex flex-col gap-7.5 lg:mb-12.5 lg:flex-row lg:justify-between lg:gap-14">
                   <Input
@@ -337,6 +348,7 @@ const Signup = () => {
                     isFormValid ? "" : "opacity-50 cursor-not-allowed"
                   }`}
                   size="lg"
+                  type="submit"
                 >
                   {variant === "LOGIN" ? "Anmelden" : "Konto erstellen"}
                   <svg

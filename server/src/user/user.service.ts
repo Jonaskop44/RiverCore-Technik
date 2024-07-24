@@ -30,8 +30,8 @@ export class UserService {
 
     const { password, ...result } = newUser;
 
-    const UUID = Math.random().toString(36).substring(2, 15);
-    await this.mailService.sendUserConfirmation(newUser, UUID);
+    // const UUID = Math.random().toString(36).substring(2, 15);
+    // await this.mailService.sendUserConfirmation(newUser, UUID);
 
     return result;
   }

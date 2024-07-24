@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^2.1.2",
     "@nextui-org/react": "^2.4.2",
+    "axios": "^1.7.2",
     "framer-motion": "^11.2.14",
     "motion": "^10.18.0",
     "next": "^14.2.5",
@@ -20,7 +21,8 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.2.1",
     "react-infinite-logo-slider": "^1.0.13",
-    "swiper": "^9.3.2"
+    "swiper": "^9.3.2",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "^20",
