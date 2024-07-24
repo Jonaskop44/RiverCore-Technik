@@ -9,6 +9,6 @@ import { AuthorModule } from './author/author.module';
 @Module({
   imports: [ConfigModule.forRoot(), UserModule, AuthModule, AuthorModule],
   controllers: [],
-  providers: [PrismaService, AuthorService],
+  providers: [PrismaService],
 })
 export class AppModule {}
