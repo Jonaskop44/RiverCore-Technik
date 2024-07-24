@@ -9,16 +9,16 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: 'w01dce97.kasserver.com',
-        port: 465,
+        host: process.env.MAIL_HOST,
+        port: process.env.MAIL_PORT,
         secure: true,
         auth: {
-          user: 'jonas@codeflexx.com',
-          pass: 'JonasCode2023!',
+          user: process.env.MAIL_USER,
+          pass: process.env.MAIL_PASSWORD,
         },
       },
       defaults: {
-        from: '"No Reply" <jonas@codeflexx.com>',
+        from: `"No Reply" <${process.env.MAIL_FROM}>`,
       },
       template: {
         dir: join(__dirname, '../../mail/templates'),
