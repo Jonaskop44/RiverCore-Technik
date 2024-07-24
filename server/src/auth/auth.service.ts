@@ -2,12 +2,16 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { LoginDto } from './dto/auth.dto';
 import { compare } from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 const EXPIRE_TIME = 1000 * 60 * 60 * 24;
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private jwtService: JwtService,
+  ) {}
 
   async validateUser(dto: LoginDto) {
     const user = await this.userService.getUserByEmail(dto.email);
@@ -18,4 +22,32 @@ export class AuthService {
 
     throw new UnauthorizedException('Invalid credentials');
   }
+
+  async login(dto: LoginDto) {
+    const user = await this.validateUser(dto);
+    const payload = {
+      email: user.email,
+      sub: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+      },
+    };
+
+    return {
+      user,
+      backendTokens: {
+        accessToken: await this.jwtService.signAsync(payload, {
+          expiresIn: '1d',
+          secret: process.env.JWT_SECRET,
+        }),
+      },
+      refreshToken: await this.jwtService.signAsync(payload, {
+        expiresIn: '7d',
+        secret: process.env.JWT_REFRESH_TOKEN,
+      }),
+      expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
+    };
+  }
+
+  async refreshToken() {}
 }
