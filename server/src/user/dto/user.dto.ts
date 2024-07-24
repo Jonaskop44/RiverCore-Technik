@@ -13,7 +13,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   readonly email: string;
 
-  @IsString()
   @IsNotEmpty()
   readonly password: string;
 }
