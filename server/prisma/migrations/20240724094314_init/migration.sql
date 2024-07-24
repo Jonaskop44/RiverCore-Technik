@@ -15,6 +15,7 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'USER',
+    "designation" "Designation" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -25,7 +26,6 @@ CREATE TABLE "User" (
 CREATE TABLE "Author" (
     "id" SERIAL NOT NULL,
     "blocked" BOOLEAN NOT NULL DEFAULT false,
-    "designation" "Designation" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" INTEGER NOT NULL,
@@ -42,6 +42,7 @@ CREATE TABLE "Review" (
     "status" "Status" NOT NULL DEFAULT 'PENDING',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "authorId" INTEGER NOT NULL,
 
     CONSTRAINT "Review_pkey" PRIMARY KEY ("id")
 );
@@ -52,8 +53,11 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 -- CreateIndex
 CREATE UNIQUE INDEX "Author_userId_key" ON "Author"("userId");
 
--- AddForeignKey
-ALTER TABLE "Author" ADD CONSTRAINT "Author_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "Review_authorId_key" ON "Review"("authorId");
 
 -- AddForeignKey
-ALTER TABLE "Review" ADD CONSTRAINT "Review_id_fkey" FOREIGN KEY ("id") REFERENCES "Author"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Author" ADD CONSTRAINT "Author_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Review" ADD CONSTRAINT "Review_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "Author"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

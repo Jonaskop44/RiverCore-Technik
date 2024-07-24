@@ -62,5 +62,7 @@ model Review {
   status    Status   @default(PENDING)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  author    Author   @relation(fields: [id], references: [id])
+
+  authorId Int    @unique
+  author   Author @relation(fields: [authorId], references: [id])
 }

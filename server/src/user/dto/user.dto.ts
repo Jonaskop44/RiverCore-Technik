@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, IsEmail } from 'class-validator';
+import { Designation } from '@prisma/client';
+import { IsString, IsNotEmpty, IsEmail, IsEnum } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -8,6 +9,10 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   readonly lastName: string;
+
+  @IsEnum(Designation)
+  @IsNotEmpty()
+  readonly designation: Designation;
 
   @IsEmail()
   @IsNotEmpty()
