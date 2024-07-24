@@ -49,5 +49,22 @@ export class AuthService {
     };
   }
 
-  async refreshToken() {}
+  async refreshToken(user: any) {
+    const payload = {
+      email: user.email,
+      sub: user.sub,
+    };
+
+    return {
+      accessToken: await this.jwtService.signAsync(payload, {
+        expiresIn: '1d',
+        secret: process.env.JWT_SECRET,
+      }),
+      refreshToken: await this.jwtService.signAsync(payload, {
+        expiresIn: '7d',
+        secret: process.env.JWT_REFRESH_TOKEN,
+      }),
+      expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
+    };
+  }
 }
