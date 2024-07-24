@@ -28,4 +28,20 @@ export class UserService {
 
     return result;
   }
+
+  async getUserByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+  }
+
+  async getUserByLastname(lastname: string) {
+    return this.prisma.user.findMany({
+      where: {
+        lastName: lastname,
+      },
+    });
+  }
 }
