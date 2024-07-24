@@ -10,6 +10,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     MailerModule.forRoot({
       transport: {
         host: 'smtp.mailtrap.io',
+        port: 2525,
         secure: false,
         auth: {
           user: 'your-username',
