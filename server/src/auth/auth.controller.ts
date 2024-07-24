@@ -22,9 +22,9 @@ export class AuthController {
     return this.authService.login(dto);
   }
 
-  // @UseGuards(RefreshJwtGuard)
-  // @Post('refresh-token')
-  // async refreshToken(@Request() request) {
-  //   return this.authService.refreshToken(request.user);
-  // }
+  @UseGuards(RefreshJwtGuard)
+  @Post('refresh-token')
+  async refreshToken(@Request() request) {
+    return this.authService.refreshToken();
+  }
 }
