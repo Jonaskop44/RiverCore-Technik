@@ -25,6 +25,7 @@ export class UserService {
       data: {
         ...dto,
         password: await hash(dto.password, 12),
+        companyName: dto.companyName ? dto.companyName : null,
       },
     });
 
