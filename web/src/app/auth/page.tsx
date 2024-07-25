@@ -75,7 +75,7 @@ const Signup = () => {
         !isFirstnameValid &&
         !isLastnameValid &&
         !isPasswordValid &&
-        !isCompanyValid &&
+        (data.designation === "PERSON" || !isCompanyValid) &&
         !isDesignationValid
       );
     } else {
@@ -89,6 +89,7 @@ const Signup = () => {
     isCompanyValid,
     isDesignationValid,
     variant,
+    data.designation,
   ]);
 
   const toggleVariant = useCallback(() => {
@@ -109,6 +110,7 @@ const Signup = () => {
       designation: false,
       companyName: false,
     });
+    setIsVisible(false);
     if (variant === "LOGIN") {
       setVariant("SIGNUP");
     } else {
@@ -117,16 +119,19 @@ const Signup = () => {
   }, [variant]);
   const onSubmitLogin = async (event: React.FormEvent) => {
     event.preventDefault();
-    const login = await client.auth.login.post(data);
 
-    if (login.status === false) return console.log("Not Login");
+    if (variant === "LOGIN") {
+      const login = await client.auth.login.post(data);
+      if (login.status === false) return console.log("Not Login");
+      console.log(login);
+    }
 
-    console.log(login);
+    if (variant === "SIGNUP") {
+      const signup = await client.auth.register.post(data);
+      if (signup.status === false) return console.log("Not Signup");
+      console.log(signup);
+    }
   };
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <>
@@ -327,20 +332,16 @@ const Signup = () => {
               </div>
 
               <div className="flex flex-wrap gap-10 md:justify-between xl:gap-15">
-                {variant === "LOGIN" && (
-                  <div className="mb-4 flex items-center">
-                    <Checkbox
-                      size="md"
-                      isSelected={data.rememberMe}
-                      onValueChange={(value) => {
-                        setData({ ...data, rememberMe: value });
-                      }}
-                    />
-                    <p className="flex max-w-[425px] pl-3">
-                      Angemeldet bleiben
-                    </p>
-                  </div>
-                )}
+                <div className="mb-4 flex items-center">
+                  <Checkbox
+                    size="md"
+                    isSelected={data.rememberMe}
+                    onValueChange={(value) => {
+                      setData({ ...data, rememberMe: value });
+                    }}
+                  />
+                  <p className="flex max-w-[425px] pl-3">Angemeldet bleiben</p>
+                </div>
 
                 <Button
                   disabled={!isFormValid}

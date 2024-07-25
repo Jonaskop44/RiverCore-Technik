@@ -3,9 +3,9 @@ import Register from "./register";
 
 export class Auth {
   login: Login;
-  signup: Register;
+  register: Register;
   constructor() {
     this.login = new Login();
-    this.signup = new Register();
+    this.register = new Register();
   }
 }

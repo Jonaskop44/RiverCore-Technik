@@ -15,6 +15,12 @@ export default class Register {
         designation: user.designation,
         companyName: user.companyName,
       });
+
+      if (response.status !== 201)
+        return { status: false, message: "Something went wrong" };
+
+      const data = await response.data;
+      return { status: true, data, message: "User created successfully" };
     } catch (error) {
       console.log(error);
     }
