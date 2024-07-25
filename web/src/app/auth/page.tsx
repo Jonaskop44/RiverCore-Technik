@@ -117,7 +117,7 @@ const Signup = () => {
   }, [variant]);
   const onSubmitLogin = async (event: React.FormEvent) => {
     event.preventDefault();
-    const login = await client.auth.login.post(data.email, data.password);
+    const login = await client.auth.login.post(data);
 
     if (login.status === false) return console.log("Not Login");
 

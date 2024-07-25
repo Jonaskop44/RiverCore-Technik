@@ -1,14 +1,15 @@
+import { User } from "@/types/user";
 import { Constants } from "../constants";
 import axios from "axios";
 
 export default class Login {
   constructor() {}
 
-  public async post(email: string, password: string) {
+  public async post(user: User) {
     try {
       const response = await axios.post(`${Constants.API_BASE}/auth/login`, {
-        email,
-        password,
+        email: user.email,
+        password: user.password,
       });
 
       if (response.status !== 201)

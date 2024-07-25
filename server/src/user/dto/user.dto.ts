@@ -1,5 +1,13 @@
 import { Designation } from '@prisma/client';
-import { IsString, IsNotEmpty, IsEmail, IsEnum } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  ValidateIf,
+} from 'class-validator';
+import { IsCompanyNameRequired } from './custom-validators';
 
 export class CreateUserDto {
   @IsString()
@@ -13,6 +21,11 @@ export class CreateUserDto {
   @IsEnum(Designation)
   @IsNotEmpty()
   readonly designation: Designation;
+
+  @IsCompanyNameRequired({
+    message: 'companyName must be provided when designation is COMPANY',
+  })
+  readonly companyName?: string;
 
   @IsEmail()
   @IsNotEmpty()
