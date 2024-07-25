@@ -31,17 +31,19 @@ enum Designation {
 }
 
 model User {
-  id          Int         @id @default(autoincrement())
-  firstName   String
-  lastName    String
-  email       String      @unique
-  password    String
-  role        Role        @default(USER)
-  designation Designation
-  companyName String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  author      Author?
+  id            Int             @id @default(autoincrement())
+  firstName     String
+  lastName      String
+  email         String          @unique
+  password      String
+  role          Role            @default(USER)
+  designation   Designation
+  companyName   String?
+  activated     Boolean         @default(false)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  author        Author?
+  ActivateToken ActivateToken[]
 }
 
 model Author {
@@ -73,4 +75,16 @@ model Newsletters {
   email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model ActivateToken {
+  id          Int       @id @default(autoincrement())
+  token       String    @unique
+  activatedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 }

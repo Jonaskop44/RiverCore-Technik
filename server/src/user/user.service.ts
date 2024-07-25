@@ -3,6 +3,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/user.dto';
 import { hash } from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
+import { User } from 'types/user.entity';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UserService {
@@ -31,8 +33,8 @@ export class UserService {
 
     const { password, ...result } = newUser;
 
-    // const UUID = Math.random().toString(36).substring(2, 15);
-    // await this.mailService.sendUserConfirmation(newUser, UUID);
+    const token = await this.createActivateToken(newUser);
+    await this.mailService.sendUserConfirmation(newUser, token);
 
     return result;
   }
@@ -51,5 +53,16 @@ export class UserService {
         lastName: lastname,
       },
     });
+  }
+
+  async createActivateToken(user: User) {
+    const token = await this.prisma.activateToken.create({
+      data: {
+        token: `${randomUUID()}${randomUUID()}`.replace(/-/g, ''),
+        userId: user.id,
+      },
+    });
+
+    return token.token;
   }
 }

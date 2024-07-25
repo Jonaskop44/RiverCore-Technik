@@ -121,21 +121,24 @@ const Signup = () => {
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setIsLoading(true);
 
     if (variant === "LOGIN") {
-      setIsLoading(true);
       const login = await client.auth.login.post(data);
+      console.log(login);
       if (login.status === false) {
         console.log("Not Login");
-        setIsLoading(false);
       }
-      console.log(login);
+      setIsLoading(false);
     }
 
     if (variant === "SIGNUP") {
       const signup = await client.auth.register.post(data);
-      if (signup.status === false) return console.log("Not Signup");
       console.log(signup);
+      if (signup.status === false) {
+        console.log("Not Signup");
+      }
+      setIsLoading(false);
     }
   };
 
