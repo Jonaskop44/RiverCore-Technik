@@ -1,1 +1,3 @@
-export default class Register {}
+export default class Register {
+  constructor() {}
+}

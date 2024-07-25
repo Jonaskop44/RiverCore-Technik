@@ -1,20 +1,19 @@
 import { Constants } from "../constants";
+import axios from "axios";
 
 export default class Login {
   constructor() {}
 
   public async post(email: string, password: string) {
     try {
-      const response = await fetch(`${Constants.API_BASE}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
+      const response = await axios.post(`${Constants.API_BASE}/auth/login`, {
+        email,
+        password,
       });
-      if (!response.ok)
+
+      if (response.status !== 201)
         return { status: false, message: "Invalid Credentials" };
-      const data = await response.json();
+      const data = await response.data;
       return { status: true, data, message: "Login sucessfully" };
     } catch (err) {
       console.log(err);

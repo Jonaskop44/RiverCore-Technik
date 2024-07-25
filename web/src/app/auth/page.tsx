@@ -117,11 +117,11 @@ const Signup = () => {
   }, [variant]);
   const onSubmitLogin = async (event: React.FormEvent) => {
     event.preventDefault();
-    const _login = await client.auth.login.post(data.email, data.password);
+    const login = await client.auth.login.post(data.email, data.password);
 
-    if (_login.status === false) return console.log("Not Login");
+    if (login.status === false) return console.log("Not Login");
 
-    console.log(_login);
+    console.log(login);
   };
 
   useEffect(() => {
