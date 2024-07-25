@@ -20,6 +20,7 @@ const designation = [
 const Signup = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -117,12 +118,17 @@ const Signup = () => {
       setVariant("LOGIN");
     }
   }, [variant]);
-  const onSubmitLogin = async (event: React.FormEvent) => {
+
+  const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (variant === "LOGIN") {
+      setIsLoading(true);
       const login = await client.auth.login.post(data);
-      if (login.status === false) return console.log("Not Login");
+      if (login.status === false) {
+        console.log("Not Login");
+        setIsLoading(false);
+      }
       console.log(login);
     }
 
@@ -176,7 +182,7 @@ const Signup = () => {
               {variant === "LOGIN" ? "Anmelden" : "Erstelle ein Konto"}
             </h2>
 
-            <form onSubmit={onSubmitLogin}>
+            <form onSubmit={onSubmit}>
               {variant === "SIGNUP" && (
                 <div className="mb-7.5 flex flex-col gap-7.5 lg:mb-12.5 lg:flex-row lg:justify-between lg:gap-14">
                   <Input
@@ -345,6 +351,7 @@ const Signup = () => {
 
                 <Button
                   disabled={!isFormValid}
+                  isLoading={isLoading}
                   className={`inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho ${
                     isFormValid ? "" : "opacity-50 cursor-not-allowed"
                   }`}

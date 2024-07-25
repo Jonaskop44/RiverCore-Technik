@@ -17,7 +17,7 @@ export default class Login {
       const data = await response.data;
       return { status: true, data, message: "Login sucessfully" };
     } catch (err) {
-      console.log(err);
+      return { status: false, message: "Somethind went wrong!" };
     }
   }
 }
