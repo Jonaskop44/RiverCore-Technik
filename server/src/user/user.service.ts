@@ -65,4 +65,50 @@ export class UserService {
 
     return token.token;
   }
+
+  async activateUser(token: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        activateToken: {
+          some: {
+            AND: [
+              {
+                activatedAt: null,
+              },
+              {
+                createdAt: {
+                  gt: new Date(Date.now() - 24 * 60 * 60 * 1000),
+                },
+              },
+              {
+                token: token,
+              },
+            ],
+          },
+        },
+      },
+    });
+
+    if (!user) throw new ConflictException('Invalid token');
+
+    await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        activated: true,
+      },
+    });
+
+    await this.prisma.activateToken.update({
+      where: {
+        token: token,
+      },
+      data: {
+        activatedAt: new Date(),
+      },
+    });
+
+    return true;
+  }
 }
