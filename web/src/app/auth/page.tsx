@@ -131,6 +131,12 @@ const Signup = () => {
       console.log(login);
       if (login.status === false) {
         toast.error("E-Mail oder Passwort ist falsch");
+      } else {
+        if (login.data.user.activated === false) {
+          onOpen();
+        } else {
+          toast.success("Erfolgreich angemeldet");
+        }
       }
       setIsLoading(false);
     }

@@ -33,6 +33,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
   const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [touched, setTouched] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const isCodeValid = useMemo(() => {
     return code.trim() === "";
@@ -44,11 +45,28 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
 
     if (token.status) {
       onOpenChange(false);
+      setCode("");
+      setTouched(false);
+      setIsVisible(false);
+      setIsLoading(false);
+      setIsDisabled(false);
     } else {
       toast.error("Der Bestätigungscode ist ungültig");
     }
 
     setIsLoading(false);
+  };
+
+  const onResend = async () => {
+    const email_ = await client.auth.helper.resendActivationEmail(email);
+    setIsDisabled(true);
+
+    if (email_.status) {
+      toast.success("Bestätigungscode wurde erneut gesendet");
+    } else {
+      toast.error("E-Mail konnte nicht gesendet werden");
+      setIsDisabled(false);
+    }
   };
 
   return (
@@ -61,6 +79,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
           setTouched(false);
           setIsVisible(false);
           setIsLoading(false);
+          setIsDisabled(false);
         }}
         placement="center"
         backdrop="blur"
@@ -105,7 +124,13 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
                   }
                 />
                 <div className="flex py-2 px-1 justify-between">
-                  <Link color="primary" href="#" size="sm">
+                  <Link
+                    color="primary"
+                    size="sm"
+                    isDisabled={isDisabled}
+                    onPress={onResend}
+                    className="cursor-pointer"
+                  >
                     Bestätigungscode erneut senden
                   </Link>
                 </div>

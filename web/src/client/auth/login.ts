@@ -15,7 +15,7 @@ export default class Login {
       if (response.status !== 201)
         return { status: false, message: "Invalid Credentials" };
       const data = await response.data;
-      return { status: true, data, message: "Login sucessfully" };
+      return { status: true, data: data, message: "Login sucessfully" };
     } catch (err) {
       return { status: false, message: "Somethind went wrong!" };
     }
