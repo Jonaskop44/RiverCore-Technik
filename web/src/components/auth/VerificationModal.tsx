@@ -12,6 +12,7 @@ import {
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import Client from "@/client";
+import { toast } from "sonner";
 
 interface VerificationModalProps {
   isOpen: boolean;
@@ -44,7 +45,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
     if (token.status) {
       onOpenChange(false);
     } else {
-      console.log(token.message);
+      toast.error("Der Bestätigungscode ist ungültig");
     }
 
     setIsLoading(false);

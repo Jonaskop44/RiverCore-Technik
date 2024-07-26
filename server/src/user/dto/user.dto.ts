@@ -1,12 +1,5 @@
 import { Designation } from '@prisma/client';
-import {
-  IsString,
-  IsNotEmpty,
-  IsEmail,
-  IsEnum,
-  IsOptional,
-  ValidateIf,
-} from 'class-validator';
+import { IsString, IsNotEmpty, IsEmail, IsEnum } from 'class-validator';
 import { IsCompanyNameRequired } from './custom-validators';
 
 export class CreateUserDto {
@@ -33,4 +26,16 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   readonly password: string;
+}
+
+export class ActivateUserDto {
+  @IsString()
+  @IsNotEmpty()
+  readonly token: string;
+}
+
+export class ResendActivationEmailDto {
+  @IsEmail()
+  @IsNotEmpty()
+  readonly email: string;
 }
