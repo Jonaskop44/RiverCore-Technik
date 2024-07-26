@@ -7,16 +7,15 @@ export class MailService {
   constructor(private mailerService: MailerService) {}
 
   async sendUserConfirmation(user: User, token: string) {
-    const url = `http://localhost:3000/auth/confirm?token=${token}`;
-
     await this.mailerService.sendMail({
       to: user.email,
       //from: '"Support Team" <support@example.com>',
-      subject: 'Elbe Technik KG - Email Adresse bestätigen',
+      subject: 'Bestätigungscode für das Elbe-Technik-Konto',
       template: './confirmation',
       context: {
         name: user.firstName,
-        url,
+        email: user.email,
+        code: token,
       },
     });
   }
