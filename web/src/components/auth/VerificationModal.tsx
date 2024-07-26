@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -6,64 +6,70 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  useDisclosure,
-  Checkbox,
   Input,
   Link,
 } from "@nextui-org/react";
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 interface VerificationModalProps {
   isOpen: boolean;
   onOpen: () => void;
   onOpenChange: (open: boolean) => void;
+  email: string;
 }
 
 const VerificationModal: React.FC<VerificationModalProps> = ({
   isOpen,
   onOpen,
   onOpenChange,
+  email,
 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
+
   return (
     <>
-      <Button onPress={onOpen} color="primary">
-        Open Modal
-      </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">
+                Konto aktivieren
+              </ModalHeader>
               <ModalBody>
+                <p>
+                  Um vollen Zugriff auf Ihr Konto zu erhalten, geben Sie bitte
+                  den Bestätigungscode ein, den wir an{" "}
+                  <span className="font-semibold"> {email} </span> gesendet
+                  haben.
+                </p>
                 <Input
-                  autoFocus
-                  label="Email"
-                  placeholder="Enter your email"
-                  variant="bordered"
-                />
-                <Input
-                  endContent={<p>Test</p>}
-                  label="Password"
-                  placeholder="Enter your password"
-                  type="password"
-                  variant="bordered"
+                  label="Bestätigungscode"
+                  type={isVisible ? "text" : "password"}
+                  variant="underlined"
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={toggleVisibility}
+                      aria-label="toggle password visibility"
+                    >
+                      {isVisible ? (
+                        <FaRegEye className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                        <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                    </button>
+                  }
                 />
                 <div className="flex py-2 px-1 justify-between">
-                  <Checkbox
-                    classNames={{
-                      label: "text-small",
-                    }}
-                  >
-                    Remember me
-                  </Checkbox>
                   <Link color="primary" href="#" size="sm">
-                    Forgot password?
+                    Bestätigungscode erneut senden
                   </Link>
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
-                  Close
-                </Button>
                 <Button color="primary" onPress={onClose}>
                   Sign in
                 </Button>
