@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import Client from "@/client";
 
 interface VerificationModalProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ interface VerificationModalProps {
   onOpenChange: (open: boolean) => void;
   email: string;
 }
+const client = new Client();
 
 const VerificationModal: React.FC<VerificationModalProps> = ({
   isOpen,
@@ -27,13 +29,28 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const [code, setCode] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async () => {
+    setIsLoading(true);
+    const token = await client.auth.helper.activateUser(code);
+
+    if (token.status) {
+      onOpenChange(false);
+    } else {
+      console.log(token.message);
+    }
+
+    setIsLoading(false);
+  };
 
   return (
     <>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        placement="top-center"
+        placement="center"
         backdrop="blur"
         className="z-99999"
       >
@@ -45,15 +62,16 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
               </ModalHeader>
               <ModalBody>
                 <p>
-                  Um vollen Zugriff auf Ihr Konto zu erhalten, geben Sie bitte
-                  den Bestätigungscode ein, den wir an{" "}
-                  <span className="font-semibold"> {email} </span> gesendet
-                  haben.
+                  Um Ihr Konto zu aktivieren geben Sie bitte den 15-minütigen
+                  gültigen Bestätigungscode ein, den wir an{" "}
+                  <span className="font-semibold">{email}</span> gesendet haben.
                 </p>
                 <Input
                   label="Bestätigungscode"
                   type={isVisible ? "text" : "password"}
                   variant="underlined"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
                   endContent={
                     <button
                       className="focus:outline-none"
@@ -76,8 +94,13 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" onPress={onClose}>
-                  Sign in
+                <Button
+                  isLoading={isLoading}
+                  color="primary"
+                  onPress={onClose}
+                  onClick={onSubmit}
+                >
+                  Bestätigen
                 </Button>
               </ModalFooter>
             </>

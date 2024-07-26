@@ -58,7 +58,7 @@ export class UserService {
   async createActivateToken(user: User) {
     const token = await this.prisma.activateToken.create({
       data: {
-        token: `${randomUUID()}${randomUUID()}`.replace(/-/g, ''),
+        token: `${randomUUID()}`.replace(/-/g, ''),
         userId: user.id,
       },
     });
@@ -77,7 +77,7 @@ export class UserService {
               },
               {
                 createdAt: {
-                  gt: new Date(Date.now() - 24 * 60 * 60 * 1000),
+                  gt: new Date(Date.now() - 15 * 60 * 1000),
                 },
               },
               {
@@ -89,7 +89,14 @@ export class UserService {
       },
     });
 
-    if (!user) throw new ConflictException('Invalid token');
+    if (!user) {
+      this.prisma.activateToken.delete({
+        where: {
+          token: token,
+        },
+      });
+      throw new ConflictException('The token is invalid or expired');
+    }
 
     await this.prisma.user.update({
       where: {
@@ -109,6 +116,20 @@ export class UserService {
       },
     });
 
-    return true;
+    return user;
+  }
+
+  async resendActivationEmail(email: string) {
+    const user = await this.getUserByEmail(email);
+
+    if (!user) throw new ConflictException('User not found');
+
+    if (user.activated)
+      throw new ConflictException('User is already activated');
+
+    const token = await this.createActivateToken(user);
+    await this.mailService.sendUserConfirmation(user, token);
+
+    return;
   }
 }
