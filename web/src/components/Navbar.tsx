@@ -224,7 +224,7 @@ const Navbar = () => {
           <div className="mt-7 flex items-center gap-6 xl:mt-0">
             <ThemeToggler />
             <Button className="flex items-center justify-center rounded-full bg-primary px-7.5 py-2.5 text-regular text-white duration-300 ease-in-out hover:bg-primaryho">
-              <Link href="/auth">Login</Link>
+              <a href="/auth">Login</a>
             </Button>
           </div>
         </div>

@@ -4,7 +4,7 @@
 import SectionHeader from "@/components/Common/SectionHeader";
 import { Image } from "@nextui-org/react";
 import { motion } from "framer-motion";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 const people = [
   {

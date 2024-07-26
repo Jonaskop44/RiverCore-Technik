@@ -12,6 +12,8 @@ import Client from "@/client";
 import { useDisclosure } from "@nextui-org/react";
 import VerificationModal from "@/components/auth/VerificationModal";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
+import { redirect } from "next/dist/server/api-utils";
 const client = new Client();
 type Variant = "LOGIN" | "SIGNUP";
 const designation = [
@@ -132,6 +134,10 @@ const Signup = () => {
       if (login.status === false) {
         toast.error("E-Mail oder Passwort ist falsch");
       } else {
+        Cookies.set("token", login.data.backendTokens.accessToken, {
+          expire: "24h",
+        });
+        window.location.replace("/dashboard");
         if (login.data.user.activated === false) {
           onOpen();
         } else {

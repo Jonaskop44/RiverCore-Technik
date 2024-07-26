@@ -44,4 +44,25 @@ export default class Helper {
       return { status: false, message: "Somethind went wrong!" };
     }
   }
+
+  public async verifyToken(token: string) {
+    try {
+      const response = await axios.post(`${Constants.API_BASE}/auth/verify`, {
+        token: token,
+      });
+
+      if (response.status !== 201) {
+        return { status: false, message: "Invalid token" };
+      }
+
+      const data = await response.data;
+      return {
+        status: true,
+        data: data,
+        message: "Token verified successfully",
+      };
+    } catch (err) {
+      return { status: false, message: "Something went wrong" };
+    }
+  }
 }
