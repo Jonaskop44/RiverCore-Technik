@@ -4,7 +4,7 @@
 import SectionHeader from "@/components/Common/SectionHeader";
 import { Image } from "@nextui-org/react";
 import { motion } from "framer-motion";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const people = [
   {
@@ -39,9 +39,7 @@ const people = [
 const Team = () => {
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    toast.success("In die Zwischenablage kopiert", {
-      position: "bottom-right",
-    });
+    toast.success("In die Zwischenablage kopiert");
   };
 
   return (
