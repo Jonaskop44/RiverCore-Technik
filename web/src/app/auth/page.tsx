@@ -11,7 +11,7 @@ import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 import Client from "@/client";
 import { useDisclosure } from "@nextui-org/react";
 import VerificationModal from "@/components/auth/VerificationModal";
-
+import { toast } from "sonner";
 const client = new Client();
 type Variant = "LOGIN" | "SIGNUP";
 const designation = [
@@ -130,7 +130,7 @@ const Signup = () => {
       const login = await client.auth.login.post(data);
       console.log(login);
       if (login.status === false) {
-        console.log("Not Login");
+        toast.error("E-Mail oder Passwort ist falsch");
       }
       setIsLoading(false);
     }
@@ -139,7 +139,7 @@ const Signup = () => {
       const signup = await client.auth.register.post(data);
       console.log(signup);
       if (signup.status === false) {
-        console.log("Not Signup");
+        toast.error("Es existiert bereits ein Konto mit dieser E-Mail-Adresse");
       } else {
         if (signup.data.activated === false) {
           console.log("Not Activated");

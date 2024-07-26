@@ -7,9 +7,7 @@ import { ThemeProvider } from "next-themes";
 import ScrollToTop from "@/components/ScrollToTop";
 import Footer from "@/components/Footer";
 import { NextUIProvider } from "@nextui-org/react";
-import { Slide, ToastContainer } from "react-toastify";
-
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,20 +36,7 @@ export default function RootLayout({
             {children}
             <Footer />
             <ScrollToTop />
-            <ToastContainer
-              position="bottom-right"
-              autoClose={5000}
-              limit={3}
-              stacked
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover={false}
-              transition={Slide}
-            />
+            <Toaster position="bottom-right" richColors />
           </NextUIProvider>
         </ThemeProvider>
       </body>
