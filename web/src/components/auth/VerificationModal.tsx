@@ -138,8 +138,12 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
               <ModalFooter>
                 <Button
                   isLoading={isLoading}
+                  disabled={isCodeValid}
                   color="primary"
                   onPress={onSubmit}
+                  className={`cursor-pointer ${
+                    isCodeValid ? "cursor-not-allowed" : ""
+                  }`}
                 >
                   Bestätigen
                 </Button>
