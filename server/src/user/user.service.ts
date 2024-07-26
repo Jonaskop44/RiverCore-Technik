@@ -98,7 +98,7 @@ export class UserService {
       throw new ConflictException('The token is invalid or expired');
     }
 
-    await this.prisma.user.update({
+    const newUser = await this.prisma.user.update({
       where: {
         id: user.id,
       },
@@ -116,7 +116,7 @@ export class UserService {
       },
     });
 
-    return user;
+    return newUser;
   }
 
   async resendActivationEmail(email: string) {

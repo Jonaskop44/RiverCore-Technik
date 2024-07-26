@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -31,6 +31,11 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [touched, setTouched] = useState(false);
+
+  const isCodeValid = useMemo(() => {
+    return code.trim() === "";
+  }, [code]);
 
   const onSubmit = async () => {
     setIsLoading(true);
@@ -69,6 +74,11 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
                 <Input
                   label="Bestätigungscode"
                   type={isVisible ? "text" : "password"}
+                  isRequired
+                  onBlur={() => setTouched(true)}
+                  color={touched && isCodeValid ? "danger" : "default"}
+                  isInvalid={touched && isCodeValid}
+                  errorMessage="Bitte geben Sie den Bestätigungscode ein"
                   variant="underlined"
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
@@ -97,8 +107,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
                 <Button
                   isLoading={isLoading}
                   color="primary"
-                  onPress={onClose}
-                  onClick={onSubmit}
+                  onPress={onSubmit}
                 >
                   Bestätigen
                 </Button>
