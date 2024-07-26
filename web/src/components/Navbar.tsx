@@ -99,7 +99,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed left-0 top-0 z-99999 w-full ${
+      className={`fixed left-0 top-0 z-50 w-full ${
         stickyMenu
           ? "bg-white pb-4 shadow transition duration-100 dark:bg-black"
           : ""

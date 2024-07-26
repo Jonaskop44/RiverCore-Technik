@@ -30,7 +30,13 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
 
   return (
     <>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="top-center"
+        backdrop="blur"
+        className="z-99999"
+      >
         <ModalContent>
           {(onClose) => (
             <>
