@@ -55,7 +55,13 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
     <>
       <Modal
         isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        onOpenChange={() => {
+          onOpenChange(false);
+          setCode("");
+          setTouched(false);
+          setIsVisible(false);
+          setIsLoading(false);
+        }}
         placement="center"
         backdrop="blur"
         className="z-99999"

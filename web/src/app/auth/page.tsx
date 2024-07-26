@@ -141,12 +141,7 @@ const Signup = () => {
       if (signup.status === false) {
         toast.error("Es existiert bereits ein Konto mit dieser E-Mail-Adresse");
       } else {
-        if (signup.data.activated === false) {
-          console.log("Not Activated");
-          onOpen();
-        } else {
-          console.log("Activated");
-        }
+        onOpen();
       }
 
       setIsLoading(false);

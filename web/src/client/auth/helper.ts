@@ -28,7 +28,7 @@ export default class Helper {
     try {
       const response = await axios.post(
         `${Constants.API_BASE}/user/activate/resend`,
-        { email }
+        { email: email }
       );
 
       if (response.status !== 201)
