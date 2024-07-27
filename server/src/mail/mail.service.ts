@@ -27,6 +27,7 @@ export class MailService {
       subject: 'Zurücksetzung des Kennworts für das Elbe-Technik-Konto',
       template: './ResetPassword',
       context: {
+        name: user.firstName,
         email: user.email,
         code: token,
       },
