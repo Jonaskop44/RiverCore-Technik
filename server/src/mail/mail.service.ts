@@ -11,7 +11,21 @@ export class MailService {
       to: user.email,
       //from: '"Support Team" <support@example.com>',
       subject: 'Bestätigungscode für das Elbe-Technik-Konto',
-      template: './confirmation',
+      template: './ConfirmEmail',
+      context: {
+        name: user.firstName,
+        email: user.email,
+        code: token,
+      },
+    });
+  }
+
+  async sendPasswordReset(user: User, token: string) {
+    await this.mailerService.sendMail({
+      to: user.email,
+      //from: '"Support Team" <support@example.com>',
+      subject: 'Zurücksetzung des Kennworts für das Elbe-Technik-Konto',
+      template: './ResetPassword',
       context: {
         name: user.firstName,
         email: user.email,
