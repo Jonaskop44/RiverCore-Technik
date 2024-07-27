@@ -12,6 +12,7 @@ import { useDisclosure } from "@nextui-org/react";
 import VerificationModal from "@/components/auth/VerificationModal";
 import { toast } from "sonner";
 import ApiClient from "@/api";
+import ResetPasswordModal from "@/components/auth/ResetPasswordModal";
 
 const apiClient = new ApiClient();
 type Variant = "LOGIN" | "SIGNUP";
@@ -23,6 +24,11 @@ const designation = [
 const Signup = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isOpenReset,
+    onOpen: onOpenReset,
+    onOpenChange: onOpenChangeReset,
+  } = useDisclosure();
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
@@ -172,6 +178,7 @@ const Signup = () => {
       toast.error("E-Mail-Adresse nicht gefunden");
     } else {
       toast.success("E-Mail zum Zurücksetzen des Passworts wurde gesendet");
+      onOpenReset();
     }
   };
 
@@ -461,6 +468,13 @@ const Signup = () => {
           isOpen={isOpen}
           onOpen={onOpen}
           onOpenChange={onOpenChange}
+          email={data.email}
+        />
+
+        <ResetPasswordModal
+          isOpen={isOpenReset}
+          onOpen={onOpenReset}
+          onOpenChange={onOpenChangeReset}
           email={data.email}
         />
       </div>

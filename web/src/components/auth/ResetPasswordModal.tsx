@@ -89,13 +89,14 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Konto aktivieren
+                Passwort zurücksetzen
               </ModalHeader>
               <ModalBody>
                 <p>
-                  Um Ihr Konto zu aktivieren geben Sie bitte den 15-minütigen
-                  gültigen Bestätigungscode ein, den wir an{" "}
-                  <span className="font-semibold">{email}</span> gesendet haben.
+                  Um Ihr Passwort zurückzusetzen, benötigen wir einen
+                  Bestätigungscode. Bitte geben Sie den Bestätigungscode ein,
+                  den wir an <span className="font-semibold">{email}</span>{" "}
+                  gesendet haben.
                 </p>
                 <Input
                   label="Bestätigungscode"
