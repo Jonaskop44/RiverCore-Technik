@@ -14,27 +14,33 @@ export async function middleware(req: NextRequest) {
   // Parse cookies from the request headers
   const cookies = cookie.parse(req.headers.get("cookie") || "");
   const token = cookies.token;
-
-  // Log the parsed cookies for debugging
-  console.log("Parsed Cookies:", cookies);
-  console.log("Token:", token);
+  const url = req.nextUrl.clone();
+  const path = url.pathname;
 
   // Check if the token exists
-  if (!token) {
-    console.log("Not logged in, redirecting to login page");
-    return NextResponse.redirect(new URL("/auth", req.url));
-  }
+  if (path.startsWith("/dashboard")) {
+    if (!token) {
+      console.log("Not logged in, redirecting to login page");
+      return NextResponse.redirect(new URL("/auth", req.url));
+    }
 
-  // Verify the token
-  const response = await client.auth.helper.verifyToken(token);
+    // Verify the token
+    const response = await client.auth.helper.verifyToken(token);
 
-  if (response.status === false) {
-    return NextResponse.redirect(new URL("/auth", req.url));
+    if (response.status === false) {
+      return NextResponse.redirect(new URL("/auth", req.url));
+    }
+  } else if (path.startsWith("/auth")) {
+    const response = await client.auth.helper.verifyToken(token);
+
+    if (response.status === true) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/auth"],
 };
