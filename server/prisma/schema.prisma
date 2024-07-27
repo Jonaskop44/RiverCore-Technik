@@ -31,19 +31,21 @@ enum Designation {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  firstName     String
-  lastName      String
-  email         String          @unique
-  password      String
-  role          Role            @default(USER)
-  designation   Designation
-  companyName   String?
-  activated     Boolean         @default(false)
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  author        Author?
-  activateToken ActivateToken[]
+  id          Int         @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  email       String      @unique
+  password    String
+  role        Role        @default(USER)
+  designation Designation
+  companyName String?
+  activated   Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  author             Author?
+  activateToken      ActivateToken[]
+  resetPasswordToken ResetPasswordToken[]
 }
 
 model Author {
@@ -81,6 +83,18 @@ model ActivateToken {
   id          Int       @id @default(autoincrement())
   token       String    @unique
   activatedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ResetPasswordToken {
+  id     Int       @id @default(autoincrement())
+  token  String    @unique
+  usedAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

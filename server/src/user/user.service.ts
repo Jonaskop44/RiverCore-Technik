@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto, ResetPasswordDto } from './dto/user.dto';
 import { hash } from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
 import { User } from 'types/user.entity';
@@ -129,6 +129,69 @@ export class UserService {
 
     const token = await this.createActivateToken(user);
     await this.mailService.sendUserConfirmation(user, token);
+
+    return;
+  }
+
+  async sendPasswordResetEmail(email: string) {
+    const user = await this.getUserByEmail(email);
+
+    if (!user) throw new ConflictException('User not found');
+
+    const token = await this.prisma.resetPasswordToken.create({
+      data: {
+        token: Math.floor(100000 + Math.random() * 900000).toString(),
+        userId: user.id,
+      },
+    });
+
+    await this.mailService.sendPasswordReset(user, token.token);
+
+    return;
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    const user = await this.getUserByEmail(dto.email);
+
+    if (!user) throw new ConflictException('User not found');
+
+    const token = await this.prisma.resetPasswordToken.findFirst({
+      where: {
+        token: dto.token,
+        userId: user.id,
+        usedAt: null,
+        createdAt: {
+          gt: new Date(Date.now() - 15 * 60 * 1000),
+        },
+      },
+    });
+
+    if (!token) {
+      this.prisma.resetPasswordToken.delete({
+        where: {
+          token: dto.token,
+        },
+      });
+      throw new ConflictException('The token is invalid or expired');
+    }
+
+    await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        password: await hash(dto.password, 12),
+      },
+    });
+
+    await this.prisma.resetPasswordToken.update({
+      where: {
+        token: dto.token,
+      },
+      data: {
+        usedAt: new Date(),
+      },
+    });
 
     return;
   }

@@ -4,7 +4,7 @@ import { Constants } from "../constants";
 export default class Helper {
   constructor() {}
 
-  async activateUser(token: string) {
+  public async activateUser(token: string) {
     try {
       const response = await axios.post(`${Constants.API_BASE}/user/activate`, {
         token: token,
@@ -24,7 +24,7 @@ export default class Helper {
     }
   }
 
-  async resendActivationEmail(email: string) {
+  public async resendActivationEmail(email: string) {
     try {
       const response = await axios.post(
         `${Constants.API_BASE}/user/activate/resend`,
@@ -39,6 +39,27 @@ export default class Helper {
         status: true,
         data: data,
         message: "Activation email sent successfully",
+      };
+    } catch (error) {
+      return { status: false, message: "Somethind went wrong!" };
+    }
+  }
+
+  public async sendPasswordResetEmail(email: string) {
+    try {
+      const response = await axios.post(
+        `${Constants.API_BASE}/user/password/resend`,
+        { email: email }
+      );
+
+      if (response.status !== 201)
+        return { status: false, message: "User not found" };
+
+      const data = await response.data;
+      return {
+        status: true,
+        data: data,
+        message: "Password reset email sent successfully",
       };
     } catch (error) {
       return { status: false, message: "Somethind went wrong!" };

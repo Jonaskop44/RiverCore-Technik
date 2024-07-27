@@ -39,3 +39,23 @@ export class ResendActivationEmailDto {
   @IsNotEmpty()
   readonly email: string;
 }
+
+export class SendPasswordResetEmailDto {
+  @IsEmail()
+  @IsNotEmpty()
+  readonly email: string;
+}
+
+export class ResetPasswordDto {
+  @IsEmail()
+  @IsNotEmpty()
+  readonly email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly token: string;
+}
