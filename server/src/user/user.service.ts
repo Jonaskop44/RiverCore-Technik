@@ -140,7 +140,7 @@ export class UserService {
 
     const token = await this.prisma.resetPasswordToken.create({
       data: {
-        token: `${randomUUID()}${randomUUID()}`.replace(/-/g, ''),
+        token: Math.floor(100000 + Math.random() * 900000).toString(),
         userId: user.id,
       },
     });
