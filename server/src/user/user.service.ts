@@ -58,7 +58,7 @@ export class UserService {
   async createActivateToken(user: User) {
     const token = await this.prisma.activateToken.create({
       data: {
-        token: `${randomUUID()}`.replace(/-/g, ''),
+        token: Math.floor(100000 + Math.random() * 900000).toString(),
         userId: user.id,
       },
     });

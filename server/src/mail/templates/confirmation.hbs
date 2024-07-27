@@ -1,21 +1,87 @@
 <html lang='de'>
   <head>
     <meta charset='UTF-8' />
-    <style>
-      body { font-family: Arial, sans-serif; } h1 { color: #2672ec; font-size:
-      41px; } p { font-size: 14px; color: #000000; } a { color: #2b579a;
-      text-decoration: none; } a:hover { text-decoration: underline; } .code {
-      font-weight: bold; font-size: 16px; }
-    </style>
   </head>
   <body>
-    <p style='color: #707070; font-size: 17px;'>Elbe-Technik Konto</p>
-    <h1>Bestätigungscode</h1>
-    <p>Bitte verwenden Sie den folgenden Bestätigungscode für das Elbe-Technik
-      Konto
-      <a>{{email}}</a></p>
-    <p>Bestätigungscode: <strong class='code'>{{code}}</strong></p>
-    <p>Mit freundlichen Grüßen</p>
-    <p>Ihr Elbe-Technik-Konto-Team</p>
+    <div>
+      <table dir='ltr'>
+        <tbody>
+          <tr>
+            <td
+              style="padding:0;font-family:'Segoe UI Semibold','Segoe UI Bold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:17px;color:#707070"
+            >
+              Elbe-Technik Konto
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="padding:0;font-family:'Segoe UI Light','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:41px;color:#2672ec"
+            >
+              Bestätigen Sie Ihre E-Mail-Adresse
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a"
+            >
+              Hallo
+              {{name}}! Wir haben eine Anfrage erhalten, um Ihre E-Mail-Adresse
+              zu bestätigen. Um sicherzustellen, dass dies Ihre E-Mail-Adresse
+              ist, benötigen wir Ihre Bestätigung.
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a"
+            >
+              Verwenden Sie zum Bestätigen Ihrer E-Mail-Adresse den folgenden
+              Sicherheitscode:
+              <span
+                style="font-family:'Segoe UI Bold','Segoe UI Semibold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:14px;font-weight:bold;color:#2a2a2a"
+              >
+                {{code}}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a"
+            >
+              Wenn Sie diesen Code nicht angefordert haben, können Sie diese
+              E-Mail ignorieren, da Ihre E-Mail-Adresse u. U. versehentlich von
+              einer anderen Person eingegeben wurde.
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a"
+            >
+              Mit freundlichen Grüßen
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="padding:0;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a"
+            >
+              Ihr Elbe-Technik-Konto-Team
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div style='margin-top:20px;margin-bottom:10px'>
+        <a
+          href='https://go.microsoft.com/fwlink/?LinkId=521839'
+          target='_blank'
+        >
+          Datenschutzerklärung&ZeroWidthSpace;
+        </a>
+        <a href='https://aka.ms/impressum_de' target='_blank'>
+          Impressum
+        </a>
+        <div style='margin-top:10px'>
+          Elbe-Technik KG, Tiroler Straße 21, 9500 Villach, Österreich
+        </div>
+      </div>
+    </div>
   </body>
 </html>

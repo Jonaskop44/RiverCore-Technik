@@ -134,10 +134,10 @@ const Signup = () => {
       if (login.status === false) {
         toast.error("E-Mail oder Passwort ist falsch");
       } else {
-        Cookies.set("token", login.data.backendTokens.accessToken, {
-          expire: "24h",
-        });
-        window.location.replace("/dashboard");
+        // Cookies.set("token", login.data.backendTokens.accessToken, {
+        //   expire: "24h",
+        // });
+        // window.location.replace("/dashboard");
         if (login.data.user.activated === false) {
           onOpen();
         } else {
@@ -405,19 +405,34 @@ const Signup = () => {
                   </Button>
                 </div>
 
-                <div className="mt-12.5 border-t border-stroke py-5 text-center dark:border-strokedark">
-                  <p>
-                    {variant === "LOGIN"
-                      ? "Sie besitzen kein Konto?"
-                      : "Sie besitzen bereits ein Konto?"}{" "}
-                    <span
-                      className="text-black hover:text-primary dark:text-white dark:hover:text-primary cursor-pointer"
-                      onClick={toggleVariant}
-                    >
-                      {variant === "LOGIN" ? "Registrieren" : "Anmelden"}
-                    </span>
-                  </p>
-                </div>
+                {variant === "LOGIN" ? (
+                  <div className="mt-12.5 border-t border-stroke py-5 flex justify-around dark:border-strokedark">
+                    <p className="cursor-pointer text-black hover:text-primary dark:text-white dark:hover:text-primary font-medium">
+                      Passwort vergessen?
+                    </p>
+                    <p>
+                      Sie besitzen kein Konto?{" "}
+                      <span
+                        className="text-black hover:text-primary dark:text-white dark:hover:text-primary cursor-pointer font-medium"
+                        onClick={toggleVariant}
+                      >
+                        Registrieren
+                      </span>
+                    </p>
+                  </div>
+                ) : (
+                  <div className="mt-12.5 border-t border-stroke py-5 text-center dark:border-strokedark">
+                    <p>
+                      Sie besitzen bereits ein Konto?{" "}
+                      <span
+                        className="text-black hover:text-primary dark:text-white dark:hover:text-primary cursor-pointer font-medium"
+                        onClick={toggleVariant}
+                      >
+                        Anmelden
+                      </span>
+                    </p>
+                  </div>
+                )}
               </form>
             </motion.div>
           </div>

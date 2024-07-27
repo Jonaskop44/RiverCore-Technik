@@ -3,9 +3,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import cookie from "cookie";
-import Client from "./client";
+import ApiClient from "./api";
 
-const client = new Client();
+const apiClient = new ApiClient();
 
 export async function middleware(req: NextRequest) {
   // Log the incoming request URL for debugging
@@ -25,13 +25,13 @@ export async function middleware(req: NextRequest) {
     }
 
     // Verify the token
-    const response = await client.auth.helper.verifyToken(token);
+    const response = await apiClient.auth.helper.verifyToken(token);
 
     if (response.status === false) {
       return NextResponse.redirect(new URL("/auth", req.url));
     }
   } else if (path.startsWith("/auth")) {
-    const response = await client.auth.helper.verifyToken(token);
+    const response = await apiClient.auth.helper.verifyToken(token);
 
     if (response.status === true) {
       return NextResponse.redirect(new URL("/dashboard", req.url));
