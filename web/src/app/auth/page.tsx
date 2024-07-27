@@ -8,13 +8,13 @@ import { Checkbox } from "@nextui-org/checkbox";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
-import Client from "@/client";
 import { useDisclosure } from "@nextui-org/react";
 import VerificationModal from "@/components/auth/VerificationModal";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
-import { redirect } from "next/dist/server/api-utils";
-const client = new Client();
+import ApiClient from "@/api";
+
+const apiClient = new ApiClient();
 type Variant = "LOGIN" | "SIGNUP";
 const designation = [
   { label: "Privatperson", value: "PERSON" },
@@ -129,7 +129,7 @@ const Signup = () => {
     setIsLoading(true);
 
     if (variant === "LOGIN") {
-      const login = await client.auth.login.post(data);
+      const login = await apiClient.auth.login.post(data);
       console.log(login);
       if (login.status === false) {
         toast.error("E-Mail oder Passwort ist falsch");
@@ -148,7 +148,7 @@ const Signup = () => {
     }
 
     if (variant === "SIGNUP") {
-      const signup = await client.auth.register.post(data);
+      const signup = await apiClient.auth.register.post(data);
       console.log(signup);
       if (signup.status === false) {
         toast.error("Es existiert bereits ein Konto mit dieser E-Mail-Adresse");

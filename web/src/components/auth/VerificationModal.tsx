@@ -11,8 +11,8 @@ import {
 } from "@nextui-org/react";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
-import Client from "@/client";
 import { toast } from "sonner";
+import ApiClient from "@/api";
 
 interface VerificationModalProps {
   isOpen: boolean;
@@ -20,7 +20,7 @@ interface VerificationModalProps {
   onOpenChange: (open: boolean) => void;
   email: string;
 }
-const client = new Client();
+const apiClient = new ApiClient();
 
 const VerificationModal: React.FC<VerificationModalProps> = ({
   isOpen,
@@ -41,7 +41,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
 
   const onSubmit = async () => {
     setIsLoading(true);
-    const token = await client.auth.helper.activateUser(code);
+    const token = await apiClient.auth.helper.activateUser(code);
 
     if (token.status) {
       onOpenChange(false);
@@ -58,7 +58,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
   };
 
   const onResend = async () => {
-    const email_ = await client.auth.helper.resendActivationEmail(email);
+    const email_ = await apiClient.auth.helper.resendActivationEmail(email);
     setIsDisabled(true);
 
     if (email_.status) {

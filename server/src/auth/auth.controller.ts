@@ -5,7 +5,7 @@ import { LoginDto, VerifyTokenDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { RefreshJwtGuard } from 'src/guards/refresh.guard';
 
-@Controller('auth')
+@Controller('api/v1/auth')
 export class AuthController {
   constructor(
     private userService: UserService,
