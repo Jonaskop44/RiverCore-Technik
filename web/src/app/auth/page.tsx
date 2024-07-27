@@ -11,7 +11,6 @@ import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 import { useDisclosure } from "@nextui-org/react";
 import VerificationModal from "@/components/auth/VerificationModal";
 import { toast } from "sonner";
-import Cookies from "js-cookie";
 import ApiClient from "@/api";
 
 const apiClient = new ApiClient();
@@ -157,6 +156,22 @@ const Signup = () => {
       }
 
       setIsLoading(false);
+    }
+  };
+
+  const forgotPassword = async () => {
+    if (data.email === "") {
+      setTouched({ ...touched, email: true });
+    }
+
+    const response = await apiClient.auth.helper.sendPasswordResetEmail(
+      data.email
+    );
+
+    if (response.status === false) {
+      toast.error("E-Mail-Adresse nicht gefunden");
+    } else {
+      toast.success("E-Mail zum Zurücksetzen des Passworts wurde gesendet");
     }
   };
 
@@ -407,7 +422,10 @@ const Signup = () => {
 
                 {variant === "LOGIN" ? (
                   <div className="mt-12.5 border-t border-stroke py-5 flex justify-around dark:border-strokedark">
-                    <p className="cursor-pointer text-black hover:text-primary dark:text-white dark:hover:text-primary font-medium">
+                    <p
+                      className="cursor-pointer text-black hover:text-primary dark:text-white dark:hover:text-primary font-medium"
+                      onClick={forgotPassword}
+                    >
                       Passwort vergessen?
                     </p>
                     <p>
