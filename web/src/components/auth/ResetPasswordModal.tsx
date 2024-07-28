@@ -39,7 +39,7 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
   const togglePasswordConfirmVisibility = () =>
     setIsPasswordConfirmVisible(!isPasswordConfirmVisible);
   const [code, setCode] = useState("");
-  const [token, setToken] = useState(code);
+  const [token, setToken] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -96,18 +96,12 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
   };
 
   const onReset = async () => {
-    console.log("Email: ", email);
-    console.log("Password: ", password);
-    console.log("Token: ", token);
-
     setIsLoading(true);
     const reset = await apiClient.auth.helper.resetPassword(
       email,
       password,
       token
     );
-
-    console.log(reset);
 
     if (reset.status) {
       toast.success("Passwort erfolgreich zurückgesetzt");
@@ -118,6 +112,10 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
       setIsLoading(false);
     }
   };
+
+  const arePasswordsMatching = useMemo(() => {
+    return password === passwordConfirm;
+  }, [password, passwordConfirm]);
 
   return (
     <>
@@ -156,7 +154,10 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
                   errorMessage="Bitte geben Sie den Sicherheitscode ein"
                   variant="underlined"
                   value={code}
-                  onChange={(e) => setCode(e.target.value)}
+                  onChange={(e) => {
+                    setCode(e.target.value);
+                    setToken(e.target.value);
+                  }}
                   endContent={
                     <button
                       className="focus:outline-none"
@@ -237,7 +238,7 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
                     touchedPassword && isPasswordValid ? "danger" : "default"
                   }
                   isInvalid={touchedPassword && isPasswordValid}
-                  errorMessage="Bitte geben Sie ein neues Passwort ein"
+                  errorMessage="Bitte geben Sie ein Passwort ein"
                   variant="underlined"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -266,8 +267,11 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
                       ? "danger"
                       : "default"
                   }
-                  isInvalid={touchedPasswordConfirm && isPasswordConfirmValid}
-                  errorMessage="Bitte geben Sie ein neues Passwort ein"
+                  isInvalid={
+                    (touchedPasswordConfirm && isPasswordConfirmValid) ||
+                    !arePasswordsMatching
+                  }
+                  errorMessage="Bitte geben Sie das gleiche Passwort ein"
                   variant="underlined"
                   value={passwordConfirm}
                   onChange={(e) => setPasswordConfirm(e.target.value)}
@@ -290,11 +294,17 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
               <ModalFooter>
                 <Button
                   isLoading={isLoading}
-                  disabled={isPasswordValid && isPasswordConfirmValid}
+                  disabled={
+                    isPasswordValid ||
+                    isPasswordConfirmValid ||
+                    !arePasswordsMatching
+                  }
                   color="primary"
                   onPress={onReset}
                   className={`cursor-pointer ${
-                    isPasswordConfirmValid && isPasswordValid
+                    isPasswordValid ||
+                    isPasswordConfirmValid ||
+                    !arePasswordsMatching
                       ? "cursor-not-allowed opacity-50"
                       : ""
                   }`}
