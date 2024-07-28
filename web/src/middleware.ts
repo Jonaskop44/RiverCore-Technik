@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
 
   // Parse cookies from the request headers
   const cookies = cookie.parse(req.headers.get("cookie") || "");
-  const token = cookies.token;
+  const token = cookies.accessToken;
   const url = req.nextUrl.clone();
   const path = url.pathname;
 

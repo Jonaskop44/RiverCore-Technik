@@ -13,6 +13,7 @@ import VerificationModal from "@/components/auth/VerificationModal";
 import { toast } from "sonner";
 import ApiClient from "@/api";
 import ResetPasswordModal from "@/components/auth/ResetPasswordModal";
+import Cookies from "js-cookie";
 
 const apiClient = new ApiClient();
 type Variant = "LOGIN" | "SIGNUP";
@@ -144,6 +145,18 @@ const Signup = () => {
         }
       } else {
         toast.success("Erfolgreich angemeldet");
+        if (data.rememberMe) {
+          Cookies.set("accessToken", login.data.backendTokens.accessToken, {
+            expire: "24h",
+          });
+          Cookies.set("refreshToken", login.data.backendTokens.refreshToken, {
+            expire: "7d",
+          });
+        } else {
+          Cookies.set("accessToken", login.data.backendTokens.accessToken);
+          Cookies.set("refreshToken", login.data.backendTokens.refreshToken);
+        }
+        window.location.replace("/dashboard");
       }
       setIsLoading(false);
     }
