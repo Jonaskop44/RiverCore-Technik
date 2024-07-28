@@ -59,3 +59,9 @@ export class ResetPasswordDto {
   @IsNotEmpty()
   readonly token: string;
 }
+
+export class CheckPasswordResetTokenDto {
+  @IsString()
+  @IsNotEmpty()
+  readonly token: string;
+}

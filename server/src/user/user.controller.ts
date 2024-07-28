@@ -2,6 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
   ActivateUserDto,
+  CheckPasswordResetTokenDto,
   ResendActivationEmailDto,
   ResetPasswordDto,
   SendPasswordResetEmailDto,
@@ -19,6 +20,11 @@ export class UserController {
   @Post('activate/resend')
   async resendActivationEmail(@Body() dto: ResendActivationEmailDto) {
     return this.userService.resendActivationEmail(dto.email);
+  }
+
+  @Post('password/check')
+  async checkPasswordRestToken(@Body() dto: CheckPasswordResetTokenDto) {
+    return this.userService.checkPasswordRestToken(dto.token);
   }
 
   @Post('password/resend')

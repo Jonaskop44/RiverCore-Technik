@@ -142,7 +142,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
                   color="primary"
                   onPress={onSubmit}
                   className={`cursor-pointer ${
-                    isCodeValid ? "cursor-not-allowed" : ""
+                    isCodeValid ? "cursor-not-allowed opacity-50" : ""
                   }`}
                 >
                   Bestätigen

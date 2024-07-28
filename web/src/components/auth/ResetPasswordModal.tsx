@@ -8,6 +8,7 @@ import {
   Button,
   Input,
   Link,
+  useDisclosure,
 } from "@nextui-org/react";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
@@ -34,6 +35,11 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [touched, setTouched] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  const {
+    isOpen: isOpenReset,
+    onOpen: onOpenReset,
+    onOpenChange: onOpenChangeReset,
+  } = useDisclosure();
 
   const isCodeValid = useMemo(() => {
     return code.trim() === "";
@@ -41,7 +47,7 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
 
   const onSubmit = async () => {
     setIsLoading(true);
-    const token = await apiClient.auth.helper.activateUser(code);
+    const token = await apiClient.auth.helper.checkPasswordRestToken(code);
 
     if (token.status) {
       onOpenChange(false);
@@ -51,7 +57,7 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
       setIsLoading(false);
       setIsDisabled(false);
     } else {
-      toast.error("Der Bestätigungscode ist ungültig");
+      toast.error("Der Sicherheitscode ist ungültig");
     }
 
     setIsLoading(false);
@@ -62,7 +68,7 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
     setIsDisabled(true);
 
     if (email_.status) {
-      toast.success("Bestätigungscode wurde erneut gesendet");
+      toast.success("Sicherheitscode wurde erneut gesendet");
     } else {
       toast.error("E-Mail konnte nicht gesendet werden");
       setIsDisabled(false);
@@ -94,18 +100,16 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
               <ModalBody>
                 <p>
                   Um Ihr Passwort zurückzusetzen, benötigen wir einen
-                  Bestätigungscode. Bitte geben Sie den Bestätigungscode ein,
-                  den wir an <span className="font-semibold">{email}</span>{" "}
-                  gesendet haben.
+                  Sicherheitscode den wir Ihnen per E-Mail gesendet haben.
                 </p>
                 <Input
-                  label="Bestätigungscode"
+                  label="Sicherheitscode"
                   type={isVisible ? "text" : "password"}
                   isRequired
                   onBlur={() => setTouched(true)}
                   color={touched && isCodeValid ? "danger" : "default"}
                   isInvalid={touched && isCodeValid}
-                  errorMessage="Bitte geben Sie den Bestätigungscode ein"
+                  errorMessage="Bitte geben Sie den Sicherheitscode ein"
                   variant="underlined"
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
@@ -132,9 +136,78 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
                     onPress={onResend}
                     className="cursor-pointer"
                   >
-                    Bestätigungscode erneut senden
+                    Sicherheitscode erneut senden
                   </Link>
                 </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  isLoading={isLoading}
+                  disabled={isCodeValid}
+                  color="primary"
+                  onPress={onSubmit}
+                  className={`cursor-pointer ${
+                    isCodeValid ? "cursor-not-allowed opacity-50" : ""
+                  }`}
+                >
+                  Prüfen
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <Modal
+        isOpen={isOpenReset}
+        onOpenChange={() => {
+          onOpenChange(false);
+          setCode("");
+          setTouched(false);
+          setIsVisible(false);
+          setIsLoading(false);
+          setIsDisabled(false);
+        }}
+        placement="center"
+        backdrop="blur"
+        className="z-99999"
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Passwort zurücksetzen
+              </ModalHeader>
+              <ModalBody>
+                <p>
+                  Geben Sie nun ein neues Passwort ein um den Vorgang
+                  abzuschließen.
+                </p>
+                <Input
+                  label="Sicherheitscode"
+                  type={isVisible ? "text" : "password"}
+                  isRequired
+                  onBlur={() => setTouched(true)}
+                  color={touched && isCodeValid ? "danger" : "default"}
+                  isInvalid={touched && isCodeValid}
+                  errorMessage="Bitte geben Sie den Sicherheitscode ein"
+                  variant="underlined"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={toggleVisibility}
+                      aria-label="toggle password visibility"
+                    >
+                      {isVisible ? (
+                        <FaRegEye className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                        <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                    </button>
+                  }
+                />
               </ModalBody>
               <ModalFooter>
                 <Button

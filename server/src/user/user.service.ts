@@ -119,6 +119,50 @@ export class UserService {
     return newUser;
   }
 
+  async checkPasswordRestToken(token: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        resetPasswordToken: {
+          some: {
+            AND: [
+              {
+                usedAt: null,
+              },
+              {
+                createdAt: {
+                  gt: new Date(Date.now() - 15 * 60 * 1000),
+                },
+              },
+              {
+                token: token,
+              },
+            ],
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      this.prisma.resetPasswordToken.delete({
+        where: {
+          token: token,
+        },
+      });
+      throw new ConflictException('The token is invalid or expired');
+    }
+
+    await this.prisma.resetPasswordToken.update({
+      where: {
+        token: token,
+      },
+      data: {
+        usedAt: new Date(),
+      },
+    });
+
+    return true;
+  }
+
   async resendActivationEmail(email: string) {
     const user = await this.getUserByEmail(email);
 

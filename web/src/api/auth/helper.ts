@@ -24,6 +24,28 @@ export default class Helper {
     }
   }
 
+  public async checkPasswordRestToken(token: string) {
+    try {
+      const response = await axios.post(
+        `${Constants.API_BASE}/user/password/check`,
+        { token: token }
+      );
+
+      if (response.status !== 201) {
+        return { status: false, message: "Invalid token" };
+      }
+
+      const data = await response.data;
+      return {
+        status: true,
+        data: data,
+        message: "Token verified successfully",
+      };
+    } catch (err) {
+      return { status: false, message: "Something went wrong" };
+    }
+  }
+
   public async resendActivationEmail(email: string) {
     try {
       const response = await axios.post(
