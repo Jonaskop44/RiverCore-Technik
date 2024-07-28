@@ -5,4 +5,5 @@ export interface User {
   password?: string;
   designation?: string;
   companyName?: string;
+  activated?: boolean;
 }
