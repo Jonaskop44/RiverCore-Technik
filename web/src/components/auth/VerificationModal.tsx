@@ -46,9 +46,17 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
 
     if (token.status) {
       const login = await apiClient.auth.login.post(data);
-      Cookies.set("token", login.data.backendTokens.accessToken, {
-        expire: "24h",
-      });
+      if (data.rememberMe) {
+        Cookies.set("accessToken", login.data.backendTokens.accessToken, {
+          expire: "24h",
+        });
+        Cookies.set("refreshToken", login.data.backendTokens.refreshToken, {
+          expire: "7d",
+        });
+      } else {
+        Cookies.set("accessToken", login.data.backendTokens.accessToken);
+        Cookies.set("refreshToken", login.data.backendTokens.refreshToken);
+      }
       window.location.replace("/dashboard");
 
       onOpenChange(false);

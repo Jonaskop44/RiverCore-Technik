@@ -115,7 +115,9 @@ export class UserService {
       },
     });
 
-    return newUser;
+    const { password, ...result } = newUser;
+
+    return result;
   }
 
   async checkPasswordRestToken(token: string) {
