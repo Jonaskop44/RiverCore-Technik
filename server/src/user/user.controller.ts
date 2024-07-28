@@ -22,7 +22,7 @@ export class UserController {
     return this.userService.resendActivationEmail(dto.email);
   }
 
-  @Post('password/check')
+  @Post('password/check/resttoken')
   async checkPasswordRestToken(@Body() dto: CheckPasswordResetTokenDto) {
     return this.userService.checkPasswordRestToken(dto.token);
   }

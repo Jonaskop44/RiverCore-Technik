@@ -20,14 +20,14 @@ export default class Helper {
         message: "User activated successfully",
       };
     } catch (error) {
-      return { status: false, message: "Somethind went wrong!" };
+      return { status: false, message: "Something went wrong!" };
     }
   }
 
   public async checkPasswordRestToken(token: string) {
     try {
       const response = await axios.post(
-        `${Constants.API_BASE}/user/password/check`,
+        `${Constants.API_BASE}/user/password/check/resttoken`,
         { token: token }
       );
 
@@ -63,7 +63,7 @@ export default class Helper {
         message: "Activation email sent successfully",
       };
     } catch (error) {
-      return { status: false, message: "Somethind went wrong!" };
+      return { status: false, message: "Something went wrong!" };
     }
   }
 
@@ -84,7 +84,32 @@ export default class Helper {
         message: "Password reset email sent successfully",
       };
     } catch (error) {
-      return { status: false, message: "Somethind went wrong!" };
+      return { status: false, message: "Something went wrong!" };
+    }
+  }
+
+  public async resetPassword(email: string, password: string, token: string) {
+    try {
+      const response = await axios.post(
+        `${Constants.API_BASE}/user/password/reset`,
+        {
+          email: email,
+          password: password,
+          token: token,
+        }
+      );
+
+      if (response.status !== 201)
+        return { status: false, message: "Invalid token" };
+
+      const data = await response.data;
+      return {
+        status: true,
+        data: data,
+        message: "Password reset successfully",
+      };
+    } catch (error) {
+      return { status: false, message: "Something went wrong!" };
     }
   }
 

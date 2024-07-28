@@ -4,7 +4,6 @@ import { CreateUserDto, ResetPasswordDto } from './dto/user.dto';
 import { hash } from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
 import { User } from 'types/user.entity';
-import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UserService {
@@ -151,15 +150,6 @@ export class UserService {
       throw new ConflictException('The token is invalid or expired');
     }
 
-    await this.prisma.resetPasswordToken.update({
-      where: {
-        token: token,
-      },
-      data: {
-        usedAt: new Date(),
-      },
-    });
-
     return true;
   }
 
@@ -219,7 +209,7 @@ export class UserService {
       throw new ConflictException('The token is invalid or expired');
     }
 
-    await this.prisma.user.update({
+    const newUser = await this.prisma.user.update({
       where: {
         id: user.id,
       },
@@ -237,6 +227,8 @@ export class UserService {
       },
     });
 
-    return;
+    const { password, ...result } = newUser;
+
+    return result;
   }
 }

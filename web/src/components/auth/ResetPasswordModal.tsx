@@ -30,10 +30,22 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
   email,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isPasswordConfirmVisible, setIsPasswordConfirmVisible] =
+    useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const togglePasswordVisibility = () =>
+    setIsPasswordVisible(!isPasswordVisible);
+  const togglePasswordConfirmVisibility = () =>
+    setIsPasswordConfirmVisible(!isPasswordConfirmVisible);
   const [code, setCode] = useState("");
+  const [token, setToken] = useState(code);
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [touched, setTouched] = useState(false);
+  const [touchedPassword, setTouchedPassword] = useState(false);
+  const [touchedPasswordConfirm, setTouchedPasswordConfirm] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const {
     isOpen: isOpenReset,
@@ -45,12 +57,21 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
     return code.trim() === "";
   }, [code]);
 
+  const isPasswordValid = useMemo(() => {
+    return password.trim() === "";
+  }, [password]);
+
+  const isPasswordConfirmValid = useMemo(() => {
+    return passwordConfirm.trim() === "";
+  }, [passwordConfirm]);
+
   const onSubmit = async () => {
     setIsLoading(true);
     const token = await apiClient.auth.helper.checkPasswordRestToken(code);
 
     if (token.status) {
       onOpenChange(false);
+      onOpenChangeReset();
       setCode("");
       setTouched(false);
       setIsVisible(false);
@@ -58,13 +79,12 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
       setIsDisabled(false);
     } else {
       toast.error("Der Sicherheitscode ist ungültig");
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   const onResend = async () => {
-    const email_ = await apiClient.auth.helper.resendActivationEmail(email);
+    const email_ = await apiClient.auth.helper.sendPasswordResetEmail(email);
     setIsDisabled(true);
 
     if (email_.status) {
@@ -72,6 +92,30 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
     } else {
       toast.error("E-Mail konnte nicht gesendet werden");
       setIsDisabled(false);
+    }
+  };
+
+  const onReset = async () => {
+    console.log("Email: ", email);
+    console.log("Password: ", password);
+    console.log("Token: ", token);
+
+    setIsLoading(true);
+    const reset = await apiClient.auth.helper.resetPassword(
+      email,
+      password,
+      token
+    );
+
+    console.log(reset);
+
+    if (reset.status) {
+      toast.success("Passwort erfolgreich zurückgesetzt");
+      onOpenChangeReset();
+      setIsLoading(false);
+    } else {
+      toast.error("Passwort konnte nicht zurückgesetzt werden");
+      setIsLoading(false);
     }
   };
 
@@ -160,12 +204,14 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
       <Modal
         isOpen={isOpenReset}
         onOpenChange={() => {
-          onOpenChange(false);
-          setCode("");
-          setTouched(false);
-          setIsVisible(false);
+          onOpenChangeReset();
+          setPassword("");
+          setTouchedPassword(false);
+          setIsPasswordVisible(false);
+          setPasswordConfirm("");
+          setTouchedPasswordConfirm(false);
+          setIsPasswordConfirmVisible(false);
           setIsLoading(false);
-          setIsDisabled(false);
         }}
         placement="center"
         backdrop="blur"
@@ -183,24 +229,56 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
                   abzuschließen.
                 </p>
                 <Input
-                  label="Sicherheitscode"
-                  type={isVisible ? "text" : "password"}
+                  label="Neues Passwort"
+                  type={isPasswordVisible ? "text" : "password"}
                   isRequired
-                  onBlur={() => setTouched(true)}
-                  color={touched && isCodeValid ? "danger" : "default"}
-                  isInvalid={touched && isCodeValid}
-                  errorMessage="Bitte geben Sie den Sicherheitscode ein"
+                  onBlur={() => setTouchedPassword(true)}
+                  color={
+                    touchedPassword && isPasswordValid ? "danger" : "default"
+                  }
+                  isInvalid={touchedPassword && isPasswordValid}
+                  errorMessage="Bitte geben Sie ein neues Passwort ein"
                   variant="underlined"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   endContent={
                     <button
                       className="focus:outline-none"
                       type="button"
-                      onClick={toggleVisibility}
+                      onClick={togglePasswordVisibility}
                       aria-label="toggle password visibility"
                     >
-                      {isVisible ? (
+                      {isPasswordVisible ? (
+                        <FaRegEye className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                        <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                    </button>
+                  }
+                />
+                <Input
+                  label="Neues Passwort Bestätigen"
+                  type={isPasswordConfirmVisible ? "text" : "password"}
+                  isRequired
+                  onBlur={() => setTouchedPasswordConfirm(true)}
+                  color={
+                    touchedPasswordConfirm && isPasswordConfirmValid
+                      ? "danger"
+                      : "default"
+                  }
+                  isInvalid={touchedPasswordConfirm && isPasswordConfirmValid}
+                  errorMessage="Bitte geben Sie ein neues Passwort ein"
+                  variant="underlined"
+                  value={passwordConfirm}
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={togglePasswordConfirmVisibility}
+                      aria-label="toggle password visibility"
+                    >
+                      {isPasswordConfirmVisible ? (
                         <FaRegEye className="text-2xl text-default-400 pointer-events-none" />
                       ) : (
                         <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
@@ -212,14 +290,16 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
               <ModalFooter>
                 <Button
                   isLoading={isLoading}
-                  disabled={isCodeValid}
+                  disabled={isPasswordValid && isPasswordConfirmValid}
                   color="primary"
-                  onPress={onSubmit}
+                  onPress={onReset}
                   className={`cursor-pointer ${
-                    isCodeValid ? "cursor-not-allowed" : ""
+                    isPasswordConfirmValid && isPasswordValid
+                      ? "cursor-not-allowed opacity-50"
+                      : ""
                   }`}
                 >
-                  Bestätigen
+                  Zurücksetzen
                 </Button>
               </ModalFooter>
             </>
