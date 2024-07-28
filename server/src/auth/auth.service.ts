@@ -28,6 +28,7 @@ export class AuthService {
 
     if (user.activated === false) {
       this.userService.resendActivationEmail(user.email);
+      throw new UnauthorizedException('User not activated');
     }
 
     const payload = {

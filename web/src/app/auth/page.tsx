@@ -13,7 +13,6 @@ import VerificationModal from "@/components/auth/VerificationModal";
 import { toast } from "sonner";
 import ApiClient from "@/api";
 import ResetPasswordModal from "@/components/auth/ResetPasswordModal";
-import Cookies from "js-cookie";
 
 const apiClient = new ApiClient();
 type Variant = "LOGIN" | "SIGNUP";
@@ -138,17 +137,13 @@ const Signup = () => {
       const login = await apiClient.auth.login.post(data);
       console.log(login);
       if (login.status === false) {
-        toast.error("E-Mail oder Passwort ist falsch");
-      } else {
-        Cookies.set("token", login.data.backendTokens.accessToken, {
-          expire: "24h",
-        });
-        window.location.replace("/dashboard");
-        if (login.data.user.activated === false) {
+        if (login.message === "User not activated") {
           onOpen();
         } else {
-          toast.success("Erfolgreich angemeldet");
+          toast.error("E-Mail oder Passwort ist falsch");
         }
+      } else {
+        toast.success("Erfolgreich angemeldet");
       }
       setIsLoading(false);
     }
@@ -469,7 +464,7 @@ const Signup = () => {
           isOpen={isOpen}
           onOpen={onOpen}
           onOpenChange={onOpenChange}
-          email={data.email}
+          data={data}
         />
 
         <ResetPasswordModal

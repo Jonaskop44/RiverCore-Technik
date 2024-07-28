@@ -13,12 +13,13 @@ import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { toast } from "sonner";
 import ApiClient from "@/api";
+import Cookies from "js-cookie";
 
 interface VerificationModalProps {
   isOpen: boolean;
   onOpen: () => void;
   onOpenChange: (open: boolean) => void;
-  email: string;
+  data: any;
 }
 const apiClient = new ApiClient();
 
@@ -26,7 +27,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
   isOpen,
   onOpen,
   onOpenChange,
-  email,
+  data,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -44,6 +45,12 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
     const token = await apiClient.auth.helper.activateUser(code);
 
     if (token.status) {
+      const login = await apiClient.auth.login.post(data);
+      Cookies.set("token", login.data.backendTokens.accessToken, {
+        expire: "24h",
+      });
+      window.location.replace("/dashboard");
+
       onOpenChange(false);
       setCode("");
       setTouched(false);
@@ -58,7 +65,9 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
   };
 
   const onResend = async () => {
-    const email_ = await apiClient.auth.helper.resendActivationEmail(email);
+    const email_ = await apiClient.auth.helper.resendActivationEmail(
+      data.email
+    );
     setIsDisabled(true);
 
     if (email_.status) {
@@ -95,7 +104,8 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
                 <p>
                   Um Ihr Konto zu aktivieren geben Sie bitte den 15-minütigen
                   gültigen Bestätigungscode ein, den wir an{" "}
-                  <span className="font-semibold">{email}</span> gesendet haben.
+                  <span className="font-semibold">{data.email}</span> gesendet
+                  haben.
                 </p>
                 <Input
                   label="Bestätigungscode"
