@@ -153,15 +153,16 @@ const Signup = () => {
         toast.success("Erfolgreich angemeldet");
         if (data.rememberMe) {
           Cookies.set("accessToken", login.data.backendTokens.accessToken, {
-            expire: "24h",
+            expires: 1,
           });
           Cookies.set("refreshToken", login.data.backendTokens.refreshToken, {
-            expire: "7d",
+            expires: 7,
           });
         } else {
           Cookies.set("accessToken", login.data.backendTokens.accessToken);
           Cookies.set("refreshToken", login.data.backendTokens.refreshToken);
         }
+        window.location.reload();
       }
       setIsLoading(false);
     }
