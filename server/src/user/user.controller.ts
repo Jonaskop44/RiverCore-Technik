@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
   ActivateUserDto,
@@ -13,7 +13,7 @@ import {
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Post('token/data/')
+  @Get('token/data/')
   async getUserDataFromToken(@Body() dto: GetUserDataFromTokenDto) {
     return this.userService.getUserDataFromToken(dto.token);
   }
