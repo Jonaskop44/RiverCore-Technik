@@ -65,3 +65,9 @@ export class CheckPasswordResetTokenDto {
   @IsNotEmpty()
   readonly token: string;
 }
+
+export class GetUserDataFromTokenDto {
+  @IsString()
+  @IsNotEmpty()
+  readonly token: string;
+}

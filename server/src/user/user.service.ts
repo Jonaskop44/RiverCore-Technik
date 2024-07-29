@@ -4,12 +4,14 @@ import { CreateUserDto, ResetPasswordDto } from './dto/user.dto';
 import { hash } from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
 import { User } from 'types/user.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
   constructor(
     private prisma: PrismaService,
     private mailService: MailService,
+    private jwtService: JwtService,
   ) {}
 
   async createUser(dto: CreateUserDto) {
@@ -52,6 +54,25 @@ export class UserService {
         lastName: lastname,
       },
     });
+  }
+
+  async getUserDataFromToken(token: string) {
+    try {
+      const decoded = this.jwtService.verify(token, {
+        secret: process.env.JWT_SECRET,
+      });
+      const userEmail = decoded.email;
+
+      const user = await this.getUserByEmail(userEmail);
+
+      if (!user) throw new ConflictException('User not found');
+
+      const { password, ...result } = user;
+
+      return result;
+    } catch (error) {
+      throw new ConflictException('Invalid token');
+    }
   }
 
   async createActivateToken(user: User) {
