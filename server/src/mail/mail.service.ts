@@ -11,7 +11,7 @@ export class MailService {
       to: user.email,
       //from: '"Support Team" <support@example.com>',
       subject: 'Bestätigungscode für das Elbe-Technik-Konto',
-      template: './ConfirmEmail',
+      template: './ActivateAccount',
       context: {
         name: user.firstName,
         email: user.email,
