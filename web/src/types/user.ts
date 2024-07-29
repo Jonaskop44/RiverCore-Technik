@@ -6,4 +6,5 @@ export interface User {
   designation?: string;
   companyName?: string;
   activated?: boolean;
+  role?: string;
 }

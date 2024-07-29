@@ -188,12 +188,10 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
               <ModalFooter>
                 <Button
                   isLoading={isLoading}
-                  disabled={isCodeValid}
+                  isDisabled={isCodeValid}
                   color="primary"
                   onPress={onSubmit}
-                  className={`cursor-pointer ${
-                    isCodeValid ? "cursor-not-allowed opacity-50" : ""
-                  }`}
+                  className={"cursor-pointer"}
                 >
                   Prüfen
                 </Button>
@@ -294,20 +292,14 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
               <ModalFooter>
                 <Button
                   isLoading={isLoading}
-                  disabled={
+                  isDisabled={
                     isPasswordValid ||
                     isPasswordConfirmValid ||
                     !arePasswordsMatching
                   }
                   color="primary"
                   onPress={onReset}
-                  className={`cursor-pointer ${
-                    isPasswordValid ||
-                    isPasswordConfirmValid ||
-                    !arePasswordsMatching
-                      ? "cursor-not-allowed opacity-50"
-                      : ""
-                  }`}
+                  className={"cursor-pointer"}
                 >
                   Zurücksetzen
                 </Button>

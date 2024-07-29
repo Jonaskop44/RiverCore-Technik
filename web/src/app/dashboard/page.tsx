@@ -24,6 +24,10 @@ const Dashboard = () => {
     <div className="flex justify-center items-center h-screen">
       <h1>Hello World!</h1>
       <h2>{user.email}</h2>
+      <h2>{user.role}</h2>
+      <h2>
+        {user.firstName} {user.lastName}
+      </h2>
     </div>
   );
 };
