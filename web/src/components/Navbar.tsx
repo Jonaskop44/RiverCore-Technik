@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
 import { Navigation } from "@/types/navigation";
 import { Button } from "@nextui-org/react";
+import { useUserStore } from "@/data/userStore";
 
 const menuData: Navigation[] = [
   {
@@ -81,7 +82,7 @@ const Navbar = () => {
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [dropdownToggler, setDropdownToggler] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
-
+  const { user, fetchUser } = useUserStore();
   const pathUrl = usePathname();
 
   // Sticky menu
@@ -92,6 +93,16 @@ const Navbar = () => {
       setStickyMenu(false);
     }
   };
+
+  useEffect(() => {
+    fetchUser()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", handleStickyMenu);
@@ -223,9 +234,25 @@ const Navbar = () => {
 
           <div className="mt-7 flex items-center gap-6 xl:mt-0">
             <ThemeToggler />
-            <Button className="flex items-center justify-center rounded-full bg-primary px-7.5 py-2.5 text-regular text-white duration-300 ease-in-out hover:bg-primaryho">
-              <a href="/auth">Login</a>
-            </Button>
+            {user ? (
+              <Button
+                onClick={() => {
+                  window.location.href = "/dashboard";
+                }}
+                className="flex items-center justify-center rounded-full bg-primary px-7.5 py-2.5 text-regular text-white duration-300 ease-in-out hover:bg-primaryho"
+              >
+                Dashboard
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  window.location.href = "/auth/signin";
+                }}
+                className="flex items-center justify-center rounded-full bg-primary px-7.5 py-2.5 text-regular text-white duration-300 ease-in-out hover:bg-primaryho"
+              >
+                Login
+              </Button>
+            )}
           </div>
         </div>
       </div>
