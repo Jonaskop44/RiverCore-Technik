@@ -13,8 +13,8 @@ import {
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get('token/data/')
-  async getUserDataFromToken(@Body() dto: GetUserDataFromTokenDto) {
+  @Get('token/data/:token')
+  async getUserDataFromToken(@Param() dto: GetUserDataFromTokenDto) {
     return this.userService.getUserDataFromToken(dto.token);
   }
 

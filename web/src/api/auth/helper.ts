@@ -133,24 +133,4 @@ export default class Helper {
       return { status: false, message: "Something went wrong" };
     }
   }
-
-  public async getUserDataFromToken(token: string) {
-    return await axios
-      .get(`${Constants.API_BASE}/user/token/data`, {
-        data: {
-          token: token,
-        },
-      })
-      .then((response) => {
-        if (response.status !== 200) {
-          return { status: false, data: null, message: "User not found" };
-        }
-
-        const data = response.data;
-        return { status: true, data: data };
-      })
-      .catch((error) => {
-        return { status: false, data: null, message: "Something went wrong" };
-      });
-  }
 }
