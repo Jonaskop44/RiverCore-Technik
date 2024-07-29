@@ -160,7 +160,6 @@ const Signup = () => {
           });
         } else {
           Cookies.set("accessToken", login.data.backendTokens.accessToken);
-          Cookies.set("refreshToken", login.data.backendTokens.refreshToken);
         }
         window.location.reload();
       }
