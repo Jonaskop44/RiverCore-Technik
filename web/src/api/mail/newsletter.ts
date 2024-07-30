@@ -22,4 +22,6 @@ export class Newsletter {
         };
       });
   }
+
+  public async unsubscribe(email: string) {}
 }

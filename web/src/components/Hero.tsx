@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@nextui-org/button";
 import ApiClient from "@/api";
 import { toast } from "sonner";
@@ -9,9 +9,16 @@ const Hero = () => {
   const [email, setEmail] = useState("");
   const apiClient = new ApiClient();
 
+  const isInvalidEmail = useMemo(() => {
+    return !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+  }, [email]);
+
   const handleSubribe = async () => {
     if (!email) {
       toast.warning("Bitte geben Sie eine E-Mail-Adresse ein!");
+      return;
+    } else if (isInvalidEmail) {
+      toast.warning("Bitte geben Sie eine gültige E-Mail-Adresse ein!");
       return;
     }
 

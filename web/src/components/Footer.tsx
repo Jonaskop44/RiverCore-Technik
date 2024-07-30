@@ -1,7 +1,10 @@
 "use client";
+import ApiClient from "@/api";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 const links = [
   {
@@ -42,6 +45,35 @@ const support = [
 ];
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const apiClient = new ApiClient();
+
+  const isInvalidEmail = useMemo(() => {
+    return !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+  }, [email]);
+
+  const handleSubribe = async () => {
+    if (!email) {
+      toast.warning("Bitte geben Sie eine E-Mail-Adresse ein!");
+      return;
+    } else if (isInvalidEmail) {
+      toast.warning("Bitte geben Sie eine gültige E-Mail-Adresse ein!");
+      return;
+    }
+
+    const data = await apiClient.mail.newsletter.subscribe(email);
+
+    if (data.status) {
+      toast.success("Die Newsletter-Anmeldung war erfolgreich!");
+    } else {
+      toast.warning(
+        "Die von Ihnen eingegebene E-Mail-Adresse ist bereits angemeldet!"
+      );
+    }
+
+    setEmail("");
+  };
+
   return (
     <>
       <footer className="border-t border-stroke bg-white dark:border-strokedark dark:bg-blacksection">
@@ -195,12 +227,15 @@ const Footer = () => {
                     <input
                       type="text"
                       placeholder="Ihre E-Mail-Adresse"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="w-full rounded-full border border-stroke px-6 py-3 shadow-solid-11 focus:border-primary focus:outline-none dark:border-strokedark dark:bg-black dark:shadow-none dark:focus:border-primary"
                     />
 
                     <button
                       aria-label="signup to newsletter"
                       className="absolute right-0 p-4"
+                      onClick={() => handleSubribe()}
                     >
                       <svg
                         className="fill-[#757693] hover:fill-primary dark:fill-white"
