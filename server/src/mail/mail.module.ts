@@ -4,6 +4,9 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MailController } from './mail.controller';
+import { UserService } from 'src/user/user.service';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Global()
 @Module({
@@ -30,7 +33,7 @@ import { MailController } from './mail.controller';
       },
     }),
   ],
-  providers: [MailService],
+  providers: [MailService, UserService, PrismaService, JwtService],
   exports: [MailService],
   controllers: [MailController],
 })
