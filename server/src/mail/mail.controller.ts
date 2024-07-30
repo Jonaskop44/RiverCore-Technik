@@ -1,13 +1,21 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { SendNewsletterActivationDto } from './dto/mail.dto';
-import { UserService } from 'src/user/user.service';
+import { Body, Controller, Delete, Post } from '@nestjs/common';
+import {
+  NewsletterSubscribeDto,
+  NewsletterUnsubscribeDto,
+} from './dto/mail.dto';
+import { MailService } from './mail.service';
 
 @Controller('api/v1/mail')
 export class MailController {
-  constructor(private userService: UserService) {}
+  constructor(private mailService: MailService) {}
 
   @Post('newsletter/subscribe')
-  async sendNewsletterActivation(@Body() dto: SendNewsletterActivationDto) {
-    return this.userService.newsletterSubscribe(dto.email);
+  async newsletterSubscribe(@Body() dto: NewsletterSubscribeDto) {
+    return this.mailService.newsletterSubscribe(dto.email);
+  }
+
+  @Delete('newsletter/unsubscribe')
+  async newsletterUnsubscribe(@Body() dto: NewsletterUnsubscribeDto) {
+    return this.mailService.newsletterUnsubscribe(dto.mailID);
   }
 }

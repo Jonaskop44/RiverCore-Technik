@@ -1,10 +1,14 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from 'types/user.entity';
 
 @Injectable()
 export class MailService {
-  constructor(private mailerService: MailerService) {}
+  constructor(
+    private mailerService: MailerService,
+    private prisma: PrismaService,
+  ) {}
 
   async sendUserConfirmation(user: User, token: string) {
     try {
@@ -54,5 +58,39 @@ export class MailService {
     } catch (error) {
       console.log('Error sending newsletter activation email', error);
     }
+  }
+
+  async newsletterSubscribe(email: string) {
+    const user = await this.prisma.newsletters.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (user) throw new ConflictException('User already subscribed');
+
+    this.sendNewsletterActivation(email);
+
+    await this.prisma.newsletters.create({
+      data: {
+        email: email,
+      },
+    });
+  }
+
+  async newsletterUnsubscribe(mailID: string) {
+    const user = await this.prisma.newsletters.findUnique({
+      where: {
+        id: mailID,
+      },
+    });
+
+    if (!user) throw new ConflictException('User not found');
+
+    await this.prisma.newsletters.delete({
+      where: {
+        email: mailID,
+      },
+    });
   }
 }

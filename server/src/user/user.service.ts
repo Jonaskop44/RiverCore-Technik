@@ -254,38 +254,4 @@ export class UserService {
 
     return result;
   }
-
-  async newsletterSubscribe(email: string) {
-    const user = await this.prisma.newsletters.findUnique({
-      where: {
-        email: email,
-      },
-    });
-
-    if (user) throw new ConflictException('User already subscribed');
-
-    this.mailService.sendNewsletterActivation(email);
-
-    await this.prisma.newsletters.create({
-      data: {
-        email: email,
-      },
-    });
-  }
-
-  async newsletterUnsubscribe(email: string) {
-    const user = await this.prisma.newsletters.findUnique({
-      where: {
-        email: email,
-      },
-    });
-
-    if (!user) throw new ConflictException('User not found');
-
-    await this.prisma.newsletters.delete({
-      where: {
-        email: email,
-      },
-    });
-  }
 }
