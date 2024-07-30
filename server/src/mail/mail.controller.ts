@@ -6,7 +6,7 @@ import { UserService } from 'src/user/user.service';
 export class MailController {
   constructor(private userService: UserService) {}
 
-  @Post('newsletter/activate')
+  @Post('newsletter/subscribe')
   async sendNewsletterActivation(@Body() dto: SendNewsletterActivationDto) {
     return this.userService.newsletterSubscribe(dto.email);
   }

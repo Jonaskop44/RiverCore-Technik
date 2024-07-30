@@ -2,10 +2,31 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@nextui-org/button";
-import { Input } from "@nextui-org/react";
+import ApiClient from "@/api";
+import { toast } from "sonner";
 
 const Hero = () => {
   const [email, setEmail] = useState("");
+  const apiClient = new ApiClient();
+
+  const handleSubribe = async () => {
+    if (!email) {
+      toast.warning("Bitte geben Sie eine E-Mail-Adresse ein!");
+      return;
+    }
+
+    const data = await apiClient.mail.newsletter.subscribe(email);
+
+    if (data.status) {
+      toast.success("Die Newsletter-Anmeldung war erfolgreich!");
+    } else {
+      toast.warning(
+        "Die von Ihnen eingegebene E-Mail-Adresse ist bereits angemeldet!"
+      );
+    }
+
+    setEmail("");
+  };
 
   return (
     <>
@@ -65,6 +86,9 @@ const Hero = () => {
                   <Button
                     aria-label="get started button"
                     size="lg"
+                    onPress={() => {
+                      handleSubribe();
+                    }}
                     className="flex rounded-full bg-black px-7.5 py-2.5 text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
                   >
                     Abonnieren
