@@ -33,4 +33,14 @@ export class MailService {
       },
     });
   }
+
+  async sendNewsletterActivation(email: string) {
+    await this.mailerService.sendMail({
+      to: email,
+      //from: '"Support Team" <support@example.com>',
+      subject: 'Angemeldet für den Elbe-Technik-Newsletter',
+      template: './ConfirmNewsletter',
+      context: {},
+    });
+  }
 }
