@@ -23,18 +23,34 @@ export class Newsletter {
       });
   }
 
-  public async unsubscribe(email: string) {}
+  public async unsubscribe(mailID: string) {
+    return axios
+      .delete(`${Constants.API_BASE}/mail/newsletter/unsubscribe`, {
+        data: {
+          mailID: mailID,
+        },
+      })
+      .then((response) => {
+        if (response.status !== 200) return { status: false };
+
+        return { status: true };
+      })
+      .catch((error) => {
+        return { status: false };
+      });
+  }
 
   public async getMailIDInfo(mailID: string) {
     return axios
       .get(`${Constants.API_BASE}/mail/newsletter/info/${mailID}`)
       .then((response) => {
-        if (response.status !== 200) return { status: false };
+        if (response.status !== 200) return { status: false, data: null };
 
         return { status: true, data: response.data };
       })
       .catch((error) => {
         return {
+          data: null,
           status: false,
         };
       });

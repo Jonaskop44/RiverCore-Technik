@@ -46,14 +46,16 @@ export class MailService {
     }
   }
 
-  async sendNewsletterActivation(email: string) {
+  async sendNewsletterSubscribe(email: string, id: string) {
     try {
       await this.mailerService.sendMail({
         to: email,
         //from: '"Support Team" <support@example.com>',
         subject: 'Angemeldet für den Elbe-Technik-Newsletter',
-        template: './ConfirmNewsletter',
-        context: {},
+        template: './SubscribeNewsletter',
+        context: {
+          url: `http://localhost:3000/newsletter/unsubscribe/${id}`,
+        },
       });
     } catch (error) {
       console.log('Error sending newsletter activation email', error);
@@ -69,13 +71,13 @@ export class MailService {
 
     if (user) throw new ConflictException('User already subscribed');
 
-    this.sendNewsletterActivation(email);
-
-    await this.prisma.newsletters.create({
+    const newUser = await this.prisma.newsletters.create({
       data: {
         email: email,
       },
     });
+
+    this.sendNewsletterSubscribe(newUser.email, newUser.id);
   }
 
   async newsletterUnsubscribe(mailID: string) {
@@ -89,7 +91,7 @@ export class MailService {
 
     await this.prisma.newsletters.delete({
       where: {
-        email: mailID,
+        id: mailID,
       },
     });
   }
