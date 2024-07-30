@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import {
   NewsletterSubscribeDto,
   NewsletterUnsubscribeDto,
@@ -17,5 +17,10 @@ export class MailController {
   @Delete('newsletter/unsubscribe')
   async newsletterUnsubscribe(@Body() dto: NewsletterUnsubscribeDto) {
     return this.mailService.newsletterUnsubscribe(dto.mailID);
+  }
+
+  @Get('newsletter/info/:mailID')
+  async getNewsletterIDInfo(@Param('mailID') mailID: string) {
+    return this.mailService.getNewsletterIDInfo(mailID);
   }
 }

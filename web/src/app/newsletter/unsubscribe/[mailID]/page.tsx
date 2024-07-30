@@ -1,0 +1,123 @@
+"use client";
+
+import ApiClient from "@/api";
+import SectionHeader from "@/components/Common/SectionHeader";
+import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+
+interface MailIDProps {
+  params: { mailID: string };
+}
+
+const MailID: React.FC<MailIDProps> = ({ params }) => {
+  const [data, setData] = useState(null);
+  const apiClient = new ApiClient();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await apiClient.mail.newsletter.getMailIDInfo(
+        params.mailID
+      );
+
+      if (response.status) {
+        setData(response);
+      }
+    };
+    fetchData();
+
+    console.log(data);
+  }, [params.mailID]);
+
+  return (
+    <div className="flex justify-center items-center h-screen py-[67rem] xl:py-[47rem] lg:py-[47rem] md:py-[43rem] sm:py-[45rem]">
+      <div>
+        <SectionHeader
+          headerInfo={{
+            title: "Newsletter".toUpperCase(),
+            subtitle: "data.email",
+            description: `Folgen sie der Anleitung um sich vom Newsletter abzumelden.`,
+          }}
+        />
+        <motion.div
+          variants={{
+            hidden: {
+              opacity: 0,
+              y: -10,
+            },
+
+            visible: {
+              opacity: 1,
+              y: 0,
+            },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="mt-5 animate_top rounded-lg border border-white bg-white p-7.5 shadow-solid-3 transition-all hover:shadow-solid-4 dark:border-strokedark dark:bg-blacksection dark:hover:bg-hoverdark xl:p-12.5 max-w-[900px]"
+        >
+          <div>
+            <h1 className="mb-5 mt-7.5 text-xl font-semibold text-black dark:text-white xl:text-itemtitle">
+              VERANWORTLICH FÜR DEN INHALT
+            </h1>
+
+            <p>
+              ELBE GmbH
+              <br />
+              Elektronische Büroeinrichtung
+              <br />
+              Tirolerstraße 21
+              <br />
+              A-9500 Villach
+            </p>
+            <p className="mt-5">
+              Geschäftsführer: Maximilian Fleissner, Gert Schwanter
+            </p>
+            <p className="mt-5">
+              Tel.: 04242/51115
+              <br />
+              Fax: 04242/51115-85
+              <br />
+              Kontakt: <a href="mailto:office@elbe.at">office@elbe.at</a>
+              <br />
+              Firmenbuchnummer: 428798k
+              <br />
+              Zuständiges Gericht: Landesgericht Klagenfurt
+              <br />
+              USt-ID ATU69330878
+            </p>
+            <h1 className="mb-5 mt-7.5 text-xl font-semibold text-black dark:text-white xl:text-itemtitle">
+              INFORMATIONEN LT. §5 ABS 1 E-COMMERCE-GESETZ
+            </h1>
+            <h1 className="mb-5 mt-7.5 text-xl font-semibold text-black dark:text-white xl:text-itemtitle">
+              Nutzungsbedingungen der Inhalte dieser Website
+            </h1>
+            <p>
+              Die Webseiten der ELBE GmbH wurden inhaltlich sorgfältig
+              erarbeitet, um zutreffende und aktuelle Informationen
+              bereitzustellen. Dennoch können Fehler auftreten. Wir weisen
+              darauf hin, dass die Inhalte der Website nur allgemeiner Art sind
+              und wir für die Aktualität, Richtigkeit oder Vollständigkeit keine
+              Gewähr übernehmen können. Der Betreiber von www.elbe.at übernimmt
+              deshalb keine Garantie oder Haftung für Schäden materieller oder
+              ideeller Art, die durch die Nutzung, Nichtnutzung bzw. durch
+              fehlerhafte Informationen verursacht wurden. Darüber hinaus
+              distanzieren wir uns hiermit ausdrücklich von allen Inhalten aller
+              gelinkten Seiten auf unseren Webseiten im Internet.
+            </p>
+            <h1 className="mb-5 mt-7.5 text-xl font-semibold text-black dark:text-white xl:text-itemtitle">
+              Links auf die ELBE GmbH Webseiten
+            </h1>
+            <p>
+              Ein Link auf die ELBE GmbH Webseiten darf nur dann gesetzt werden,
+              wenn er auf die Homepage www.elbe.at zeigt und in einem neuen
+              Browserfenster geöffnet wird.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+export default MailID;

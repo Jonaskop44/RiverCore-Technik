@@ -93,4 +93,16 @@ export class MailService {
       },
     });
   }
+
+  async getNewsletterIDInfo(mailID: string) {
+    const user = await this.prisma.newsletters.findUnique({
+      where: {
+        id: mailID,
+      },
+    });
+
+    if (!user) throw new ConflictException('User not found');
+
+    return user;
+  }
 }

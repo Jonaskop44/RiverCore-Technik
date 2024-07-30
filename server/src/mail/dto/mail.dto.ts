@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class NewsletterSubscribeDto {
   @IsEmail()
@@ -7,7 +7,7 @@ export class NewsletterSubscribeDto {
 }
 
 export class NewsletterUnsubscribeDto {
-  @IsEmail()
+  @IsString()
   @IsNotEmpty()
   readonly mailID: string;
 }
