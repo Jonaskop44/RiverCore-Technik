@@ -8,9 +8,6 @@ import ApiClient from "./api";
 const apiClient = new ApiClient();
 
 export async function middleware(req: NextRequest) {
-  // Log the incoming request URL for debugging
-  console.log("Request URL:", req.url);
-
   // Parse cookies from the request headers
   const cookies = cookie.parse(req.headers.get("cookie") || "");
   const token = cookies.accessToken;

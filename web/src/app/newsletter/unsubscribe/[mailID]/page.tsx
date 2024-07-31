@@ -2,6 +2,7 @@
 "use client";
 
 import ApiClient from "@/api";
+import ErrorPage from "@/app/not-found";
 import SectionHeader from "@/components/Common/SectionHeader";
 import { Button } from "@nextui-org/react";
 import { motion } from "framer-motion";
@@ -28,8 +29,6 @@ const MailID: React.FC<MailIDProps> = ({ params }) => {
       setData(response.data);
     };
     fetchData();
-
-    console.log("Data: ", data);
   }, [params.mailID]);
 
   const handleUnsubscribe = async () => {
@@ -44,6 +43,14 @@ const MailID: React.FC<MailIDProps> = ({ params }) => {
       toast.error("Es ist ein Fehler aufgetreten. Bitte versuche es erneut.");
     }
   };
+
+  if (!data) {
+    return (
+      <div>
+        <ErrorPage />
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center items-center h-screen py-[5rem] xl:py-[10rem] lg:py-[27rem] md:py-[23rem] sm:py-[15rem]">
