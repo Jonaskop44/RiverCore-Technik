@@ -96,7 +96,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    fetchUser()
+    fetchUser();
   }, []);
 
   useEffect(() => {

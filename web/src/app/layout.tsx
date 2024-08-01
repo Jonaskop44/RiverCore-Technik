@@ -8,6 +8,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import Footer from "@/components/Footer";
 import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from "sonner";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
           defaultTheme="light"
         >
           <NextUIProvider>
+            <NextTopLoader />
             <Lines />
             <Navbar />
             {children}
