@@ -8,9 +8,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
     <div>
       <Navigation />
-      <div className="flex flex-col items-center justify-center w-full h-full">
-        {children}
-      </div>
+      <div>{children}</div>
     </div>
   );
 };
