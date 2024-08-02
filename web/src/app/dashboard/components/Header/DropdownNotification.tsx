@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const notificationList = [
   {
-    image: "/images/user/user-15.png",
+    image: "/images/user/user-02.png",
     title: "Piter Joined the Team!",
     subTitle: "Congratulate him",
   },
@@ -15,17 +15,17 @@ const notificationList = [
     subTitle: "Devid sent you new message",
   },
   {
-    image: "/images/user/user-26.png",
+    image: "/images/user/user-02.png",
     title: "New Payment received",
     subTitle: "Check your earnings",
   },
   {
-    image: "/images/user/user-28.png",
+    image: "/images/user/user-02.png",
     title: "Jolly completed tasks",
     subTitle: "Assign her newtasks",
   },
   {
-    image: "/images/user/user-27.png",
+    image: "/images/user/user-02.png",
     title: "Roman Joined the Team!",
     subTitle: "Congratulate him",
   },

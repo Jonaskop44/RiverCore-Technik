@@ -59,7 +59,7 @@ const Header = (props: {
             <Image
               width={32}
               height={32}
-              src={"/images/logo/logo-icon.svg"}
+              src={"/images/logo/ELBE_Technik_Logo-mitSchatten.png"}
               alt="Logo"
             />
           </Link>
@@ -76,7 +76,6 @@ const Header = (props: {
 
         <div className="flex items-center justify-normal gap-2 2xsm:gap-4 lg:w-full lg:justify-between xl:w-auto xl:justify-normal">
           <ul className="flex items-center gap-2 2xsm:gap-4">
-            {/* <DarkModeSwitcher /> */}
             <DropdownNotification />
           </ul>
 
