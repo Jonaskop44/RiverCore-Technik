@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from "sonner";
 import NextTopLoader from "nextjs-toploader";
+import ClientWrapper from "@/context/ClientWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,11 +34,7 @@ export default function RootLayout({
         >
           <NextUIProvider>
             <NextTopLoader />
-            <Lines />
-            <Navbar />
-            {children}
-            <Footer />
-            <ScrollToTop />
+            <ClientWrapper>{children}</ClientWrapper>
             <Toaster position="bottom-right" richColors />
           </NextUIProvider>
         </ThemeProvider>
