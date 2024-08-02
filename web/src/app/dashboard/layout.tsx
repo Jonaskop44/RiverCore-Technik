@@ -1,5 +1,3 @@
-import Navigation from "@/components/Dashboard/Navigation";
-
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
@@ -7,7 +5,6 @@ interface DashboardLayoutProps {
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
     <div>
-      <Navigation />
       <div>{children}</div>
     </div>
   );
