@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { MultiLevelSidebar } from "./components/Test";
+import Header from "./components/Navbar/Navbar";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -11,7 +12,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <>
-      {/* <div className="flex h-screen overflow-hidden">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -21,11 +22,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             </div>
           </main>
         </div>
-      </div> */}
-
-      <div>
-        <MultiLevelSidebar />
-        {children}
       </div>
     </>
   );
