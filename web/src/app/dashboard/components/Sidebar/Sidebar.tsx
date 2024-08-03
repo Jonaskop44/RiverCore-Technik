@@ -45,6 +45,9 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
               style={{ width: "auto", height: "auto" }}
             />
           </Link>
+          <h1 className="mb-0.5 text-heading-5 font-bold text-dark dark:text-white">
+            Dashboard
+          </h1>
 
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}

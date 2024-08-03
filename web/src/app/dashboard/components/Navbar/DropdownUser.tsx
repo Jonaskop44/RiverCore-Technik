@@ -7,8 +7,22 @@ import {
   DropdownItem,
   User,
 } from "@nextui-org/react";
+import { useUserStore } from "@/data/userStore";
 
 const DropdownUser = () => {
+  const { user } = useUserStore();
+
+  const handleDesignation = (designation: string) => {
+    switch (designation) {
+      case "COMPANY":
+        return "Unternehmen";
+      case "PERSON":
+        return "Privatperson";
+      default:
+        return "User";
+    }
+  };
+
   return (
     <Dropdown
       showArrow
@@ -25,9 +39,9 @@ const DropdownUser = () => {
             isBordered: false,
             src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
           }}
-          className="transition-transform"
-          description="@tonyreichert"
-          name="Tony Reichert"
+          className="transition-transform mr-10"
+          description={handleDesignation(user?.designation)}
+          name={user?.firstName + " " + user?.lastName}
         />
       </DropdownTrigger>
       <DropdownMenu
@@ -55,8 +69,8 @@ const DropdownUser = () => {
             className="h-14 gap-2 opacity-100"
           >
             <User
-              name="Junior Garcia"
-              description="@jrgarciadev"
+              name={user?.firstName + " " + user?.lastName}
+              description={user?.email}
               classNames={{
                 name: "text-default-600",
                 description: "text-default-500",
@@ -97,8 +111,8 @@ const DropdownUser = () => {
         </DropdownSection>
 
         <DropdownSection aria-label="Help & Feedback">
-          <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-          <DropdownItem key="logout">Log Out</DropdownItem>
+          <DropdownItem key="help_and_feedback">Hilfe & Feedback</DropdownItem>
+          <DropdownItem key="logout">Abmelden</DropdownItem>
         </DropdownSection>
       </DropdownMenu>
     </Dropdown>
