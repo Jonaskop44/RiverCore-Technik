@@ -83,7 +83,7 @@ const Navbar = () => {
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [dropdownToggler, setDropdownToggler] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
-  const { user, fetchUser } = useUserStore();
+  const { user, fetchUser, refreshToken } = useUserStore();
   const pathUrl = usePathname();
 
   // Sticky menu
@@ -96,7 +96,12 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    fetchUser();
+    const doAction = async () => {
+      await refreshToken();
+      await fetchUser();
+    };
+
+    doAction();
   }, []);
 
   useEffect(() => {
