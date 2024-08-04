@@ -8,7 +8,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 
 export default function ClientWrapper({ children }) {
   const pathname = usePathname();
-  const isDashboardPage = pathname === "/dashboard";
+  const isDashboardPage = pathname.startsWith("/dashboard");
 
   return (
     <>

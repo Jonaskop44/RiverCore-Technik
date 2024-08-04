@@ -1,4 +1,4 @@
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaUsers } from "react-icons/fa";
 
 const sidebarData = [
   {
@@ -6,9 +6,8 @@ const sidebarData = [
     menuItems: [
       {
         icon: <FaHome />,
-        label: "Dashboard",
+        label: "Startseite",
         route: "#",
-        children: [{ label: "eCommerce", route: "/" }],
       },
       {
         icon: (
@@ -150,6 +149,16 @@ const sidebarData = [
         label: "Pages",
         route: "#",
         children: [{ label: "Settings", route: "/pages/settings" }],
+      },
+    ],
+  },
+  {
+    name: "ADMINISTRATION",
+    menuItems: [
+      {
+        icon: <FaUsers size={25} />,
+        label: "Benutzer",
+        route: "admin/users",
       },
     ],
   },

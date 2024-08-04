@@ -13,7 +13,7 @@ const SidebarItem = ({ item, pageName, setPageName }: any) => {
     <>
       <li>
         <Link
-          href={item.route}
+          href={`/dashboard/${item.route}`}
           onClick={handleClick}
           className={`${
             pageName === item.label.toLowerCase()
