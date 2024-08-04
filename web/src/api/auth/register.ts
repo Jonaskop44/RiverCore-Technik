@@ -22,7 +22,7 @@ export default class Register {
       const data = await response.data;
       return { status: true, data: data, message: "User created successfully" };
     } catch (error) {
-      return { status: false, message: "Somethind went wrong!" };
+      return { status: false, message: "Something went wrong!" };
     }
   }
 }

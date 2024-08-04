@@ -7,13 +7,7 @@ const Dashboard = () => {
   const { user, fetchUser } = useUserStore();
 
   useEffect(() => {
-    fetchUser()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    fetchUser();
   }, []);
 
   if (!user) {

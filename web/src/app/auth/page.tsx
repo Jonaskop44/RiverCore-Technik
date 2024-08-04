@@ -130,19 +130,12 @@ const Signup = () => {
     }
   }, [variant]);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const onSubmit = async (event: React.FormEvent) => {
-    console.log("Remember me", data.rememberMe);
-
     event.preventDefault();
     setIsLoading(true);
 
     if (variant === "LOGIN") {
       const login = await apiClient.auth.login.post(data);
-      console.log(login);
       if (login.status === false) {
         if (login.message === "User not activated") {
           onOpen();
@@ -168,7 +161,6 @@ const Signup = () => {
 
     if (variant === "SIGNUP") {
       const signup = await apiClient.auth.register.post(data);
-      console.log(signup);
       if (signup.status === false) {
         toast.error("Es existiert bereits ein Konto mit dieser E-Mail-Adresse");
       } else {

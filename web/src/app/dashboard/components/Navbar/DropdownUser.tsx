@@ -8,6 +8,7 @@ import {
   User,
 } from "@nextui-org/react";
 import { useUserStore } from "@/data/userStore";
+import { handleLogout } from "@/hooks/user";
 
 const DropdownUser = () => {
   const { user } = useUserStore();
@@ -112,7 +113,9 @@ const DropdownUser = () => {
 
         <DropdownSection aria-label="Help & Feedback">
           <DropdownItem key="help_and_feedback">Hilfe & Feedback</DropdownItem>
-          <DropdownItem key="logout">Abmelden</DropdownItem>
+          <DropdownItem key="logout" onPress={handleLogout}>
+            Abmelden
+          </DropdownItem>
         </DropdownSection>
       </DropdownMenu>
     </Dropdown>

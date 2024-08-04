@@ -5,6 +5,7 @@ import { hash } from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
 import { User } from 'types/user.entity';
 import { JwtService } from '@nestjs/jwt';
+import { TokenType, VerificationToken } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -34,8 +35,11 @@ export class UserService {
 
     const { password, ...result } = newUser;
 
-    const token = await this.createActivateToken(newUser);
-    await this.mailService.sendUserConfirmation(newUser, token);
+    const token = await this.createVerificationToken(
+      newUser,
+      TokenType.ACTIVATE,
+    );
+    await this.mailService.sendUserConfirmation(newUser, token.token);
 
     return result;
   }
@@ -75,25 +79,27 @@ export class UserService {
     }
   }
 
-  async createActivateToken(user: User) {
-    const token = await this.prisma.activateToken.create({
+  async createVerificationToken(user: User, tokenType: TokenType) {
+    return this.prisma.verificationToken.create({
       data: {
         token: Math.floor(100000 + Math.random() * 900000).toString(),
         userId: user.id,
+        type: tokenType,
       },
     });
-
-    return token.token;
   }
 
   async activateUser(token: string) {
     const user = await this.prisma.user.findFirst({
       where: {
-        activateToken: {
+        verificationToken: {
           some: {
             AND: [
               {
                 activatedAt: null,
+              },
+              {
+                type: TokenType.ACTIVATE,
               },
               {
                 createdAt: {
@@ -110,7 +116,7 @@ export class UserService {
     });
 
     if (!user) {
-      this.prisma.activateToken.delete({
+      this.prisma.verificationToken.delete({
         where: {
           token: token,
         },
@@ -127,7 +133,7 @@ export class UserService {
       },
     });
 
-    await this.prisma.activateToken.update({
+    await this.prisma.verificationToken.update({
       where: {
         token: token,
       },
@@ -144,11 +150,14 @@ export class UserService {
   async checkPasswordRestToken(token: string) {
     const user = await this.prisma.user.findFirst({
       where: {
-        resetPasswordToken: {
+        verificationToken: {
           some: {
             AND: [
               {
-                usedAt: null,
+                activatedAt: null,
+              },
+              {
+                type: TokenType.RESET_PASSWORD,
               },
               {
                 createdAt: {
@@ -165,7 +174,7 @@ export class UserService {
     });
 
     if (!user) {
-      this.prisma.resetPasswordToken.delete({
+      this.prisma.verificationToken.delete({
         where: {
           token: token,
         },
@@ -184,8 +193,8 @@ export class UserService {
     if (user.activated)
       throw new ConflictException('User is already activated');
 
-    const token = await this.createActivateToken(user);
-    await this.mailService.sendUserConfirmation(user, token);
+    const token = await this.createVerificationToken(user, TokenType.ACTIVATE);
+    await this.mailService.sendUserConfirmation(user, token.token);
 
     return;
   }
@@ -195,13 +204,10 @@ export class UserService {
 
     if (!user) throw new ConflictException('User not found');
 
-    const token = await this.prisma.resetPasswordToken.create({
-      data: {
-        token: Math.floor(100000 + Math.random() * 900000).toString(),
-        userId: user.id,
-      },
-    });
-
+    const token = await this.createVerificationToken(
+      user,
+      TokenType.RESET_PASSWORD,
+    );
     await this.mailService.sendPasswordReset(user, token.token);
 
     return;
@@ -212,11 +218,11 @@ export class UserService {
 
     if (!user) throw new ConflictException('User not found');
 
-    const token = await this.prisma.resetPasswordToken.findFirst({
+    const token = await this.prisma.verificationToken.findFirst({
       where: {
         token: dto.token,
         userId: user.id,
-        usedAt: null,
+        activatedAt: null,
         createdAt: {
           gt: new Date(Date.now() - 15 * 60 * 1000),
         },
@@ -224,7 +230,7 @@ export class UserService {
     });
 
     if (!token) {
-      this.prisma.resetPasswordToken.delete({
+      this.prisma.verificationToken.delete({
         where: {
           token: dto.token,
         },
@@ -241,12 +247,12 @@ export class UserService {
       },
     });
 
-    await this.prisma.resetPasswordToken.update({
+    await this.prisma.verificationToken.update({
       where: {
         token: dto.token,
       },
       data: {
-        usedAt: new Date(),
+        activatedAt: new Date(),
       },
     });
 

@@ -17,7 +17,6 @@ export async function middleware(req: NextRequest) {
   // Check if the token exists
   if (path.startsWith("/dashboard")) {
     if (!token) {
-      console.log("Not logged in, redirecting to login page");
       return NextResponse.redirect(new URL("/auth", req.url));
     }
 

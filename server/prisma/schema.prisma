@@ -30,6 +30,11 @@ enum Designation {
   PERSON
 }
 
+enum TokenType {
+  ACTIVATE
+  RESET_PASSWORD
+}
+
 model User {
   id          Int         @id @default(autoincrement())
   firstName   String
@@ -43,9 +48,8 @@ model User {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
-  author             Author?
-  activateToken      ActivateToken[]
-  resetPasswordToken ResetPasswordToken[]
+  author            Author?
+  verificationToken VerificationToken[]
 }
 
 model Author {
@@ -79,22 +83,11 @@ model Newsletters {
   updatedAt DateTime @updatedAt
 }
 
-model ActivateToken {
+model VerificationToken {
   id          Int       @id @default(autoincrement())
   token       String    @unique
+  type        TokenType
   activatedAt DateTime?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  userId Int
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model ResetPasswordToken {
-  id     Int       @id @default(autoincrement())
-  token  String    @unique
-  usedAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
