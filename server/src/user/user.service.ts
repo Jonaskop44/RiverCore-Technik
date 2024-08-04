@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto, ResetPasswordDto } from './dto/user.dto';
 import { hash } from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
-import { User } from 'types/user.entity';
+import { User } from './entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { TokenType, VerificationToken } from '@prisma/client';
 
