@@ -250,7 +250,7 @@ const Navbar = () => {
                 }}
                 className="flex items-center justify-center rounded-full bg-primary px-7.5 py-2.5 text-regular text-white duration-300 ease-in-out hover:bg-primaryho"
               >
-                Login
+                Anmelden
               </Button>
             )}
           </div>

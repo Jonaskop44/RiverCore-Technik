@@ -1,8 +1,18 @@
+"use client";
+
+import FilterTabs from "../../components/Admin/Users/FilterTabs";
+import FilterAutocomplete from "../../components/Admin/Users/FilterAutocomplete";
+import UserCards from "../../components/Admin/Users/UserCards";
+
 const Users = () => {
   return (
-    <div>
-      <h1>Users</h1>
-    </div>
+    <>
+      <div className="flex bg-white rounded-lg pb-4">
+        <FilterTabs />
+        <FilterAutocomplete />
+      </div>
+      <UserCards />
+    </>
   );
 };
 
