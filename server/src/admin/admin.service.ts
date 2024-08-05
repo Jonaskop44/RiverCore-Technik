@@ -1,5 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAdminDto } from './dto/admin.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class AdminService {}
+export class AdminService {
+  constructor(private prisma: PrismaService) {}
+
+  async getAllUsers() {
+    const users = await this.prisma.user.findMany();
+    return users.map(({ password, ...rest }) => rest);
+  }
+}

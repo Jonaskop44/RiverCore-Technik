@@ -1,7 +1,7 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { User } from 'types/user.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class MailService {
