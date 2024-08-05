@@ -75,6 +75,9 @@ const FilterAutocomplete = ({
       inputValue={fieldState.inputValue}
       items={fieldState.items}
       label="Benutzer suchen"
+      listboxProps={{
+        emptyContent: "Keinen Benutzer gefunden",
+      }}
       selectedKey={fieldState.selectedKey}
       variant="underlined"
       onInputChange={onInputChange}
