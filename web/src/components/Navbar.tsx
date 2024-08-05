@@ -83,7 +83,7 @@ const Navbar = () => {
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [dropdownToggler, setDropdownToggler] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
-  const { user, fetchUser, refreshToken } = useUserStore();
+  const { user } = useUserStore();
   const pathUrl = usePathname();
 
   // Sticky menu
@@ -94,15 +94,6 @@ const Navbar = () => {
       setStickyMenu(false);
     }
   };
-
-  useEffect(() => {
-    const doAction = async () => {
-      await refreshToken();
-      await fetchUser();
-    };
-
-    doAction();
-  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", handleStickyMenu);

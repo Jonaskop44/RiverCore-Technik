@@ -10,6 +10,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from "sonner";
 import NextTopLoader from "nextjs-toploader";
 import ClientWrapper from "@/context/ClientWrapper";
+import SessionProvider from "@/context/SessionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +35,9 @@ export default function RootLayout({
         >
           <NextUIProvider>
             <NextTopLoader />
-            <ClientWrapper>{children}</ClientWrapper>
+            <SessionProvider>
+              <ClientWrapper>{children}</ClientWrapper>
+            </SessionProvider>
             <Toaster position="bottom-right" richColors />
           </NextUIProvider>
         </ThemeProvider>
