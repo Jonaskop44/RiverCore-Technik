@@ -157,3 +157,18 @@ pre {
   background-size: 100% 3px;
   background-position: 0 100%;
 }
+
+::-webkit-scrollbar {
+  height: 0px;
+  width: 0px;
+  background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0800ff;
+  -webkit-border-radius: 2ex;
+}
+
+::-webkit-scrollbar-corner {
+  background: #ffffff;
+}

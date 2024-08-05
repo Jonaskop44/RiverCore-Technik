@@ -52,7 +52,7 @@ const Users = () => {
       <div className="mx-auto w-full max-w-[1080px]">
         <Breadcrumb pageName="Settings" />
 
-        <div className="flex bg-white rounded-lg pb-4 mb-10 space-x-40">
+        <div className="flex bg-white rounded-lg pb-4 mb-10 space-x-60">
           <FilterTabs data={users} onFilterChange={handleFilterChange} />
           <FilterAutocomplete
             data={filteredUsers}
