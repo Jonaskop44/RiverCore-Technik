@@ -15,9 +15,13 @@ type FieldState = {
 
 type FilterAutocompleteProps = {
   data: User[];
+  onUserSelect: (user: User | null) => void;
 };
 
-const FilterAutocomplete = ({ data }: FilterAutocompleteProps) => {
+const FilterAutocomplete = ({
+  data,
+  onUserSelect,
+}: FilterAutocompleteProps) => {
   const [fieldState, setFieldState] = React.useState<FieldState>({
     selectedKey: "",
     inputValue: "",
@@ -31,22 +35,18 @@ const FilterAutocomplete = ({ data }: FilterAutocompleteProps) => {
   };
 
   const onSelectionChange = (key: string) => {
-    setFieldState((prevState) => {
-      let selectedItem = prevState.items.find(
-        (option) => option.id === parseInt(key)
-      );
-
-      return {
-        inputValue: selectedItem ? getFullName(selectedItem) : "",
-        selectedKey: key,
-        items: data.filter((item) =>
-          startsWith(
-            getFullName(item),
-            selectedItem ? getFullName(selectedItem) : ""
-          )
-        ),
-      };
-    });
+    const selectedItem = data.find((user) => user.id === parseInt(key)) || null;
+    setFieldState((prevState) => ({
+      inputValue: selectedItem ? getFullName(selectedItem) : "",
+      selectedKey: key,
+      items: data.filter((item) =>
+        startsWith(
+          getFullName(item),
+          selectedItem ? getFullName(selectedItem) : ""
+        )
+      ),
+    }));
+    onUserSelect(selectedItem);
   };
 
   const onInputChange = (value: string) => {
@@ -55,6 +55,7 @@ const FilterAutocomplete = ({ data }: FilterAutocompleteProps) => {
       selectedKey: value === "" ? null : prevState.selectedKey,
       items: data.filter((item) => startsWith(getFullName(item), value)),
     }));
+    if (value === "") onUserSelect(null);
   };
 
   const onOpenChange = (isOpen: boolean, menuTrigger: MenuTriggerAction) => {

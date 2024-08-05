@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import FilterTabs from "../../components/Admin/Users/FilterTabs";
@@ -10,7 +9,8 @@ import { User } from "@/types/user";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [selectedFilter, setSelectedFilter] = useState<string>("All"); // State for selected filter
+  const [selectedFilter, setSelectedFilter] = useState<string>("All");
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const apiClient = new ApiClient();
 
   useEffect(() => {
@@ -31,6 +31,10 @@ const Users = () => {
     setSelectedFilter(filter);
   };
 
+  const handleUserSelect = (user: User | null) => {
+    setSelectedUser(user);
+  };
+
   const filteredUsers = users.filter((user) => {
     if (selectedFilter === "All") return true;
     if (selectedFilter === "Company") return user.designation === "COMPANY";
@@ -38,13 +42,15 @@ const Users = () => {
     return true;
   });
 
+  const usersToShow = selectedUser ? [selectedUser] : filteredUsers;
+
   return (
     <>
       <div className="flex bg-white rounded-lg pb-4">
         <FilterTabs data={users} onFilterChange={handleFilterChange} />
-        <FilterAutocomplete data={users} />
+        <FilterAutocomplete data={users} onUserSelect={handleUserSelect} />
       </div>
-      {Array.isArray(users) && <UserCards data={filteredUsers} />}
+      {Array.isArray(usersToShow) && <UserCards data={usersToShow} />}
     </>
   );
 };
