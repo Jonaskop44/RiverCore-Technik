@@ -8,7 +8,7 @@ export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN)
   @Get('users')
   async getAllUsers() {
     return this.adminService.getAllUsers();

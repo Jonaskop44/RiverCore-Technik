@@ -1,6 +1,19 @@
 import { FaHome, FaUsers } from "react-icons/fa";
 
-const sidebarData = [
+export interface MenuItem {
+  icon: React.ReactNode;
+  label: string;
+  route: string;
+  roles?: string[]; // roles is optional
+  children?: { label: string; route: string }[];
+}
+
+export interface SidebarGroup {
+  name: string;
+  menuItems: MenuItem[];
+}
+
+const sidebarData: SidebarGroup[] = [
   {
     name: "Hauptmenü",
     menuItems: [
@@ -159,6 +172,13 @@ const sidebarData = [
         icon: <FaUsers size={25} />,
         label: "Benutzer",
         route: "admin/users",
+        roles: ["ADMIN"],
+      },
+      {
+        icon: <FaUsers size={25} />,
+        label: "NIggaer",
+        route: "admin/users",
+        roles: ["MODERATOR"],
       },
     ],
   },

@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarItem from "./SidebarItem";
-import sidebarData from "./sidebarData";
+import sidebarData, { MenuItem, SidebarGroup } from "./sidebarData";
+import { useUserStore } from "@/data/userStore";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -13,6 +14,16 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
   const [pageName, setPageName] = useState<string>("dashboard");
+  const { user } = useUserStore();
+
+  const filteredSidebarData: SidebarGroup[] = sidebarData
+    .map((group: SidebarGroup) => ({
+      ...group,
+      menuItems: group.menuItems.filter(
+        (item: MenuItem) => !item.roles || item.roles.includes(user?.role)
+      ),
+    }))
+    .filter((group) => group.menuItems.length > 0);
 
   return (
     <div>
@@ -73,7 +84,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
         <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
           {/* <!-- Sidebar Menu --> */}
           <nav className="mt-1 px-4 lg:px-6">
-            {sidebarData.map((group, groupIndex) => (
+            {filteredSidebarData.map((group, groupIndex) => (
               <div key={groupIndex}>
                 <h3 className="mb-5 text-sm font-medium text-dark-4 dark:text-dark-6">
                   {group.name}

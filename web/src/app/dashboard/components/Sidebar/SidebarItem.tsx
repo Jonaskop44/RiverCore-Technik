@@ -2,7 +2,25 @@ import React from "react";
 import Link from "next/link";
 import SidebarDropdown from "./SidebarDropdown";
 
-const SidebarItem = ({ item, pageName, setPageName }: any) => {
+interface MenuItem {
+  icon: React.ReactNode;
+  label: string;
+  route: string;
+  roles?: string[];
+  children?: { label: string; route: string }[];
+}
+
+interface SidebarItemProps {
+  item: MenuItem;
+  pageName: string;
+  setPageName: (arg: string) => void;
+}
+
+const SidebarItem: React.FC<SidebarItemProps> = ({
+  item,
+  pageName,
+  setPageName,
+}: any) => {
   const handleClick = () => {
     const updatedPageName =
       pageName !== item.label.toLowerCase() ? item.label.toLowerCase() : "";
