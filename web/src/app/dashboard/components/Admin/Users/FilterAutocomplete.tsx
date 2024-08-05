@@ -2,6 +2,7 @@ import React from "react";
 import {
   Autocomplete,
   AutocompleteItem,
+  Avatar,
   MenuTriggerAction,
 } from "@nextui-org/react";
 import { useFilter } from "@react-aria/i18n";
@@ -83,7 +84,18 @@ const FilterAutocomplete = ({
     >
       {(item) => (
         <AutocompleteItem key={item.id.toString()}>
-          {getFullName(item)}
+          <div className="flex gap-2 items-center">
+            <Avatar
+              alt={getFullName(item)}
+              className="flex-shrink-0"
+              size="sm"
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
+            />
+            <div className="flex flex-col">
+              <span className="text-small">{getFullName(item)}</span>
+              <span className="text-tiny text-default-400">{item.email}</span>
+            </div>
+          </div>
         </AutocompleteItem>
       )}
     </Autocomplete>
