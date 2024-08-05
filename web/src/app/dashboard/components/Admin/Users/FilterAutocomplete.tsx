@@ -1,25 +1,91 @@
+import React from "react";
+import {
+  Autocomplete,
+  AutocompleteItem,
+  MenuTriggerAction,
+} from "@nextui-org/react";
+import { useFilter } from "@react-aria/i18n";
 import { User } from "@/types/user";
-import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
-interface FilterAutocompleteProps {
+type FieldState = {
+  selectedKey: string | null;
+  inputValue: string;
+  items: User[];
+};
+
+type FilterAutocompleteProps = {
   data: User[];
-}
+};
 
-const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({ data }) => {
+const FilterAutocomplete = ({ data }: FilterAutocompleteProps) => {
+  const [fieldState, setFieldState] = React.useState<FieldState>({
+    selectedKey: "",
+    inputValue: "",
+    items: data,
+  });
+
+  const { startsWith } = useFilter({ sensitivity: "base" });
+
+  const getFullName = (user: User) => {
+    return `${user.firstName || ""} ${user.lastName || ""}`.trim();
+  };
+
+  const onSelectionChange = (key: string) => {
+    setFieldState((prevState) => {
+      let selectedItem = prevState.items.find(
+        (option) => option.id === parseInt(key)
+      );
+
+      return {
+        inputValue: selectedItem ? getFullName(selectedItem) : "",
+        selectedKey: key,
+        items: data.filter((item) =>
+          startsWith(
+            getFullName(item),
+            selectedItem ? getFullName(selectedItem) : ""
+          )
+        ),
+      };
+    });
+  };
+
+  const onInputChange = (value: string) => {
+    setFieldState((prevState) => ({
+      inputValue: value,
+      selectedKey: value === "" ? null : prevState.selectedKey,
+      items: data.filter((item) => startsWith(getFullName(item), value)),
+    }));
+  };
+
+  const onOpenChange = (isOpen: boolean, menuTrigger: MenuTriggerAction) => {
+    if (menuTrigger === "manual" && isOpen) {
+      setFieldState((prevState) => ({
+        inputValue: prevState.inputValue,
+        selectedKey: prevState.selectedKey,
+        items: data,
+      }));
+    }
+  };
+
   return (
-    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-      <Autocomplete
-        label="Select a user"
-        className="max-w-xs"
-        variant="underlined"
-      >
-        {data.map((user) => (
-          <AutocompleteItem key={user.email} value={user.email}>
-            {user.firstName} {user.lastName}
-          </AutocompleteItem>
-        ))}
-      </Autocomplete>
-    </div>
+    <Autocomplete
+      className="max-w-xs"
+      inputValue={fieldState.inputValue}
+      items={fieldState.items}
+      label="Search User"
+      placeholder="Search a user"
+      selectedKey={fieldState.selectedKey}
+      variant="bordered"
+      onInputChange={onInputChange}
+      onOpenChange={onOpenChange}
+      onSelectionChange={onSelectionChange}
+    >
+      {(item) => (
+        <AutocompleteItem key={item.id.toString()}>
+          {getFullName(item)}
+        </AutocompleteItem>
+      )}
+    </Autocomplete>
   );
 };
 

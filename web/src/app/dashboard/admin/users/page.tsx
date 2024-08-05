@@ -10,7 +10,7 @@ import { User } from "@/types/user";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [selectedFilter, setSelectedFilter] = useState<string>("All");
+  const [selectedFilter, setSelectedFilter] = useState<string>("All"); // State for selected filter
   const apiClient = new ApiClient();
 
   useEffect(() => {
