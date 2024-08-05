@@ -49,7 +49,10 @@ const Users = () => {
     <>
       <div className="flex bg-white rounded-lg pb-4">
         <FilterTabs data={users} onFilterChange={handleFilterChange} />
-        <FilterAutocomplete data={users} onUserSelect={handleUserSelect} />
+        <FilterAutocomplete
+          data={filteredUsers}
+          onUserSelect={handleUserSelect}
+        />
       </div>
       {Array.isArray(usersToShow) && <UserCards data={usersToShow} />}
     </>
