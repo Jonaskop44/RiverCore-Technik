@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import FilterTabs from "../../components/Admin/Users/FilterTabs";
@@ -9,6 +10,7 @@ import { User } from "@/types/user";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState<string>("All");
   const apiClient = new ApiClient();
 
   useEffect(() => {
@@ -25,13 +27,24 @@ const Users = () => {
     console.log("Updated users:", users);
   }, [users]);
 
+  const handleFilterChange = (filter: string) => {
+    setSelectedFilter(filter);
+  };
+
+  const filteredUsers = users.filter((user) => {
+    if (selectedFilter === "All") return true;
+    if (selectedFilter === "Company") return user.designation === "COMPANY";
+    if (selectedFilter === "Person") return user.designation === "PERSON";
+    return true;
+  });
+
   return (
     <>
       <div className="flex bg-white rounded-lg pb-4">
-        <FilterTabs data={users} />
+        <FilterTabs data={users} onFilterChange={handleFilterChange} />
         <FilterAutocomplete data={users} />
       </div>
-      {Array.isArray(users) && <UserCards data={users} />}
+      {Array.isArray(users) && <UserCards data={filteredUsers} />}
     </>
   );
 };

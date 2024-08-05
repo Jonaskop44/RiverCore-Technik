@@ -1,11 +1,6 @@
 import { User } from "@/types/user";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
-const animals = [
-  { label: "Privatperson", value: "PERSON" },
-  { label: "Firma", value: "COMPANY" },
-];
-
 interface FilterAutocompleteProps {
   data: User[];
 }

@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Tabs, Tab, Chip, Card, CardBody } from "@nextui-org/react";
+import { Tabs, Tab, Chip } from "@nextui-org/react";
 import { FaUserGroup, FaBuildingUser, FaUserLarge } from "react-icons/fa6";
 import { User } from "@/types/user";
 
 interface FilterTabsProps {
   data: User[];
+  onFilterChange: (filter: string) => void;
 }
 
-const FilterTabs: React.FC<FilterTabsProps> = ({ data }) => {
+const FilterTabs: React.FC<FilterTabsProps> = ({ data, onFilterChange }) => {
   const [allCount, setAllCount] = useState(0);
   const [companyCount, setCompanyCount] = useState(0);
   const [personCount, setPersonCount] = useState(0);
@@ -26,9 +27,18 @@ const FilterTabs: React.FC<FilterTabsProps> = ({ data }) => {
     }
   }, [data]);
 
+  const handleTabChange = (key: string) => {
+    onFilterChange(key);
+  };
+
   return (
     <div className="flex flex-wrap gap-4 mt-[20px]">
-      <Tabs variant="underlined" aria-label="Tabs variants" color="primary">
+      <Tabs
+        variant="underlined"
+        aria-label="Tabs variants"
+        color="primary"
+        onSelectionChange={handleTabChange}
+      >
         <Tab
           key="All"
           title={
