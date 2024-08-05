@@ -1,6 +1,3 @@
-import Link from "next/link";
-// import DarkModeSwitcher from "./DarkModeSwitcher";
-import Image from "next/image";
 import DropdownUser from "./DropdownUser";
 
 const Header = (props: {
