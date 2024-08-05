@@ -25,7 +25,7 @@ import { JwtService } from '@nestjs/jwt';
         from: `"No Reply" <${process.env.MAIL_FROM}>`,
       },
       template: {
-        dir: join(__dirname, '../../mail/templates'),
+        dir: join(__dirname, 'templates'),
         adapter: new HandlebarsAdapter(),
         options: {
           strict: true,
