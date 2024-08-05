@@ -7,6 +7,8 @@ import UserCards from "../../components/Admin/Users/UserCards";
 import { useEffect, useState } from "react";
 import ApiClient from "@/api";
 import { User } from "@/types/user";
+import Breadcrumb from "@/components/Common/Breadcrumb";
+import Image from "next/image";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -47,14 +49,18 @@ const Users = () => {
 
   return (
     <>
-      <div className="flex bg-white rounded-lg pb-4">
-        <FilterTabs data={users} onFilterChange={handleFilterChange} />
-        <FilterAutocomplete
-          data={filteredUsers}
-          onUserSelect={handleUserSelect}
-        />
+      <div className="mx-auto w-full max-w-[1080px]">
+        <Breadcrumb pageName="Settings" />
+
+        <div className="flex bg-white rounded-lg pb-4 mb-10 space-x-40">
+          <FilterTabs data={users} onFilterChange={handleFilterChange} />
+          <FilterAutocomplete
+            data={filteredUsers}
+            onUserSelect={handleUserSelect}
+          />
+        </div>
+        {Array.isArray(usersToShow) && <UserCards data={usersToShow} />}
       </div>
-      {Array.isArray(usersToShow) && <UserCards data={usersToShow} />}
     </>
   );
 };
