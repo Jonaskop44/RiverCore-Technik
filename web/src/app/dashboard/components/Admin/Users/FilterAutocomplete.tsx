@@ -7,20 +7,20 @@ const animals = [
 ];
 
 interface FilterAutocompleteProps {
-  data: User;
+  data: User[];
 }
 
 const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({ data }) => {
   return (
     <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
       <Autocomplete
-        label="Select an animal"
+        label="Select a user"
         className="max-w-xs"
         variant="underlined"
       >
-        {animals.map((animal) => (
-          <AutocompleteItem key={animal.value} value={animal.value}>
-            {animal.label}
+        {data.map((user) => (
+          <AutocompleteItem key={user.email} value={user.email}>
+            {user.firstName} {user.lastName}
           </AutocompleteItem>
         ))}
       </Autocomplete>

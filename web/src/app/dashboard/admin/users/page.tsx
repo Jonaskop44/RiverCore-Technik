@@ -8,18 +8,22 @@ import ApiClient from "@/api";
 import { User } from "@/types/user";
 
 const Users = () => {
-  const [users, setUsers] = useState<User>();
+  const [users, setUsers] = useState<User[]>([]);
   const apiClient = new ApiClient();
 
   useEffect(() => {
     const fetchUsers = async () => {
       const data = await apiClient.user.helper.getAllUsers();
-      console.log(data);
+      console.log("Fetched data:", data);
       setUsers(data);
     };
 
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    console.log("Updated users:", users);
+  }, [users]);
 
   return (
     <>
@@ -27,7 +31,7 @@ const Users = () => {
         <FilterTabs data={users} />
         <FilterAutocomplete data={users} />
       </div>
-      <UserCards data={users} />
+      {Array.isArray(users) && <UserCards data={users} />}
     </>
   );
 };
