@@ -1,5 +1,7 @@
 import { User } from "@/types/user";
 import { FaUserLarge } from "react-icons/fa6";
+import { MdDelete } from "react-icons/md";
+import { RiEdit2Fill } from "react-icons/ri";
 
 interface UserCardProps {
   data: User[];
@@ -39,25 +41,22 @@ const UserCards: React.FC<UserCardProps> = ({ data }) => {
           <div>
             <div className="-mt-px flex divide-x divide-gray-200">
               <div className="w-0 flex-1 flex">
-                <a
-                  href={`mailto:${person.email}`}
-                  className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
-                >
-                  <FaUserLarge
+                <button className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                  <MdDelete
                     className="w-5 h-5 text-gray-400"
                     aria-hidden="true"
                   />
-                  <span className="ml-3">Email</span>
-                </a>
+                  <span className="ml-3">Löschen</span>
+                </button>
               </div>
               <div className="-ml-px w-0 flex-1 flex">
-                <a className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
-                  <FaUserLarge
+                <button className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+                  <RiEdit2Fill
                     className="w-5 h-5 text-gray-400"
                     aria-hidden="true"
                   />
-                  <span className="ml-3">Call</span>
-                </a>
+                  <span className="ml-3">Bearbeiten</span>
+                </button>
               </div>
             </div>
           </div>
