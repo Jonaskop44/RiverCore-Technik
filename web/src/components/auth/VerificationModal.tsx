@@ -100,6 +100,9 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
         placement="center"
         backdrop="blur"
         className="z-99999"
+        classNames={{
+          base: "dark:bg-black",
+        }}
         motionProps={{
           variants: {
             enter: {
@@ -124,7 +127,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
+              <ModalHeader className="flex flex-col gap-1 dark:text-white">
                 Konto aktivieren
               </ModalHeader>
               <ModalBody>
