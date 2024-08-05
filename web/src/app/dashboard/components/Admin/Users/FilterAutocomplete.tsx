@@ -1,3 +1,4 @@
+import { User } from "@/types/user";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
 const animals = [
@@ -5,7 +6,11 @@ const animals = [
   { label: "Firma", value: "COMPANY" },
 ];
 
-const FilterAutocomplete = () => {
+interface FilterAutocompleteProps {
+  data: User;
+}
+
+const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({ data }) => {
   return (
     <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
       <Autocomplete

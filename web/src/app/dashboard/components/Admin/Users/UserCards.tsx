@@ -1,3 +1,4 @@
+import { User } from "@/types/user";
 import { FaUserLarge } from "react-icons/fa6";
 
 const people = [
@@ -13,7 +14,11 @@ const people = [
   // More people...
 ];
 
-const UserCards = () => {
+interface UserCardProps {
+  data: User;
+}
+
+const UserCards: React.FC<UserCardProps> = ({ data }) => {
   return (
     <ul
       role="list"

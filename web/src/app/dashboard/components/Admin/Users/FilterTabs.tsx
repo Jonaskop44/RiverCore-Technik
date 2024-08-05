@@ -2,10 +2,14 @@
 
 import React from "react";
 import { Tabs, Tab, Chip } from "@nextui-org/react";
-import { CiMail } from "react-icons/ci";
 import { FaUserGroup, FaBuildingUser, FaUserLarge } from "react-icons/fa6";
+import { User } from "@/types/user";
 
-const FilterTabs = () => {
+interface FilterTabsProps {
+  data: User;
+}
+
+const FilterTabs: React.FC<FilterTabsProps> = ({ data }) => {
   return (
     <div className="flex flex-wrap gap-4 mt-[20px]">
       <Tabs variant="underlined" aria-label="Tabs variants" color="primary">

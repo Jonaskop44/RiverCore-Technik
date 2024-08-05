@@ -3,7 +3,6 @@ import { User } from "@/types/user";
 import { Constants } from "@/api/constants";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { headers } from "next/headers";
 
 interface UserState {
   user: User | null;
