@@ -52,6 +52,14 @@ export class UserService {
     });
   }
 
+  async getUserById(id: number) {
+    return this.prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  }
+
   async getUserByLastname(lastname: string) {
     return this.prisma.user.findMany({
       where: {
