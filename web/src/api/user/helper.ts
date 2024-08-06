@@ -11,7 +11,20 @@ export default class Helper {
         return response.data;
       })
       .catch((error) => {
-        console.error(error);
+        return { status: false };
+      });
+  }
+
+  async deleteUser(id: number) {
+    return axios
+      .delete(`${Constants.API_BASE}/admin/user/delete/${id}`)
+      .then((response) => {
+        if (response.status !== 200) return { status: false };
+
+        return { status: true };
+      })
+      .catch((error) => {
+        return { status: false };
       });
   }
 }

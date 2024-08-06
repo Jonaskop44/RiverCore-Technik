@@ -4,6 +4,8 @@ import { RiEdit2Fill } from "react-icons/ri";
 import EditUserModal from "./EditUserModal";
 import { useEffect, useState } from "react";
 import { useDisclosure } from "@nextui-org/react";
+import ApiClient from "@/api";
+import { toast } from "sonner";
 
 interface UserCardProps {
   data: User[];
@@ -11,11 +13,46 @@ interface UserCardProps {
 
 const UserCards: React.FC<UserCardProps> = ({ data }) => {
   const [user, setUser] = useState<User>(null);
+  const [deletingUserId, setDeletingUserId] = useState<number | null>(null);
+  const [confirmationTimer, setConfirmationTimer] =
+    useState<NodeJS.Timeout | null>(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const apiClient = new ApiClient();
+
+  const handleUserDelete = async (id: number) => {
+    if (deletingUserId === id) {
+      const response = await apiClient.user.helper.deleteUser(id);
+      if (response.status) {
+        toast.success("Benutzer erfolgreich gelöscht");
+      } else {
+        toast.error("Benutzer konnte nicht gelöscht werden");
+      }
+      setDeletingUserId(null);
+      setConfirmationTimer(null);
+    } else {
+      // Request confirmation
+      setDeletingUserId(id);
+      toast.info(
+        "Bestätigen Sie die Löschung des Benutzers durch erneutes Klicken auf Löschen"
+      );
+
+      // Set a timer to reset the confirmation
+      const timer = setTimeout(() => {
+        setDeletingUserId(null);
+        toast.info("Löschbestätigung abgelaufen");
+      }, 5000);
+      setConfirmationTimer(timer);
+    }
+  };
 
   useEffect(() => {
-    console.log(user);
-  });
+    // Clear timer if user navigates away or cancels deletion
+    return () => {
+      if (confirmationTimer) {
+        clearTimeout(confirmationTimer);
+      }
+    };
+  }, [confirmationTimer]);
 
   return (
     <>
@@ -59,12 +96,17 @@ const UserCards: React.FC<UserCardProps> = ({ data }) => {
             <div>
               <div className="-mt-px flex divide-x divide-gray-200">
                 <div className="w-0 flex-1 flex">
-                  <button className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                  <button
+                    onClick={() => handleUserDelete(person.id)}
+                    className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
+                  >
                     <MdDelete
                       className="w-5 h-5 text-gray-400"
                       aria-hidden="true"
                     />
-                    <span className="ml-3">Löschen</span>
+                    <span className="ml-3">
+                      {deletingUserId === person.id ? "Bestätigen" : "Löschen"}
+                    </span>
                   </button>
                 </div>
                 <div className="-ml-px w-0 flex-1 flex">
