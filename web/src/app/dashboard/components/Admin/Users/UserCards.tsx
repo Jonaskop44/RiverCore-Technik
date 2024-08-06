@@ -12,7 +12,6 @@ interface UserCardProps {
 }
 
 const UserCards: React.FC<UserCardProps> = ({ data }) => {
-  const [users, setUsers] = useState<User[]>(data);
   const [user, setUser] = useState<User>(null);
   const [deletingUserId, setDeletingUserId] = useState<number | null>(null);
   const [confirmationTimer, setConfirmationTimer] =
@@ -24,8 +23,6 @@ const UserCards: React.FC<UserCardProps> = ({ data }) => {
     if (deletingUserId === id) {
       const response = await apiClient.user.helper.deleteUser(id);
       if (response.status) {
-        // Remove the user from the list
-        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
         toast.success("Benutzer erfolgreich gelöscht");
       } else {
         toast.error("Benutzer konnte nicht gelöscht werden");
@@ -71,7 +68,7 @@ const UserCards: React.FC<UserCardProps> = ({ data }) => {
         role="list"
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
-        {users.map((person) => (
+        {data.map((person) => (
           <li
             key={person.email}
             className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200"
@@ -108,9 +105,7 @@ const UserCards: React.FC<UserCardProps> = ({ data }) => {
                       aria-hidden="true"
                     />
                     <span className="ml-3">
-                      {deletingUserId === person.id
-                        ? "Erneut klicken zum Bestätigen"
-                        : "Löschen"}
+                      {deletingUserId === person.id ? "Bestätigen" : "Löschen"}
                     </span>
                   </button>
                 </div>
