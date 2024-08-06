@@ -8,12 +8,15 @@ import { useEffect, useState } from "react";
 import ApiClient from "@/api";
 import { User } from "@/types/user";
 import Breadcrumb from "@/components/Common/Breadcrumb";
+import EditUserModal from "../../components/Admin/Users/EditUserModal";
+import { useDisclosure } from "@nextui-org/react";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("All");
   const [selectedUser, setSelectedUser] = useState<User>(null);
   const apiClient = new ApiClient();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -42,17 +45,25 @@ const Users = () => {
 
   return (
     <>
-      <div className="mx-auto w-full max-w-[1080px]">
-        <Breadcrumb pageName="Settings" />
+      <div>
+        <div className="mx-auto w-full max-w-[1080px]">
+          <Breadcrumb pageName="Settings" />
 
-        <div className="flex bg-white rounded-lg pb-4 mb-10 sm:space-x-60 md:space-x-5 lg:space-x-60">
-          <FilterTabs data={users} onFilterChange={handleFilterChange} />
-          <FilterAutocomplete
-            data={filteredUsers}
-            onUserSelect={handleUserSelect}
-          />
+          <div className="flex bg-white rounded-lg pb-4 mb-10 sm:space-x-60 md:space-x-5 lg:space-x-60">
+            <FilterTabs data={users} onFilterChange={handleFilterChange} />
+            <FilterAutocomplete
+              data={filteredUsers}
+              onUserSelect={handleUserSelect}
+            />
+          </div>
+          {Array.isArray(usersToShow) && <UserCards data={usersToShow} />}
         </div>
-        {Array.isArray(usersToShow) && <UserCards data={usersToShow} />}
+        <EditUserModal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          onOpen={onOpen}
+          data={selectedUser}
+        />
       </div>
     </>
   );
