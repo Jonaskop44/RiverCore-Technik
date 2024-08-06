@@ -37,6 +37,10 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
   onOpenChange,
   data,
 }) => {
+  const defaultDesignation = () => {
+    return data.designation === "COMPANY" ? "COMPANY" : "PERSON";
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -102,16 +106,16 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
               />
               <Select label="Rolle" variant="underlined">
                 {roles.map((item) => (
-                  <SelectItem key={item.key}>{item.label}</SelectItem>
+                  <SelectItem key={item.key} value={item.key}>
+                    {item.label}
+                  </SelectItem>
                 ))}
               </Select>
-              <Select
-                label="Anrede"
-                variant="underlined"
-                defaultSelectedKeys={"all"}
-              >
+              <Select label="Anrede" variant="underlined">
                 {designation.map((item) => (
-                  <SelectItem key={item.key}>{item.label}</SelectItem>
+                  <SelectItem key={item.key} value={item.key}>
+                    {item.label}
+                  </SelectItem>
                 ))}
               </Select>
               {data.designation === "COMPANY" && (

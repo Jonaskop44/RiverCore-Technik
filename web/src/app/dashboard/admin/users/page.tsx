@@ -43,7 +43,7 @@ const Users = () => {
   return (
     <>
       <div className="mx-auto w-full max-w-[1080px]">
-        <Breadcrumb pageName="Settings" />
+        <Breadcrumb pageName="Benutzerverwaltung" />
 
         <div className="flex bg-white rounded-lg pb-4 mb-10 sm:space-x-60 md:space-x-5 lg:space-x-60">
           <FilterTabs data={users} onFilterChange={handleFilterChange} />
