@@ -62,8 +62,14 @@ const UserCards: React.FC<UserCardProps> = ({ data, onUserDelete }) => {
                   <h3 className="text-gray-900 text-sm font-medium truncate">
                     {person.firstName} {person.lastName}
                   </h3>
-                  <span className="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
-                    {person.designation}
+                  <span
+                    className={`flex-shrink-0 inline-block px-2 py-0.5 text-xs font-medium rounded-full ${
+                      person.activated
+                        ? "text-green-800 bg-green-100"
+                        : "text-red-800 bg-red-100"
+                    }`}
+                  >
+                    {person.activated ? "Aktiviert" : "Deaktiviert"}
                   </span>
                 </div>
                 <p className="mt-1 text-gray-500 text-sm truncate">
