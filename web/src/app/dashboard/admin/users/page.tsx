@@ -8,41 +8,34 @@ import { useEffect, useState } from "react";
 import ApiClient from "@/api";
 import { User } from "@/types/user";
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import Image from "next/image";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("All");
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User>(null);
   const apiClient = new ApiClient();
 
   useEffect(() => {
     const fetchUsers = async () => {
       const data = await apiClient.user.helper.getAllUsers();
-      console.log("Fetched data:", data);
       setUsers(data);
     };
 
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    console.log("Updated users:", users);
-  }, [users]);
-
   const handleFilterChange = (filter: string) => {
     setSelectedFilter(filter);
   };
 
-  const handleUserSelect = (user: User | null) => {
+  const handleUserSelect = (user: User) => {
     setSelectedUser(user);
   };
 
   const filteredUsers = users.filter((user) => {
-    if (selectedFilter === "All") return true;
+    if (selectedFilter === "All") return user;
     if (selectedFilter === "Company") return user.designation === "COMPANY";
     if (selectedFilter === "Person") return user.designation === "PERSON";
-    return true;
   });
 
   const usersToShow = selectedUser ? [selectedUser] : filteredUsers;

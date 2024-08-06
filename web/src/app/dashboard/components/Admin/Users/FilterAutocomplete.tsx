@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Autocomplete,
   AutocompleteItem,
@@ -14,40 +14,44 @@ type FieldState = {
   items: User[];
 };
 
-type FilterAutocompleteProps = {
+interface FilterAutocompleteProps {
   data: User[];
-  onUserSelect: (user: User | null) => void;
-};
+  onUserSelect: (user: User) => void;
+}
 
-const FilterAutocomplete = ({
+const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({
   data,
   onUserSelect,
-}: FilterAutocompleteProps) => {
-  const [fieldState, setFieldState] = React.useState<FieldState>({
+}) => {
+  const [fieldState, setFieldState] = useState<FieldState>({
     selectedKey: "",
     inputValue: "",
     items: data,
   });
 
-  const { startsWith } = useFilter({ sensitivity: "base" });
+  useEffect(() => {
+    setFieldState((prevState) => ({
+      ...prevState,
+      items: data,
+    }));
+  }, [data]);
 
   const getFullName = (user: User) => {
     return `${user.firstName || ""} ${user.lastName || ""}`.trim();
   };
 
-  const onSelectionChange = (key: string) => {
-    const selectedItem = data.find((user) => user.id === parseInt(key)) || null;
+  const { startsWith } = useFilter({ sensitivity: "base" });
+
+  const onSelectionChange = (key: React.Key) => {
+    const selectedItem = data.find((option) => option.id === key);
+    onUserSelect(selectedItem);
     setFieldState((prevState) => ({
-      inputValue: selectedItem ? getFullName(selectedItem) : "",
-      selectedKey: key,
+      inputValue: selectedItem?.firstName || "",
+      selectedKey: String(key),
       items: data.filter((item) =>
-        startsWith(
-          getFullName(item),
-          selectedItem ? getFullName(selectedItem) : ""
-        )
+        startsWith(item.firstName, selectedItem?.firstName || "")
       ),
     }));
-    onUserSelect(selectedItem);
   };
 
   const onInputChange = (value: string) => {
@@ -56,7 +60,6 @@ const FilterAutocomplete = ({
       selectedKey: value === "" ? null : prevState.selectedKey,
       items: data.filter((item) => startsWith(getFullName(item), value)),
     }));
-    if (value === "") onUserSelect(null);
   };
 
   const onOpenChange = (isOpen: boolean, menuTrigger: MenuTriggerAction) => {
@@ -76,7 +79,7 @@ const FilterAutocomplete = ({
       items={fieldState.items}
       label="Benutzer suchen"
       listboxProps={{
-        emptyContent: "Keinen Benutzer gefunden",
+        emptyContent: "Keine Benutzer gefunden!",
       }}
       selectedKey={fieldState.selectedKey}
       variant="underlined"
