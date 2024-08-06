@@ -9,6 +9,7 @@ import {
 } from "@nextui-org/react";
 import { useUserStore } from "@/data/userStore";
 import { handleLogout } from "@/hooks/user";
+import Link from "next/link";
 
 const DropdownUser = () => {
   const { user } = useUserStore();
@@ -83,7 +84,9 @@ const DropdownUser = () => {
             />
           </DropdownItem>
           <DropdownItem key="dashboard">Dashboard</DropdownItem>
-          <DropdownItem key="settings">Settings</DropdownItem>
+          <DropdownItem key="settings">
+            <Link href="/dashboard/user/settings">Einstellungen</Link>
+          </DropdownItem>
           <DropdownItem key="new_project">New Project</DropdownItem>
         </DropdownSection>
 
