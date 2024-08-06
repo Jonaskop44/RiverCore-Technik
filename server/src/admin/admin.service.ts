@@ -30,18 +30,18 @@ export class AdminService {
     });
   }
 
-  async updateUser(id: number, data: UpdateUserDto) {
+  async updateUser(id: number, dto: UpdateUserDto) {
     const user = await this.userService.getUserById(id);
 
     if (!user) {
       throw new ConflictException('User not found');
     }
 
-    if (data.designation === Designation.PERSON && data.companyName) {
+    if (dto.designation === Designation.PERSON && dto.companyName) {
       throw new ConflictException(
         'Company name is not required for PERSON designation',
       );
-    } else if (data.designation === Designation.COMPANY && !data.companyName) {
+    } else if (dto.designation === Designation.COMPANY && !dto.companyName) {
       throw new ConflictException(
         'Company name is required for COMPANY designation',
       );
@@ -52,7 +52,7 @@ export class AdminService {
         id: id,
       },
       data: {
-        ...data,
+        ...dto,
       },
     });
 

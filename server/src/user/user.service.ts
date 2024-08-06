@@ -5,7 +5,7 @@ import { hash } from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
 import { User } from './entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
-import { TokenType, VerificationToken } from '@prisma/client';
+import { Designation, TokenType } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -24,6 +24,16 @@ export class UserService {
 
     if (user)
       throw new ConflictException('There is already a user with this email');
+
+    if (dto.designation === Designation.PERSON && dto.companyName) {
+      throw new ConflictException(
+        'Company name is not required for PERSON designation',
+      );
+    } else if (dto.designation === Designation.COMPANY && !dto.companyName) {
+      throw new ConflictException(
+        'Company name is required for COMPANY designation',
+      );
+    }
 
     const newUser = await this.prisma.user.create({
       data: {
