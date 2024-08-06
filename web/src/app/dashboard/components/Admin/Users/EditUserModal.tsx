@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import {
   Modal,
   ModalContent,
@@ -9,11 +9,6 @@ import {
   Input,
   Link,
 } from "@nextui-org/react";
-import { FaRegEye } from "react-icons/fa";
-import { FaRegEyeSlash } from "react-icons/fa";
-import { toast } from "sonner";
-import ApiClient from "@/api";
-import Cookies from "js-cookie";
 import { User } from "@/types/user";
 
 interface EditUserModalProps {

@@ -1,5 +1,4 @@
 import { User } from "@/types/user";
-import { FaUserLarge } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { RiEdit2Fill } from "react-icons/ri";
 
