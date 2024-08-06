@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import {
   Autocomplete,
   AutocompleteItem,
@@ -7,6 +6,7 @@ import {
 } from "@nextui-org/react";
 import { useFilter } from "@react-aria/i18n";
 import { User } from "@/types/user";
+import { useEffect, useState } from "react";
 
 type FieldState = {
   selectedKey: string | null;
@@ -36,22 +36,25 @@ const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({
     }));
   }, [data]);
 
+  const { startsWith } = useFilter({ sensitivity: "base" });
+
   const getFullName = (user: User) => {
     return `${user.firstName || ""} ${user.lastName || ""}`.trim();
   };
 
-  const { startsWith } = useFilter({ sensitivity: "base" });
-
-  const onSelectionChange = (key: React.Key) => {
-    const selectedItem = data.find((option) => option.id === key);
-    onUserSelect(selectedItem);
+  const onSelectionChange = (key: string) => {
+    const selectedItem = data.find((user) => user.id === parseInt(key)) || null;
     setFieldState((prevState) => ({
-      inputValue: selectedItem?.firstName || "",
-      selectedKey: String(key),
+      inputValue: selectedItem ? getFullName(selectedItem) : "",
+      selectedKey: key,
       items: data.filter((item) =>
-        startsWith(item.firstName, selectedItem?.firstName || "")
+        startsWith(
+          getFullName(item),
+          selectedItem ? getFullName(selectedItem) : ""
+        )
       ),
     }));
+    onUserSelect(selectedItem);
   };
 
   const onInputChange = (value: string) => {
@@ -60,6 +63,7 @@ const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({
       selectedKey: value === "" ? null : prevState.selectedKey,
       items: data.filter((item) => startsWith(getFullName(item), value)),
     }));
+    if (value === "") onUserSelect(null);
   };
 
   const onOpenChange = (isOpen: boolean, menuTrigger: MenuTriggerAction) => {
@@ -79,7 +83,7 @@ const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({
       items={fieldState.items}
       label="Benutzer suchen"
       listboxProps={{
-        emptyContent: "Keine Benutzer gefunden!",
+        emptyContent: "Keinen Benutzer gefunden",
       }}
       selectedKey={fieldState.selectedKey}
       variant="underlined"
