@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -37,10 +37,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
   onOpenChange,
   data,
 }) => {
-  const defaultDesignation = () => {
-    return data.designation === "COMPANY" ? "COMPANY" : "PERSON";
-  };
-
   return (
     <Modal
       isOpen={isOpen}
@@ -104,14 +100,22 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 errorMessage="Bitte geben Sie eine gültige E-Mail-Adresse ein"
                 variant="underlined"
               />
-              <Select label="Rolle" variant="underlined">
+              <Select
+                label="Rolle"
+                variant="underlined"
+                defaultSelectedKeys={[data.role]}
+              >
                 {roles.map((item) => (
                   <SelectItem key={item.key} value={item.key}>
                     {item.label}
                   </SelectItem>
                 ))}
               </Select>
-              <Select label="Anrede" variant="underlined">
+              <Select
+                label="Anrede"
+                variant="underlined"
+                defaultSelectedKeys={[data.designation]}
+              >
                 {designation.map((item) => (
                   <SelectItem key={item.key} value={item.key}>
                     {item.label}
@@ -128,7 +132,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 />
               )}
               <div className="flex py-2 px-1 justify-between">
-                <Checkbox isSelected={data.activated}>Aktiviert</Checkbox>
+                <Checkbox defaultSelected={data.activated}>Aktiviert</Checkbox>
               </div>
             </ModalBody>
             <ModalFooter>
