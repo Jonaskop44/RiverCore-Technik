@@ -2,41 +2,33 @@ import { User } from "@/types/user";
 import { MdDelete } from "react-icons/md";
 import { RiEdit2Fill } from "react-icons/ri";
 import EditUserModal from "./EditUserModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDisclosure } from "@nextui-org/react";
-import ApiClient from "@/api";
 import { toast } from "sonner";
 
 interface UserCardProps {
   data: User[];
+  onUserDelete: (id: number) => void;
 }
 
-const UserCards: React.FC<UserCardProps> = ({ data }) => {
+const UserCards: React.FC<UserCardProps> = ({ data, onUserDelete }) => {
   const [user, setUser] = useState<User>(null);
   const [deletingUserId, setDeletingUserId] = useState<number | null>(null);
   const [confirmationTimer, setConfirmationTimer] =
     useState<NodeJS.Timeout | null>(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const apiClient = new ApiClient();
 
-  const handleUserDelete = async (id: number) => {
+  const handleUserDelete = (id: number) => {
     if (deletingUserId === id) {
-      const response = await apiClient.user.helper.deleteUser(id);
-      if (response.status) {
-        toast.success("Benutzer erfolgreich gelöscht");
-      } else {
-        toast.error("Benutzer konnte nicht gelöscht werden");
-      }
+      onUserDelete(id);
       setDeletingUserId(null);
       setConfirmationTimer(null);
     } else {
-      // Request confirmation
       setDeletingUserId(id);
       toast.info(
         "Bestätigen Sie die Löschung des Benutzers durch erneutes Klicken auf Löschen"
       );
 
-      // Set a timer to reset the confirmation
       const timer = setTimeout(() => {
         setDeletingUserId(null);
         toast.info("Löschbestätigung abgelaufen");
@@ -44,15 +36,6 @@ const UserCards: React.FC<UserCardProps> = ({ data }) => {
       setConfirmationTimer(timer);
     }
   };
-
-  useEffect(() => {
-    // Clear timer if user navigates away or cancels deletion
-    return () => {
-      if (confirmationTimer) {
-        clearTimeout(confirmationTimer);
-      }
-    };
-  }, [confirmationTimer]);
 
   return (
     <>

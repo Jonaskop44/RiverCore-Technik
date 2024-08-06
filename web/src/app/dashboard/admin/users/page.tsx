@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import ApiClient from "@/api";
 import { User } from "@/types/user";
 import Breadcrumb from "@/components/Common/Breadcrumb";
+import { toast } from "sonner";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -32,6 +33,16 @@ const Users = () => {
     setSelectedUser(user);
   };
 
+  const handleUserDelete = async (id: number) => {
+    const response = await apiClient.user.helper.deleteUser(id);
+    if (response.status) {
+      toast.success("Benutzer erfolgreich gelöscht");
+      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+    } else {
+      toast.error("Benutzer konnte nicht gelöscht werden");
+    }
+  };
+
   const filteredUsers = users.filter((user) => {
     if (selectedFilter === "All") return user;
     if (selectedFilter === "Company") return user.designation === "COMPANY";
@@ -52,7 +63,9 @@ const Users = () => {
             onUserSelect={handleUserSelect}
           />
         </div>
-        {Array.isArray(usersToShow) && <UserCards data={usersToShow} />}
+        {Array.isArray(usersToShow) && (
+          <UserCards data={usersToShow} onUserDelete={handleUserDelete} />
+        )}
       </div>
     </>
   );
