@@ -53,6 +53,7 @@ export class AdminService {
       },
       data: {
         ...dto,
+        companyName: dto.companyName ? dto.companyName : null,
       },
     });
 

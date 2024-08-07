@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -13,6 +13,7 @@ import {
 } from "@nextui-org/react";
 import { User } from "@/types/user";
 import ApiClient from "@/api";
+import { toast } from "sonner";
 
 interface EditUserModalProps {
   isOpen: boolean;
@@ -38,9 +39,58 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
   onOpenChange,
   data,
 }) => {
+  const [firstName, setFirstName] = useState(data.firstName);
+  const [lastName, setLastName] = useState(data.lastName);
+  const [email, setEmail] = useState(data.email);
+  const [role, setRole] = useState(data.role);
+  const [designationValue, setDesignationValue] = useState(data.designation);
+  const [companyName, setCompanyName] = useState(data.companyName || "");
+  const [activated, setActivated] = useState(data.activated);
+
   const apiClient = new ApiClient();
 
-  apiClient.user.helper.updateUser(data.id, data);
+  useEffect(() => {
+    const updatedUser = {
+      firstName,
+      lastName,
+      email,
+      role,
+      designation: designationValue,
+      companyName: designationValue === "COMPANY" ? companyName : "",
+      activated,
+    };
+    console.log("updatedUser", updatedUser);
+  }, [
+    firstName,
+    lastName,
+    email,
+    role,
+    designationValue,
+    companyName,
+    activated,
+  ]);
+
+  const handleSave = async () => {
+    const updatedUser = {
+      firstName,
+      lastName,
+      email,
+      role,
+      designation: designationValue,
+      companyName: designationValue === "COMPANY" ? companyName : "",
+      activated,
+    };
+
+    try {
+      await apiClient.user.helper.updateUser(data.id, updatedUser);
+      toast.success("Benutzer erfolgreich aktualisiert");
+      onOpenChange(false);
+    } catch (error) {
+      toast.error(
+        "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut!"
+      );
+    }
+  };
 
   return (
     <Modal
@@ -90,6 +140,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 isRequired
                 errorMessage="Bitte geben Sie den Vornamen ein"
                 variant="underlined"
+                onChange={(e) => setFirstName(e.target.value)}
               />
               <Input
                 label="Nachname"
@@ -97,6 +148,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 isRequired
                 errorMessage="Bitte geben Sie den Nachnamen ein"
                 variant="underlined"
+                onChange={(e) => setLastName(e.target.value)}
               />
               <Input
                 label="E-Mail"
@@ -104,11 +156,13 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 isRequired
                 errorMessage="Bitte geben Sie eine gültige E-Mail-Adresse ein"
                 variant="underlined"
+                onChange={(e) => setEmail(e.target.value)}
               />
               <Select
                 label="Rolle"
                 variant="underlined"
                 defaultSelectedKeys={[data.role]}
+                onChange={(e) => setRole(e.target.value)}
               >
                 {roles.map((item) => (
                   <SelectItem key={item.key} value={item.key}>
@@ -120,6 +174,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 label="Anrede"
                 variant="underlined"
                 defaultSelectedKeys={[data.designation]}
+                onChange={(e) => setDesignationValue(e.target.value)}
               >
                 {designation.map((item) => (
                   <SelectItem key={item.key} value={item.key}>
@@ -127,23 +182,29 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                   </SelectItem>
                 ))}
               </Select>
-              {data.designation === "COMPANY" && (
+              {designationValue === "COMPANY" && (
                 <Input
                   label="Unternehmen"
                   defaultValue={data.companyName}
                   isRequired
                   errorMessage="Bitte geben Sie den Firmennamen ein"
                   variant="underlined"
+                  onChange={(e) => setCompanyName(e.target.value)}
                 />
               )}
               <div className="flex py-2 px-1 justify-between">
-                <Checkbox defaultSelected={data.activated}>Aktiviert</Checkbox>
+                <Checkbox
+                  defaultSelected={data.activated}
+                  onChange={(e) => setActivated(e.target.checked)}
+                >
+                  Aktiviert
+                </Checkbox>
               </div>
             </ModalBody>
             <ModalFooter>
               <Button
                 color="primary"
-                onPress={() => console.log("Daten gespeichert")}
+                onPress={handleSave}
                 className="cursor-pointer"
               >
                 Speichern
