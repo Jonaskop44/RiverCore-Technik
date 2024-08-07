@@ -78,7 +78,7 @@ const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({
 
   return (
     <Autocomplete
-      className="max-w-xs"
+      className="max-w-xs z-10"
       inputValue={fieldState.inputValue}
       items={fieldState.items}
       label="Benutzer suchen"
