@@ -12,6 +12,7 @@ import {
   Checkbox,
 } from "@nextui-org/react";
 import { User } from "@/types/user";
+import ApiClient from "@/api";
 
 interface EditUserModalProps {
   isOpen: boolean;
@@ -37,6 +38,10 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
   onOpenChange,
   data,
 }) => {
+  const apiClient = new ApiClient();
+
+  apiClient.user.helper.updateUser(data.id, data);
+
   return (
     <Modal
       isOpen={isOpen}

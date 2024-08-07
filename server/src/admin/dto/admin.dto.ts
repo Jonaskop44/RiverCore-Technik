@@ -24,4 +24,7 @@ export class UpdateUserDto {
 
   @IsString()
   readonly companyName: string;
+
+  @IsNotEmpty()
+  readonly activated: boolean;
 }
