@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { use, useEffect, useMemo, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -39,6 +39,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
   onOpenChange,
   data,
 }) => {
+  const apiClient = new ApiClient();
   const [firstName, setFirstName] = useState(data.firstName);
   const [lastName, setLastName] = useState(data.lastName);
   const [email, setEmail] = useState(data.email);
@@ -46,8 +47,44 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
   const [designationValue, setDesignationValue] = useState(data.designation);
   const [companyName, setCompanyName] = useState(data.companyName || "");
   const [activated, setActivated] = useState(data.activated);
+  const [touched, setTouched] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+    role: false,
+    designation: false,
+    companyName: false,
+  });
 
-  const apiClient = new ApiClient();
+  const isInvalidFirstName = useMemo(() => {
+    return firstName.trim() === "";
+  }, [firstName]);
+
+  const isInvalidLastName = useMemo(() => {
+    return lastName.trim() === "";
+  }, [lastName]);
+
+  const isInvalidEmail = useMemo(() => {
+    return !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+  }, [email]);
+
+  const isInvalidCompanyName = useMemo(() => {
+    return designationValue === "COMPANY" && companyName.trim() === "";
+  }, [companyName, designationValue]);
+
+  const isFormValid = useMemo(() => {
+    return (
+      !isInvalidFirstName &&
+      !isInvalidLastName &&
+      !isInvalidEmail &&
+      !isInvalidCompanyName
+    );
+  }, [
+    isInvalidFirstName,
+    isInvalidLastName,
+    isInvalidEmail,
+    isInvalidCompanyName,
+  ]);
 
   useEffect(() => {
     const updatedUser = {
@@ -138,17 +175,27 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 label="Vorname"
                 defaultValue={data.firstName}
                 isRequired
-                errorMessage="Bitte geben Sie den Vornamen ein"
                 variant="underlined"
                 onChange={(e) => setFirstName(e.target.value)}
+                isInvalid={touched.firstName && isInvalidFirstName}
+                errorMessage="Bitte geben Sie Ihren Namen ein"
+                color={
+                  touched.firstName && isInvalidFirstName ? "danger" : "default"
+                }
+                onBlur={() => setTouched({ ...touched, firstName: true })}
               />
               <Input
                 label="Nachname"
                 defaultValue={data.lastName}
                 isRequired
-                errorMessage="Bitte geben Sie den Nachnamen ein"
                 variant="underlined"
                 onChange={(e) => setLastName(e.target.value)}
+                isInvalid={touched.lastName && isInvalidLastName}
+                errorMessage="Bitte geben Sie Ihren Nachnamen ein"
+                color={
+                  touched.lastName && isInvalidLastName ? "danger" : "default"
+                }
+                onBlur={() => setTouched({ ...touched, lastName: true })}
               />
               <Input
                 label="E-Mail"
@@ -157,6 +204,9 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 errorMessage="Bitte geben Sie eine gültige E-Mail-Adresse ein"
                 variant="underlined"
                 onChange={(e) => setEmail(e.target.value)}
+                isInvalid={touched.email && isInvalidEmail}
+                color={touched.email && isInvalidEmail ? "danger" : "default"}
+                onBlur={() => setTouched({ ...touched, email: true })}
               />
               <Select
                 label="Rolle"
@@ -190,6 +240,13 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                   errorMessage="Bitte geben Sie den Firmennamen ein"
                   variant="underlined"
                   onChange={(e) => setCompanyName(e.target.value)}
+                  isInvalid={touched.companyName && isInvalidCompanyName}
+                  color={
+                    touched.companyName && isInvalidCompanyName
+                      ? "danger"
+                      : "default"
+                  }
+                  onBlur={() => setTouched({ ...touched, companyName: true })}
                 />
               )}
               <div className="flex py-2 px-1 justify-between">
@@ -204,6 +261,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
             <ModalFooter>
               <Button
                 color="primary"
+                isDisabled={!isFormValid}
                 onPress={handleSave}
                 className="cursor-pointer"
               >

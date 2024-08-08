@@ -22,13 +22,17 @@ const UserCards: React.FC<UserCardProps> = ({ data, onUserDelete }) => {
     if (deletingUserId === id) {
       onUserDelete(id);
       setDeletingUserId(null);
-      setConfirmationTimer(null);
+
+      // Clear the confirmation timer to prevent the "Löschbestätigung abgelaufen" message
+      if (confirmationTimer) {
+        clearTimeout(confirmationTimer);
+        setConfirmationTimer(null);
+      }
     } else {
       setDeletingUserId(id);
       toast.info(
         "Bestätigen Sie die Löschung des Benutzers durch erneutes Klicken auf Löschen"
       );
-
       const timer = setTimeout(() => {
         setDeletingUserId(null);
         toast.info("Löschbestätigung abgelaufen");
