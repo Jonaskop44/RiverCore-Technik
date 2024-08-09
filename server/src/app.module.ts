@@ -6,6 +6,7 @@ import { PrismaService } from './prisma/prisma.service';
 import { AuthorModule } from './author/author.module';
 import { MailModule } from './mail/mail.module';
 import { AdminModule } from './admin/admin.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AdminModule } from './admin/admin.module';
     AuthorModule,
     MailModule,
     AdminModule,
+    UploadModule,
   ],
   controllers: [],
   providers: [PrismaService],
