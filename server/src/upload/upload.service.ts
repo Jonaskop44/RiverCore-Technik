@@ -3,71 +3,54 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { existsSync, mkdirSync } from 'fs';
+import { existsSync, mkdirSync, renameSync } from 'fs';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, join } from 'path';
 import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class UploadService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private prisma: PrismaService,
+    private userService: UserService,
+  ) {}
 
-  multerConfig = {
-    storage: diskStorage({
-      destination: (request, file, callback) => {
-        const uploadPath = './public/images/profilePictures';
+  async saveProfilePicture(request, file: any) {
+    const userEmail = request.user.email;
 
-        if (!existsSync(uploadPath)) {
-          mkdirSync(uploadPath, { recursive: true });
-        }
+    if (!userEmail) {
+      throw new UnauthorizedException('User not found');
+    }
 
-        callback(null, uploadPath);
+    const user = await this.userService.getUserByEmail(userEmail);
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    const userId = user.id;
+    const newFileName = `${userId}-${file.filename}`;
+
+    // Datei umbenennen, um die User-ID im Dateinamen zu speichern
+    const oldPath = join(file.destination, file.filename);
+    const newPath = join(file.destination, newFileName);
+    renameSync(oldPath, newPath);
+
+    await this.prisma.user.update({
+      where: {
+        id: user.id,
       },
-      filename: (request, file, callback) => {
-        // Authorization header extraction to get the user id
-        const authorizationHeader = request.headers.authorization;
-
-        if (!authorizationHeader) {
-          return callback(
-            new UnauthorizedException('Authorization header is missing'),
-            null,
-          );
-        }
-
-        const token = authorizationHeader.replace('Bearer ', '');
-
-        try {
-          const decoded = this.jwtService.verify(token, {
-            secret: process.env.JWT_SECRET,
-          });
-
-          const userId = decoded?.id; // Assuming the token contains the user ID
-
-          if (!userId) {
-            throw new ConflictException('User ID not found in token');
-          }
-
-          const name = file.originalname.split('.')[0];
-          const extension = extname(file.originalname);
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          callback(null, `${userId}-${name}-${randomName}${extension}`);
-        } catch (error) {
-          return callback(new ConflictException('Invalid token'), null);
-        }
+      data: {
+        profilePicture: file.filename,
       },
-    }),
-    fileFilter: (request, file, callback) => {
-      if (file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
-        callback(null, true);
-      } else {
-        callback(new ConflictException('File not supported'), false);
-      }
-    },
-    limits: {
-      fileSize: 5 * 1024 * 1024, // Limit file size to 5MB
-    },
-  };
+    });
+
+    return {
+      message: 'Profile picture uploaded and saved successfully',
+      fileName: newFileName,
+    };
+  }
 }

@@ -15,22 +15,21 @@ const multerConfig = {
       callback(null, uploadPath);
     },
     filename: (request, file, callback) => {
-      //Authorization token is here needed to get the user id
-
-      const name = file.originalname.split('.')[0];
       const extension = extname(file.originalname);
-      const randomName = Array(32)
-        .fill(null)
-        .map(() => Math.round(Math.random() * 16).toString(16))
-        .join('');
-      callback(null, `${name}-${randomName}${extension}`);
+      const uuid = crypto.randomUUID();
+      callback(null, `${uuid}${extension}`);
     },
   }),
   fileFilter: (request, file, callback) => {
     if (file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
       callback(null, true);
     } else {
-      callback(new ConflictException('File not supported'), false);
+      callback(
+        new ConflictException(
+          'File type not allowed! Only use: (jpg, jpeg, png)',
+        ),
+        false,
+      );
     }
   },
   limits: {
