@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { renameSync } from 'fs';
+import { renameSync, unlinkSync } from 'fs';
 import { join } from 'path';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -29,18 +29,23 @@ export class UploadService {
     const userId = user.id;
     const newFileName = `${userId}-${file.filename}`;
 
-    //Check if there is already a profile picture and delete it
-    if (user.profilePicture) {
-      const oldProfilePicture = join(
-        file.destination,
-        `${userId}-${user.profilePicture}`,
-      ).split('-')[0];
-    }
-
-    // Datei umbenennen, um die User-ID im Dateinamen zu speichern
+    //Rename file with userId prefix
     const oldPath = join(file.destination, file.filename);
     const newPath = join(file.destination, newFileName);
     renameSync(oldPath, newPath);
+
+    //Delete old profile picture
+    if (user.profilePicture) {
+      try {
+        const oldProfilePicture = join(
+          file.destination,
+          `${userId}-${user.profilePicture}`,
+        );
+        unlinkSync(oldProfilePicture);
+      } catch (error) {
+        console.error('Error deleting old profile picture', error);
+      }
+    }
 
     await this.prisma.user.update({
       where: {
