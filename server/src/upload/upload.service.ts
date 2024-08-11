@@ -1,9 +1,16 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { renameSync, unlinkSync } from 'fs';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { existsSync, renameSync, unlinkSync } from 'fs';
 import { join } from 'path';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
+import { of } from 'rxjs';
+import { Response } from 'express';
 
 @Injectable()
 export class UploadService {
@@ -39,7 +46,7 @@ export class UploadService {
       try {
         const oldProfilePicture = join(
           file.destination,
-          `${userId}-${user.profilePicture}`,
+          `${user.profilePicture}`,
         );
         unlinkSync(oldProfilePicture);
       } catch (error) {
@@ -52,13 +59,26 @@ export class UploadService {
         id: user.id,
       },
       data: {
-        profilePicture: file.filename,
+        profilePicture: newFileName,
       },
     });
+  }
 
-    return {
-      message: 'Profile picture uploaded and saved successfully',
-      fileName: newFileName,
-    };
+  async getProfilePicture(filename: string, response: Response) {
+    try {
+      const file = await this.prisma.user.findFirst({
+        where: {
+          profilePicture: filename,
+        },
+      });
+
+      if (!file) throw new ConflictException('File not found');
+
+      return response.sendFile(
+        join(process.cwd(), 'public/images/profilePictures', filename),
+      );
+    } catch (error) {
+      throw new ConflictException('File not found');
+    }
   }
 }
