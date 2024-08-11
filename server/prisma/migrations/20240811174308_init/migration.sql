@@ -17,6 +17,7 @@ CREATE TABLE "User" (
     "lastName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "profilePicture" TEXT,
     "role" "Role" NOT NULL DEFAULT 'USER',
     "designation" "Designation" NOT NULL,
     "companyName" TEXT,
