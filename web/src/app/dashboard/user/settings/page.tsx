@@ -10,13 +10,13 @@ import { HiOutlineOfficeBuilding } from "react-icons/hi";
 import { LuLock } from "react-icons/lu";
 import { GoMail } from "react-icons/go";
 import { useState } from "react";
-import ApiClient from "@/api";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { toast } from "sonner";
 
 const UserSettings = () => {
   const { user } = useUserStore();
   const [file, setFile] = useState(null);
-  const apiClient = new ApiClient();
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -52,21 +52,36 @@ const UserSettings = () => {
       formData.append("image", file);
     }
 
+    if (!file) {
+      toast.error("Bitte wählen Sie ein Bild aus.");
+      return;
+    }
     try {
-      const response = await axios.post(
-        "http://localhost:3001/api/v1/upload/profilePicture",
-        formData,
-        {
+      await axios
+        .post("http://localhost:3001/api/v1/upload/profilePicture", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imxlb25pc3RoZXJldGVzdGVyQGdtYWlsLmNvbSIsInN1YiI6eyJmaXJzdE5hbWUiOiJMZW9uIiwibGFzdE5hbWUiOiJNYWllciJ9LCJpYXQiOjE3MjM0ODU2NjgsImV4cCI6MTcyMzU3MjA2OH0.6KjiqRrYeBWcHI-XanJ-JpZCxMXXG4Xn9kSoR6EapzQ",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
-        }
-      );
-      console.log(response.data);
+        })
+        .then((response) => {
+          if (response.status !== 201) {
+            toast.error(
+              "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+            );
+          }
+
+          toast.success("Profilbild erfolgreich aktualisiert.");
+
+          // Clear the file input
+          (document.getElementById("profilePhoto") as HTMLInputElement).value =
+            null;
+          setFile(null);
+        });
     } catch (error) {
-      console.error(error);
+      toast.error(
+        "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+      );
     }
   };
 
@@ -308,13 +323,21 @@ const UserSettings = () => {
                         />
                       </svg>
                     </span>
-                    <p className="mt-2.5 text-body-sm font-medium">
-                      <span className="text-primary">Click to upload</span> or
-                      drag and drop
-                    </p>
-                    <p className="mt-1 text-body-xs">
-                      PNG, JPG oder JPEG (max, 5 MB)
-                    </p>
+                    {file ? (
+                      <span className="mt-2.5 text-body-sm font-medium">
+                        {file.name}
+                      </span>
+                    ) : (
+                      <div>
+                        <p className="mt-2.5 text-body-sm font-medium">
+                          <span className="text-primary">Klicken Sie hier</span>{" "}
+                          oder drag and drop
+                        </p>
+                        <p className="mt-1 text-body-xs">
+                          PNG, JPG oder JPEG (max, 5 MB)
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -322,6 +345,15 @@ const UserSettings = () => {
                   <button
                     className="flex justify-center rounded-[7px] border border-stroke px-6 py-[7px] font-medium text-dark hover:shadow-1 dark:border-dark-3 dark:text-white"
                     type="submit"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      (
+                        document.getElementById(
+                          "profilePhoto"
+                        ) as HTMLInputElement
+                      ).value = null;
+                      setFile(null);
+                    }}
                   >
                     Abbrechen
                   </button>
