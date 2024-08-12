@@ -4,8 +4,11 @@ export interface User {
   lastName?: string;
   email?: string;
   password?: string;
+  profilePicture?: string;
+  role?: string;
   designation?: string;
   companyName?: string;
   activated?: boolean;
-  role?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
