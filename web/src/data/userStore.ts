@@ -6,39 +6,52 @@ import Cookies from "js-cookie";
 
 interface UserState {
   user: User | null;
+  profilePicture: string | null;
   setUser: (user: User) => void;
   fetchUser: () => Promise<void>;
   refreshToken: () => Promise<void>;
-  getProfilePicture: (user: User) => Promise<string>;
+  getProfilePicture: (user: User) => Promise<string | null>;
 }
 
 export const useUserStore = create<UserState>((set) => ({
   user: null,
+  profilePicture: null,
+
   setUser: (user) => set({ user }),
   fetchUser: async () => {
     const token = Cookies.get("accessToken");
     if (token) {
       await axios
         .get(`${Constants.API_BASE}/user/token/data/${token}`)
-        .then((response) => {
+        .then(async (response) => {
           if (response.status !== 200) {
+            set({ user: null, profilePicture: null });
             return { status: false, data: null, message: "User not found" };
           }
 
           const data = response.data;
           set({ user: data });
+
+          const profilePictureUrl = await useUserStore
+            .getState()
+            .getProfilePicture(data);
+          set({ profilePicture: profilePictureUrl });
         })
         .catch((error) => {
-          set({ user: null });
+          set({ user: null, profilePicture: null });
           return { status: false, data: null, message: "Something went wrong" };
         });
     }
   },
+
   getProfilePicture: async (user: User) => {
     return await axios
       .get(
         `${Constants.API_BASE}/upload/profilePicture/${user.profilePicture}`,
         {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
           responseType: "blob",
         }
       )
@@ -49,6 +62,7 @@ export const useUserStore = create<UserState>((set) => ({
         return null;
       });
   },
+
   refreshToken: async () => {
     const accessToken = Cookies.get("accessToken");
     const refreshToken = Cookies.get("refreshToken");

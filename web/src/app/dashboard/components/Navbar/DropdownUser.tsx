@@ -12,7 +12,7 @@ import { handleLogout } from "@/hooks/user";
 import Link from "next/link";
 
 const DropdownUser = () => {
-  const { user, getProfilePicture } = useUserStore();
+  const { user, profilePicture } = useUserStore();
 
   const handleDesignation = (designation: string) => {
     switch (designation) {
@@ -39,7 +39,7 @@ const DropdownUser = () => {
           as="button"
           avatarProps={{
             isBordered: false,
-            src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+            src: profilePicture,
           }}
           className="transition-transform mr-10"
           description={handleDesignation(user?.designation)}
@@ -79,7 +79,7 @@ const DropdownUser = () => {
               }}
               avatarProps={{
                 size: "sm",
-                src: "https://avatars.githubusercontent.com/u/30373425?v=4",
+                src: profilePicture,
               }}
             />
           </DropdownItem>

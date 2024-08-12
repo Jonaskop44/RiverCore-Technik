@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Header from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
+import SessionProvider from "@/context/SessionProvider";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -18,7 +19,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
           <main className="bg-[#f3f4f6] h-screen">
             <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-              {children}
+              <SessionProvider>{children}</SessionProvider>
             </div>
           </main>
         </div>

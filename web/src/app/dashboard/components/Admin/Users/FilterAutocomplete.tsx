@@ -7,6 +7,7 @@ import {
 import { useFilter } from "@react-aria/i18n";
 import { User } from "@/types/user";
 import { useEffect, useState } from "react";
+import { useUserStore } from "@/data/userStore";
 
 type FieldState = {
   selectedKey: string | null;
@@ -28,6 +29,23 @@ const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({
     inputValue: "",
     items: data,
   });
+  const { getProfilePicture } = useUserStore();
+  const [profilePictures, setProfilePictures] = useState<{
+    [key: number]: string;
+  }>({});
+
+  useEffect(() => {
+    const fetchProfilePictures = async () => {
+      const pictures: { [key: number]: string } = {};
+      for (const person of data) {
+        const pictureUrl = await getProfilePicture(person);
+        pictures[person.id] = pictureUrl;
+      }
+      setProfilePictures(pictures);
+    };
+
+    fetchProfilePictures();
+  }, [data, getProfilePicture]);
 
   useEffect(() => {
     setFieldState((prevState) => ({
@@ -98,7 +116,7 @@ const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({
               alt={getFullName(item)}
               className="flex-shrink-0"
               size="sm"
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
+              src={profilePictures[item.id]}
             />
             <div className="flex flex-col">
               <span className="text-small">{getFullName(item)}</span>

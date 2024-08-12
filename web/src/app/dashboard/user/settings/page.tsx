@@ -14,9 +14,10 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 import ApiClient from "@/api";
+import { Avatar } from "@nextui-org/react";
 
 const UserSettings = () => {
-  const { user } = useUserStore();
+  const { user, profilePicture } = useUserStore();
   const [file, setFile] = useState(null);
   const apiClient = new ApiClient();
 
@@ -49,6 +50,7 @@ const UserSettings = () => {
         toast.error("Sie besitzen kein Profilbild was gelöscht werden kann.");
       } else {
         toast.success("Profilbild erfolgreich gelöscht.");
+        window.location.reload();
       }
     } catch (error) {
       toast.error(
@@ -95,6 +97,7 @@ const UserSettings = () => {
           (document.getElementById("profilePhoto") as HTMLInputElement).value =
             null;
           setFile(null);
+          window.location.reload();
         });
     } catch (error) {
       toast.error(
@@ -289,11 +292,10 @@ const UserSettings = () => {
                 <div className="mb-4 flex items-center gap-3">
                   <div className="h-14 w-14 rounded-full">
                     <>
-                      <Image
-                        src="/images/user/user-03.png"
-                        width={55}
-                        height={55}
-                        alt="User"
+                      <Avatar
+                        src={profilePicture}
+                        alt={`${user.firstName} ${user.lastName}`}
+                        size="md"
                         className="overflow-hidden rounded-full"
                       />
                     </>
