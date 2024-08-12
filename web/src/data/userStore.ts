@@ -35,13 +35,19 @@ export const useUserStore = create<UserState>((set) => ({
     }
   },
   getProfilePicture: async (user: User) => {
-    const picture = await axios.get(
-      `${Constants.API_BASE}/upload/profilePicture/${user.profilePicture}`,
-      {
-        responseType: "blob",
-      }
-    );
-    return URL.createObjectURL(picture.data);
+    return await axios
+      .get(
+        `${Constants.API_BASE}/upload/profilePicture/${user.profilePicture}`,
+        {
+          responseType: "blob",
+        }
+      )
+      .then((response) => {
+        return URL.createObjectURL(response.data);
+      })
+      .catch((error) => {
+        return null;
+      });
   },
   refreshToken: async () => {
     const accessToken = Cookies.get("accessToken");

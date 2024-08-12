@@ -12,7 +12,7 @@ import { handleLogout } from "@/hooks/user";
 import Link from "next/link";
 
 const DropdownUser = () => {
-  const { user } = useUserStore();
+  const { user, getProfilePicture } = useUserStore();
 
   const handleDesignation = (designation: string) => {
     switch (designation) {
