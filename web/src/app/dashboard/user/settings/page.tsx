@@ -13,10 +13,12 @@ import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
+import ApiClient from "@/api";
 
 const UserSettings = () => {
   const { user } = useUserStore();
   const [file, setFile] = useState(null);
+  const apiClient = new ApiClient();
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -37,6 +39,22 @@ const UserSettings = () => {
     }:${seconds < 10 ? "0" + seconds : seconds}`;
 
     return `${formattedDate}, Zeit: ${formattedTime}`;
+  };
+
+  const handleDeleteProfilePicture = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await apiClient.upload.helper.delteProfilePicture();
+      if (!response.status) {
+        toast.error("Sie besitzen kein Profilbild was gelöscht werden kann.");
+      } else {
+        toast.success("Profilbild erfolgreich gelöscht.");
+      }
+    } catch (error) {
+      toast.error(
+        "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+      );
+    }
   };
 
   const handleFileChange = (e) => {
@@ -285,7 +303,10 @@ const UserSettings = () => {
                       Profilbild bearbeiten
                     </span>
                     <span className="flex gap-3">
-                      <button className="text-body-sm hover:text-red-500">
+                      <button
+                        onClick={handleDeleteProfilePicture}
+                        className="text-body-sm hover:text-red-500"
+                      >
                         Löschen
                       </button>
                     </span>
