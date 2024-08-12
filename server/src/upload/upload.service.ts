@@ -50,7 +50,7 @@ export class UploadService {
         );
         unlinkSync(oldProfilePicture);
       } catch (error) {
-        console.error('Error deleting old profile picture', error);
+        throw new ConflictException('Error deleting old profile picture');
       }
     }
 
@@ -61,6 +61,10 @@ export class UploadService {
       data: {
         profilePicture: newFileName,
       },
+    });
+
+    return of({
+      profilePicture: newFileName,
     });
   }
 
@@ -84,6 +88,44 @@ export class UploadService {
     } catch (error) {
       throw new ConflictException('File not found');
     }
+  }
+
+  async deleteProfilePicture(request) {
+    const userEmail = request.user.email;
+
+    if (!userEmail) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    const user = await this.userService.getUserByEmail(userEmail);
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    if (!user.profilePicture) {
+      throw new NotFoundException('Profile picture not found');
+    }
+
+    try {
+      const oldProfilePicture = join(
+        process.cwd(),
+        'public/images/profilePictures',
+        `${user.profilePicture}`,
+      );
+      unlinkSync(oldProfilePicture);
+    } catch (error) {
+      console.error('Error deleting old profile picture', error);
+    }
+
+    await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        profilePicture: null,
+      },
+    });
   }
 
   // async getProfilePicture(response: Response) {

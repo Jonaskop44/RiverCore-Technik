@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -26,7 +27,7 @@ export class UploadController {
     @UploadedFile() file: Express.Multer.File,
     @Request() request,
   ) {
-    this.uploadService.saveProfilePicture(request, file);
+    return this.uploadService.saveProfilePicture(request, file);
   }
 
   @UseGuards(JwtGuard)
@@ -36,5 +37,11 @@ export class UploadController {
     @Res() response: Response,
   ) {
     return this.uploadService.getProfilePicture(filename, response);
+  }
+
+  @UseGuards(JwtGuard)
+  @Delete('profilePicture')
+  async deleteProfilePicture(@Request() request) {
+    return this.uploadService.deleteProfilePicture(request);
   }
 }
