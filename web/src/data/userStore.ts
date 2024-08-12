@@ -9,6 +9,7 @@ interface UserState {
   setUser: (user: User) => void;
   fetchUser: () => Promise<void>;
   refreshToken: () => Promise<void>;
+  getProfilePicture: (user: User) => Promise<string>;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -32,6 +33,15 @@ export const useUserStore = create<UserState>((set) => ({
           return { status: false, data: null, message: "Something went wrong" };
         });
     }
+  },
+  getProfilePicture: async (user: User) => {
+    const picture = await axios.get(
+      `${Constants.API_BASE}/upload/profilePicture/${user.profilePicture}`,
+      {
+        responseType: "blob",
+      }
+    );
+    return URL.createObjectURL(picture.data);
   },
   refreshToken: async () => {
     const accessToken = Cookies.get("accessToken");

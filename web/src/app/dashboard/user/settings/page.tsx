@@ -4,17 +4,19 @@ import Breadcrumb from "@/components/Common/Breadcrumb";
 import { useUserStore } from "@/data/userStore";
 import Image from "next/image";
 import { FaBuildingUser } from "react-icons/fa6";
-import { FaUserAlt } from "react-icons/fa";
-import { FaBuilding } from "react-icons/fa6";
-import { FaLock } from "react-icons/fa6";
 import { FaRegClock } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
 import { LuLock } from "react-icons/lu";
 import { GoMail } from "react-icons/go";
+import { useState } from "react";
+import ApiClient from "@/api";
+import axios from "axios";
 
 const UserSettings = () => {
   const { user } = useUserStore();
+  const [file, setFile] = useState(null);
+  const apiClient = new ApiClient();
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -35,6 +37,37 @@ const UserSettings = () => {
     }:${seconds < 10 ? "0" + seconds : seconds}`;
 
     return `${formattedDate}, Zeit: ${formattedTime}`;
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+    console.log(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    if (file) {
+      formData.append("image", file);
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/v1/upload/profilePicture",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imxlb25pc3RoZXJldGVzdGVyQGdtYWlsLmNvbSIsInN1YiI6eyJmaXJzdE5hbWUiOiJMZW9uIiwibGFzdE5hbWUiOiJNYWllciJ9LCJpYXQiOjE3MjM0ODU2NjgsImV4cCI6MTcyMzU3MjA2OH0.6KjiqRrYeBWcHI-XanJ-JpZCxMXXG4Xn9kSoR6EapzQ",
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -254,6 +287,7 @@ const UserSettings = () => {
                     id="profilePhoto"
                     accept="image/png, image/jpg, image/jpeg"
                     className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
+                    onChange={handleFileChange}
                   />
                   <div className="flex flex-col items-center justify-center">
                     <span className="flex h-13.5 w-13.5 items-center justify-center rounded-full border border-stroke bg-white dark:border-dark-3 dark:bg-gray-dark">
@@ -294,6 +328,7 @@ const UserSettings = () => {
                   <button
                     className="flex items-center justify-center rounded-[7px] bg-primary px-6 py-[7px] font-medium text-white hover:bg-opacity-90"
                     type="submit"
+                    onClick={handleSubmit}
                   >
                     Aktualisieren
                   </button>
