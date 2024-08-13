@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { useTheme } from "next-themes";
 import "./quill-custom.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ApiClient from "@/api";
 import { User } from "@/types/user";
 
@@ -36,6 +36,10 @@ const NewsletterEditor = () => {
 
     ["clean"],
   ];
+
+  useEffect(() => {
+    console.log(content);
+  }, [content]);
 
   const handleSendNewsletter = async () => {
     try {
