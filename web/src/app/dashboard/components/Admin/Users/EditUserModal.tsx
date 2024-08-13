@@ -136,6 +136,9 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
       placement="center"
       backdrop="blur"
       className="z-99999"
+      classNames={{
+        base: "dark:bg-blacksection dark:text-white",
+      }}
       motionProps={{
         variants: {
           enter: {

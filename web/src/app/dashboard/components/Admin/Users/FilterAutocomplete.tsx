@@ -97,11 +97,17 @@ const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({
   return (
     <Autocomplete
       className="max-w-xs z-10"
+      classNames={{
+        popoverContent: "dark:bg-blacksection",
+      }}
       inputValue={fieldState.inputValue}
       items={fieldState.items}
       label="Benutzer suchen"
       listboxProps={{
         emptyContent: "Keinen Benutzer gefunden",
+        itemClasses: {
+          base: ["dark:data-[hover=true]:bg-white/10"],
+        },
       }}
       selectedKey={fieldState.selectedKey}
       variant="underlined"

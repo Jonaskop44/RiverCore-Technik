@@ -1,15 +1,16 @@
 .quill-dark .ql-toolbar {
-  background-color: #333;
+  background-color: #2c3149;
   color: #f5f5f5;
-  border: 1px solid #444;
+  border: 1px solid #3f3f46;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 }
 
 .quill-dark .ql-container {
-  background-color: #222;
+  background-color: #2c3149;
   color: #f5f5f5;
-  border: 1px solid #444;
+  border: 1px solid #3f3f46;
+  height: 400px;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
 }
@@ -27,8 +28,8 @@
 }
 
 .quill-dark .ql-toolbar .ql-picker-options {
-  background-color: #444;
-  border: 1px solid #555;
+  background-color: #2c3149;
+  border: 1px solid #2d2f40;
 }
 
 .quill-dark .ql-toolbar .ql-picker-label {
@@ -57,4 +58,5 @@
 .quill-light .ql-container {
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
+  height: 400px;
 }

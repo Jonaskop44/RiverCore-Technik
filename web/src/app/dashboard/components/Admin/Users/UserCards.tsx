@@ -76,12 +76,12 @@ const UserCards: React.FC<UserCardProps> = ({ data, onUserDelete }) => {
         {data.map((person) => (
           <li
             key={person.email}
-            className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200"
+            className="col-span-1 bg-white dark:bg-blacksection shadow-md rounded-lg divide-y divide-gray-200 dark:divide-[#3f3f46]"
           >
             <div className="w-full flex items-center justify-between p-6 space-x-6">
               <div className="flex-1 truncate">
                 <div className="flex items-center space-x-3">
-                  <h3 className="text-gray-900 text-sm font-medium truncate">
+                  <h3 className="text-gray-900 dark:text-gray-200 text-sm font-medium truncate">
                     {person.firstName} {person.lastName}
                   </h3>
                   <span
@@ -105,17 +105,17 @@ const UserCards: React.FC<UserCardProps> = ({ data, onUserDelete }) => {
               />
             </div>
             <div>
-              <div className="-mt-px flex divide-x divide-gray-200">
+              <div className="-mt-px flex divide-x divide-gray-200 dark:divide-[#3f3f46]">
                 <div className="-ml-px w-0 flex-1 flex">
                   <button
-                    className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
+                    className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
                     onClick={() => {
                       setUser(person);
                       onOpen();
                     }}
                   >
                     <RiEdit2Fill
-                      className="w-5 h-5 text-gray-400"
+                      className="w-5 h-5 text-gray-400 dark:text-gray-300 "
                       aria-hidden="true"
                     />
                     <span className="ml-3">Bearbeiten</span>
@@ -124,10 +124,10 @@ const UserCards: React.FC<UserCardProps> = ({ data, onUserDelete }) => {
                 <div className="w-0 flex-1 flex">
                   <button
                     onClick={() => handleUserDelete(person.id)}
-                    className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
+                    className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
                   >
                     <MdDelete
-                      className="w-5 h-5 text-gray-400"
+                      className="w-5 h-5 text-gray-400 dark:text-gray-300"
                       aria-hidden="true"
                     />
                     <span className="ml-3">

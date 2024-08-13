@@ -111,8 +111,8 @@ const UserSettings = () => {
 
       <div className="grid grid-cols-5 gap-8">
         <div className="col-span-5 xl:col-span-3">
-          <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card">
-            <div className="border-b border-stroke px-7 py-4 dark:border-dark-3">
+          <div className="rounded-[10px] border border-stroke bg-white  dark:border-strokedark dark:bg-blacksection shadow-solid-3">
+            <div className="border-b border-stroke px-7 py-4 dark:border-strokedark">
               <h3 className="font-medium text-dark dark:text-white">
                 Persönliche Informationen
               </h3>
@@ -132,7 +132,7 @@ const UserSettings = () => {
                         <FaRegUser size={20} />
                       </span>
                       <input
-                        className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-blacksection dark:text-white dark:focus:border-primary"
                         type="text"
                         name="fullName"
                         id="fullName"
@@ -155,7 +155,7 @@ const UserSettings = () => {
                       </span>
 
                       <input
-                        className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-blacksection dark:text-white dark:focus:border-primary"
                         type="text"
                         name="phoneNumber"
                         id="phoneNumber"
@@ -184,7 +184,7 @@ const UserSettings = () => {
                           <HiOutlineOfficeBuilding size={20} />
                         </span>
                         <input
-                          className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                          className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-blacksection dark:text-white dark:focus:border-primary"
                           type="text"
                           name="companyName"
                           id="companyName"
@@ -206,7 +206,7 @@ const UserSettings = () => {
                           <FaRegClock size={20} />
                         </span>
                         <input
-                          className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                          className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-blacksection dark:text-white dark:focus:border-primary"
                           type="text"
                           name="createdAt"
                           id="createdAt"
@@ -230,7 +230,7 @@ const UserSettings = () => {
                       </span>
 
                       <input
-                        className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-blacksection dark:text-white dark:focus:border-primary"
                         type="password"
                         name="password"
                         id="password"
@@ -253,7 +253,7 @@ const UserSettings = () => {
                       <GoMail size={20} />
                     </span>
                     <input
-                      className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                      className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-blacksection dark:text-white dark:focus:border-primary"
                       type="email"
                       name="emailAddress"
                       id="emailAddress"
@@ -276,7 +276,7 @@ const UserSettings = () => {
                         <FaRegClock size={20} />
                       </span>
                       <input
-                        className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-blacksection dark:text-white dark:focus:border-primary"
                         type="text"
                         name="createdAt"
                         id="createdAt"
@@ -289,7 +289,7 @@ const UserSettings = () => {
 
                 {/* <div className="flex justify-end gap-3">
                   <button
-                    className="flex justify-center rounded-[7px] border border-stroke px-6 py-[7px] font-medium text-dark hover:shadow-1 dark:border-dark-3 dark:text-white"
+                    className="flex justify-center rounded-[7px] border border-stroke px-6 py-[7px] font-medium text-dark hover:shadow-solid-3 dark:border-strokedark dark:text-white"
                     type="submit"
                   >
                     Cancel
@@ -306,8 +306,8 @@ const UserSettings = () => {
           </div>
         </div>
         <div className="col-span-5 xl:col-span-2">
-          <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card">
-            <div className="border-b border-stroke px-7 py-4 dark:border-dark-3">
+          <div className="rounded-[10px] border border-stroke bg-white  dark:border-strokedark dark:bg-blacksection shadow-solid-3">
+            <div className="border-b border-stroke px-7 py-4 dark:border-strokedark">
               <h3 className="font-medium text-dark dark:text-white">
                 Profilbild
               </h3>
@@ -342,7 +342,7 @@ const UserSettings = () => {
 
                 <div
                   id="FileUpload"
-                  className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded-xl border border-dashed border-gray-4 bg-gray-2 px-4 py-4 hover:border-primary dark:border-dark-3 dark:bg-dark-2 dark:hover:border-primary sm:py-7.5"
+                  className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded-xl border border-dashed border-gray-4 bg-gray-2 px-4 py-4 hover:border-primary dark:border-strokedark dark:bg-blacksection dark:hover:border-primary sm:py-7.5"
                 >
                   <input
                     type="file"
@@ -353,7 +353,7 @@ const UserSettings = () => {
                     onChange={handleFileChange}
                   />
                   <div className="flex flex-col items-center justify-center">
-                    <span className="flex h-13.5 w-13.5 items-center justify-center rounded-full border border-stroke bg-white dark:border-dark-3 dark:bg-gray-dark">
+                    <span className="flex h-13.5 w-13.5 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-gray-dark">
                       <svg
                         width="20"
                         height="20"
@@ -391,7 +391,7 @@ const UserSettings = () => {
 
                 <div className="flex justify-end gap-3">
                   <button
-                    className="flex justify-center rounded-[7px] border border-stroke px-6 py-[7px] font-medium text-dark hover:shadow-1 dark:border-dark-3 dark:text-white"
+                    className="flex justify-center rounded-[7px] border border-stroke px-6 py-[7px] font-medium text-dark hover:shadow-solid-3 dark:border-strokedark dark:text-white"
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();

@@ -9,7 +9,6 @@ import {
 } from "@nextui-org/react";
 import { useUserStore } from "@/data/userStore";
 import { handleLogout } from "@/hooks/user";
-import Link from "next/link";
 
 const DropdownUser = () => {
   const { user, profilePicture } = useUserStore();
@@ -27,11 +26,13 @@ const DropdownUser = () => {
 
   return (
     <Dropdown
+      backdrop="blur"
       showArrow
       radius="sm"
       classNames={{
         base: "before:bg-default-200",
-        content: "p-0 border-small border-divider bg-background",
+        content:
+          "p-0 border-small border-divider bg-background dark:bg-blacksection",
       }}
     >
       <DropdownTrigger>
@@ -57,7 +58,7 @@ const DropdownUser = () => {
             "transition-opacity",
             "data-[hover=true]:text-foreground",
             "data-[hover=true]:bg-default-100",
-            "dark:data-[hover=true]:bg-default-50",
+            "dark:data-[hover=true]:bg-white/10",
             "data-[selectable=true]:focus:bg-default-50",
             "data-[pressed=true]:opacity-70",
             "data-[focus-visible=true]:ring-default-500",
@@ -84,8 +85,8 @@ const DropdownUser = () => {
             />
           </DropdownItem>
           <DropdownItem key="dashboard">Dashboard</DropdownItem>
-          <DropdownItem key="settings">
-            <Link href="/dashboard/user/settings">Einstellungen</Link>
+          <DropdownItem key="settings" href="/dashboard/user/settings">
+            Einstellungen
           </DropdownItem>
           <DropdownItem key="new_project">New Project</DropdownItem>
         </DropdownSection>

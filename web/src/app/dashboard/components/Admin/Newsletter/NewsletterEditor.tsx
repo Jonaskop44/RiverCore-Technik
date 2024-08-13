@@ -53,6 +53,18 @@ const NewsletterEditor = () => {
     getUsers();
   }, []);
 
+  const isButtonDisabled = () => {
+    const cleanContent = content.trim();
+    const cleanSubject = subject.trim();
+
+    return (
+      cleanContent === "" ||
+      cleanContent === "<p><br></p>" ||
+      cleanSubject === "" ||
+      cleanSubject === "<p><br></p>"
+    );
+  };
+
   const handleSendNewsletter = async () => {
     let status = true;
 
@@ -82,7 +94,7 @@ const NewsletterEditor = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg p-4">
+    <div className="bg-white dark:bg-blacksection shadow-md rounded-lg p-4">
       <div className="flex justify-between mb-10">
         <Input
           label="Betreff"
@@ -93,11 +105,13 @@ const NewsletterEditor = () => {
         />
 
         {users.length > 0 ? (
-          <p className="text-black font-bold mt-5">
+          <p className="text-black dark:text-white font-bold mt-5">
             {users.length} {users.length === 1 ? "Abonnent" : "Abonnenten"}
           </p>
         ) : (
-          <p className="text-black font-black mt-5 ">Keine Abonnenten</p>
+          <p className="text-black font-black mt-5 dark:text-white ">
+            Keine Abonnenten
+          </p>
         )}
       </div>
       <div className={theme === "dark" ? "quill-dark" : "quill-light"}>
@@ -117,7 +131,7 @@ const NewsletterEditor = () => {
         onPress={handleSendNewsletter}
         color="primary"
         className="mt-6"
-        isDisabled={content.length === 0 || subject.length === 0}
+        isDisabled={isButtonDisabled()}
         startContent={<VscSend size={20} />}
       >
         Newsletter senden

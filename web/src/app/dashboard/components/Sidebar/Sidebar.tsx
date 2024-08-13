@@ -28,7 +28,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <div>
       <aside
-        className={`absolute left-0 top-0 z-999 flex h-screen w-72.5 flex-col overflow-y-hidden border-r border-stroke bg-white dark:border-stroke-dark dark:bg-gray-dark lg:static lg:translate-x-0 ${
+        className={`absolute left-0 top-0 z-999 flex h-screen w-72.5 flex-col overflow-y-hidden border-r border-stroke bg-white dark:border-strokedark dark:bg-blacksection lg:static lg:translate-x-0 ${
           sidebarOpen
             ? "translate-x-0 duration-300 ease-linear"
             : "-translate-x-full"
@@ -86,7 +86,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
           <nav className="mt-1 px-4 lg:px-6">
             {filteredSidebarData.map((group, groupIndex) => (
               <div key={groupIndex}>
-                <h3 className="mb-5 text-sm font-medium text-dark-4 dark:text-dark-6">
+                <h3 className="mb-5 text-sm font-medium text-dark-4">
                   {group.name}
                 </h3>
 

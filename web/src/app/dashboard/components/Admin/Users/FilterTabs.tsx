@@ -44,8 +44,14 @@ const FilterTabs: React.FC<FilterTabsProps> = ({ data, onFilterChange }) => {
           title={
             <div className="flex items-center space-x-2">
               <FaUserGroup size={20} />
-              <span>Alle</span>
-              <Chip size="sm" variant="faded">
+              <span className="dark:text-gray-200">Alle</span>
+              <Chip
+                size="sm"
+                variant="faded"
+                classNames={{
+                  base: "dark:bg-blackho border-white/10",
+                }}
+              >
                 {allCount}
               </Chip>
             </div>
@@ -56,8 +62,14 @@ const FilterTabs: React.FC<FilterTabsProps> = ({ data, onFilterChange }) => {
           title={
             <div className="flex items-center space-x-2">
               <FaBuildingUser size={20} />
-              <span>Unternehmen</span>
-              <Chip size="sm" variant="faded">
+              <span className="dark:text-gray-200">Unternehmen</span>
+              <Chip
+                size="sm"
+                variant="faded"
+                classNames={{
+                  base: "dark:bg-blackho border-white/10",
+                }}
+              >
                 {companyCount}
               </Chip>
             </div>
@@ -67,9 +79,15 @@ const FilterTabs: React.FC<FilterTabsProps> = ({ data, onFilterChange }) => {
           key="Person"
           title={
             <div className="flex items-center space-x-2">
-              <FaUserLarge size={20} />
-              <span>Privatperson</span>
-              <Chip size="sm" variant="faded">
+              <FaUserLarge size={20} className="" />
+              <span className="dark:text-gray-200">Privatperson</span>
+              <Chip
+                size="sm"
+                variant="faded"
+                classNames={{
+                  base: "dark:bg-blackho border-white/10",
+                }}
+              >
                 {personCount}
               </Chip>
             </div>
