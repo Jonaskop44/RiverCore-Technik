@@ -1,13 +1,17 @@
-/* Allgemeine Anpassungen für den Dark Mode */
 .quill-dark .ql-toolbar {
   background-color: #333;
   color: #f5f5f5;
   border: 1px solid #444;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
 .quill-dark .ql-container {
   background-color: #222;
   color: #f5f5f5;
+  border: 1px solid #444;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .quill-dark .ql-toolbar .ql-stroke {
@@ -43,4 +47,14 @@
   fill: #1e90ff;
 }
 
-/* Weitere spezifische Anpassungen je nach Bedarf */
+/* Withe-Mode */
+
+.quill-light .ql-toolbar {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.quill-light .ql-container {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}

@@ -97,7 +97,7 @@ const NewsletterEditor = () => {
             {users.length} {users.length === 1 ? "Abonnent" : "Abonnenten"}
           </p>
         ) : (
-          <p className="text-black font-black mt-5">Keine Abonnenten</p>
+          <p className="text-black font-black mt-5 ">Keine Abonnenten</p>
         )}
       </div>
       <div className={theme === "dark" ? "quill-dark" : "quill-light"}>
@@ -117,6 +117,7 @@ const NewsletterEditor = () => {
         onPress={handleSendNewsletter}
         color="primary"
         className="mt-6"
+        isDisabled={content.length === 0 || subject.length === 0}
         startContent={<VscSend size={20} />}
       >
         Newsletter senden
