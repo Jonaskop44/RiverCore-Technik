@@ -70,6 +70,7 @@ export class MailService {
         subject: subject,
         template: './SendNewsletter',
         context: {
+          subject: subject,
           content: content,
         },
       });
