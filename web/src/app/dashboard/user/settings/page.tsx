@@ -171,27 +171,51 @@ const UserSettings = () => {
                 </div>
 
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                  <div className="w-full sm:w-1/2">
-                    <label
-                      className="mb-3 block text-body-sm font-medium text-dark dark:text-white"
-                      htmlFor="companyName"
-                    >
-                      Name des Unternehmens
-                    </label>
-                    <div className="relative">
-                      <span className="absolute left-4.5 top-1/2 -translate-y-1/2">
-                        <HiOutlineOfficeBuilding size={20} />
-                      </span>
-                      <input
-                        className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-                        type="text"
-                        name="companyName"
-                        id="companyName"
-                        disabled
-                        defaultValue={user.companyName}
-                      />
+                  {user.designation === "COMPANY" ? (
+                    <div className="w-full sm:w-1/2">
+                      <label
+                        className="mb-3 block text-body-sm font-medium text-dark dark:text-white"
+                        htmlFor="companyName"
+                      >
+                        Name des Unternehmens
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-4.5 top-1/2 -translate-y-1/2">
+                          <HiOutlineOfficeBuilding size={20} />
+                        </span>
+                        <input
+                          className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                          type="text"
+                          name="companyName"
+                          id="companyName"
+                          disabled
+                          defaultValue={user.companyName}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="mb-5.5">
+                      <label
+                        className="mb-3 block text-body-sm font-medium text-dark dark:text-white"
+                        htmlFor="createdAt"
+                      >
+                        Konto erstellt am
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-4.5 top-1/2 -translate-y-1/2">
+                          <FaRegClock size={20} />
+                        </span>
+                        <input
+                          className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                          type="text"
+                          name="createdAt"
+                          id="createdAt"
+                          disabled
+                          defaultValue={formatDate(user.createdAt)}
+                        />
+                      </div>
+                    </div>
+                  )}
 
                   <div className="w-full sm:w-1/2">
                     <label
@@ -239,27 +263,29 @@ const UserSettings = () => {
                   </div>
                 </div>
 
-                <div className="mb-5.5">
-                  <label
-                    className="mb-3 block text-body-sm font-medium text-dark dark:text-white"
-                    htmlFor="createdAt"
-                  >
-                    Konto erstellt am
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-4.5 top-1/2 -translate-y-1/2">
-                      <FaRegClock size={20} />
-                    </span>
-                    <input
-                      className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-                      type="text"
-                      name="createdAt"
-                      id="createdAt"
-                      disabled
-                      defaultValue={formatDate(user.createdAt)}
-                    />
+                {user.designation === "COMPANY" && (
+                  <div className="mb-5.5">
+                    <label
+                      className="mb-3 block text-body-sm font-medium text-dark dark:text-white"
+                      htmlFor="createdAt"
+                    >
+                      Konto erstellt am
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-4.5 top-1/2 -translate-y-1/2">
+                        <FaRegClock size={20} />
+                      </span>
+                      <input
+                        className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                        type="text"
+                        name="createdAt"
+                        id="createdAt"
+                        disabled
+                        defaultValue={formatDate(user.createdAt)}
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* <div className="flex justify-end gap-3">
                   <button

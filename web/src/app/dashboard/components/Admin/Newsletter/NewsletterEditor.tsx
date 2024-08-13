@@ -7,25 +7,26 @@ import "./quill-custom.css";
 import { useEffect, useState } from "react";
 import ApiClient from "@/api";
 import { User } from "@/types/user";
+import { Button, Input } from "@nextui-org/react";
+import { toast } from "sonner";
+import { VscSend } from "react-icons/vsc";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const NewsletterEditor = () => {
   const [content, setContent] = useState<string>("");
   const [subject, setSubject] = useState<string>("");
+  const [users, setUsers] = useState<User[]>([]);
   const { theme } = useTheme();
   const apiClient = new ApiClient();
 
   const toolbarOptions = [
     ["bold", "italic", "underline", "strike"],
     ["blockquote", "code-block"],
-    ["link", "image", "video", "formula"],
+    ["link"],
 
-    [{ header: 1 }, { header: 2 }],
     [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-    [{ script: "sub" }, { script: "super" }],
     [{ indent: "-1" }, { indent: "+1" }],
-    [{ direction: "rtl" }],
 
     [{ size: ["small", false, "large", "huge"] }],
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -38,35 +39,67 @@ const NewsletterEditor = () => {
   ];
 
   useEffect(() => {
-    console.log(content);
-  }, [content]);
+    const getUsers = async () => {
+      try {
+        const response =
+          await apiClient.mail.newsletter.getAllNewsletterSubscribers();
+        const users = response.data;
+        setUsers(users);
+      } catch (error) {
+        console.log("Error getting subscribers", error);
+      }
+    };
+
+    getUsers();
+  }, []);
 
   const handleSendNewsletter = async () => {
-    try {
-      const users =
-        await apiClient.mail.newsletter.getAllNewsletterSubscribers();
-      console.log(users);
+    let status = true;
 
-      users.data.forEach(async (user: User) => {
-        await apiClient.mail.newsletter.sendNewsletter(
+    try {
+      for (const user of users) {
+        const response = await apiClient.mail.newsletter.sendNewsletter(
           user.email,
           subject,
           content
         );
-      });
+
+        if (!response.status) {
+          status = false;
+          break;
+        }
+      }
+
+      if (status) {
+        toast.success("Newsletter wurde erfolgreich versendet");
+        return;
+      } else {
+        toast.error("Fehler beim Versenden des Newsletters");
+      }
     } catch (error) {
-      console.log("Error getting subscribers", error);
+      toast.error("Fehler beim Versenden des Newsletters");
     }
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Betreff"
-        value={subject}
-        onChange={(e) => setSubject(e.target.value)}
-      />
+    <div className="bg-white rounded-lg p-4">
+      <div className="flex justify-between mb-10">
+        <Input
+          label="Betreff"
+          variant="underlined"
+          className="max-w-[250px] w-full sm:w-1/2"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+        />
+
+        {users.length > 0 ? (
+          <p className="text-black font-bold mt-5">
+            {users.length} {users.length === 1 ? "Abonnent" : "Abonnenten"}
+          </p>
+        ) : (
+          <p className="text-black font-black mt-5">Keine Abonnenten</p>
+        )}
+      </div>
       <div className={theme === "dark" ? "quill-dark" : "quill-light"}>
         <ReactQuill
           modules={{
@@ -79,7 +112,15 @@ const NewsletterEditor = () => {
           theme="snow"
         />
       </div>
-      <button onClick={handleSendNewsletter}>Senden</button>
+
+      <Button
+        onPress={handleSendNewsletter}
+        color="primary"
+        className="mt-6"
+        startContent={<VscSend size={20} />}
+      >
+        Newsletter senden
+      </Button>
     </div>
   );
 };
