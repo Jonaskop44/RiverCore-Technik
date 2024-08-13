@@ -2,7 +2,6 @@
 
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import { useUserStore } from "@/data/userStore";
-import Image from "next/image";
 import { FaBuildingUser } from "react-icons/fa6";
 import { FaRegClock } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";

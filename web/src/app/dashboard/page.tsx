@@ -1,14 +1,9 @@
 "use client";
 
 import { useUserStore } from "@/data/userStore";
-import { useEffect } from "react";
 
 const Dashboard = () => {
-  const { user, fetchUser } = useUserStore();
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  const { user } = useUserStore();
 
   if (!user) {
     return <div>Loading...</div>;
@@ -17,6 +12,7 @@ const Dashboard = () => {
   return (
     <div className="">
       <h1>Hello World!</h1>
+      <h1>{user.email}</h1>
     </div>
   );
 };
