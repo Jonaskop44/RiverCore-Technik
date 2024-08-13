@@ -1,0 +1,46 @@
+/* Allgemeine Anpassungen für den Dark Mode */
+.quill-dark .ql-toolbar {
+  background-color: #333;
+  color: #f5f5f5;
+  border: 1px solid #444;
+}
+
+.quill-dark .ql-container {
+  background-color: #222;
+  color: #f5f5f5;
+}
+
+.quill-dark .ql-toolbar .ql-stroke {
+  stroke: #f5f5f5; /* Symbole im Dark Mode */
+}
+
+.quill-dark .ql-toolbar .ql-fill {
+  fill: #f5f5f5; /* Symbole im Dark Mode */
+}
+
+.quill-dark .ql-toolbar .ql-picker {
+  color: #f5f5f5;
+}
+
+.quill-dark .ql-toolbar .ql-picker-options {
+  background-color: #444;
+  border: 1px solid #555;
+}
+
+.quill-dark .ql-toolbar .ql-picker-label {
+  color: #f5f5f5;
+}
+
+.quill-dark .ql-toolbar .ql-picker-item {
+  color: #f5f5f5;
+}
+
+.quill-dark .ql-toolbar .ql-active .ql-stroke {
+  stroke: #1e90ff;
+}
+
+.quill-dark .ql-toolbar .ql-active .ql-fill {
+  fill: #1e90ff;
+}
+
+/* Weitere spezifische Anpassungen je nach Bedarf */

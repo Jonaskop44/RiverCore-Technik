@@ -62,6 +62,23 @@ export class MailService {
     }
   }
 
+  async sendNewsletter(email: string, subject: string, content: string) {
+    try {
+      await this.mailerService.sendMail({
+        to: email,
+        //from: '"Support Team" <support@example.com>',
+        subject: subject,
+        template: './SendNewsletter',
+        context: {
+          content: content,
+        },
+      });
+    } catch (error) {
+      console.log('Error sending newsletter', error);
+    }
+  }
+
+  //Newsletter logic
   async newsletterSubscribe(email: string) {
     const user = await this.prisma.newsletters.findUnique({
       where: {
@@ -106,5 +123,9 @@ export class MailService {
     if (!user) throw new ConflictException('User not found');
 
     return user;
+  }
+
+  async getAllNewsletterSubscribers() {
+    return this.prisma.newsletters.findMany();
   }
 }

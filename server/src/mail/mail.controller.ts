@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import {
   NewsletterSubscribeDto,
   NewsletterUnsubscribeDto,
+  SendNewsletterDto,
 } from './dto/mail.dto';
 import { MailService } from './mail.service';
 
@@ -22,5 +23,15 @@ export class MailController {
   @Get('newsletter/info/:mailID')
   async getNewsletterIDInfo(@Param('mailID') mailID: string) {
     return this.mailService.getNewsletterIDInfo(mailID);
+  }
+
+  @Post('newsletter/send')
+  async sendNewsletter(@Body() dto: SendNewsletterDto) {
+    return this.mailService.sendNewsletter(dto.email, dto.subject, dto.content);
+  }
+
+  @Get('newsletter/subscribers')
+  async getAllNewsletterSubscribers() {
+    return this.mailService.getAllNewsletterSubscribers();
   }
 }
