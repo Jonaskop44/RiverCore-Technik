@@ -1,7 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateReviewDto, UpadateReviewDto } from './dto/author.dto';
-import { Request } from 'express';
 
 @Injectable()
 export class AuthorService {
@@ -64,7 +63,7 @@ export class AuthorService {
         'Rating must be between 0 and 5, in increments of 0.5',
       );
 
-    return await this.prisma.review.create({
+    const review = await this.prisma.review.create({
       data: {
         title: dto.title,
         rating: dto.rating,
@@ -72,6 +71,10 @@ export class AuthorService {
         authorId: author.id,
       },
     });
+
+    const { status, ...reviewData } = review;
+
+    return reviewData;
   }
 
   async updateReview(id: number, dto: UpadateReviewDto) {
@@ -97,6 +100,19 @@ export class AuthorService {
     const reviews = await this.prisma.review.findMany({
       where: {
         status: 'ACCEPTED',
+      },
+      include: {
+        author: {
+          include: {
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
+                profilePicture: true,
+              },
+            },
+          },
+        },
       },
     });
 
