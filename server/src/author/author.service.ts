@@ -44,6 +44,7 @@ export class AuthorService {
         'Rating must be between 0 and 5, in increments of 0.5',
       );
 
+    if (author.blocked) return;
     const review = await this.prisma.review.create({
       data: {
         title: dto.title,

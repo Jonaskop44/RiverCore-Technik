@@ -224,7 +224,9 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
                             key="dashboard"
                             onPress={() => onBlockAuthor(item.author.id)}
                           >
-                            Blockieren
+                            {item.author.blocked
+                              ? "Freischalten"
+                              : "Blockieren"}
                           </DropdownItem>
                         </DropdownSection>
                       </DropdownMenu>

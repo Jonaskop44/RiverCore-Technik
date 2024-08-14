@@ -50,7 +50,11 @@ const AdminEditReviews = () => {
 
     if (reponse.status) {
       await fetchReviews();
-      toast.success("Der Autor wurde erfolgreich blockiert.");
+      if (reponse.data.blocked) {
+        toast.success("Der Autor wurde erfolgreich blockiert.");
+      } else {
+        toast.success("Der Autor wurde erfolgreich freigeschaltet.");
+      }
     } else {
       toast.error("Der Autor konnte nicht blockiert werden.");
     }

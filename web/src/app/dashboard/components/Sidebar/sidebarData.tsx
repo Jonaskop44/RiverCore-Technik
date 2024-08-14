@@ -27,7 +27,7 @@ const sidebarData: SidebarGroup[] = [
       {
         icon: <MdOutlineRateReview size={25} />,
         label: "Bewertung",
-        route: "/user/reviews",
+        route: "user/reviews",
       },
       {
         icon: (
