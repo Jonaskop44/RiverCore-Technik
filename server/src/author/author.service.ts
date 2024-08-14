@@ -92,4 +92,34 @@ export class AuthorService {
       },
     });
   }
+
+  async getAllAcceptedReviews() {
+    const reviews = await this.prisma.review.findMany({
+      where: {
+        status: 'ACCEPTED',
+      },
+    });
+
+    //Check if the author is blocked
+    reviews.forEach(async (review) => {
+      const author = await this.prisma.author.findUnique({
+        where: {
+          id: review.authorId,
+        },
+      });
+
+      if (author.blocked) {
+        await this.prisma.review.update({
+          where: {
+            id: review.id,
+          },
+          data: {
+            status: 'REJECTED',
+          },
+        });
+      }
+    });
+
+    return reviews;
+  }
 }

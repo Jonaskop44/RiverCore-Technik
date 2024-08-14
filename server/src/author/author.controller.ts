@@ -6,6 +6,7 @@ import {
   Post,
   UseGuards,
   Request,
+  Get,
 } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { CreateReviewDto, UpadateReviewDto } from './dto/author.dto';
@@ -29,5 +30,10 @@ export class AuthorController {
   @Patch('review/update/:id')
   async updateReview(@Param('id') id: number, @Body() dto: UpadateReviewDto) {
     return this.authorService.updateReview(id, dto);
+  }
+
+  @Get('reviews')
+  async getAllAcceptedReviews() {
+    return this.authorService.getAllAcceptedReviews();
   }
 }
