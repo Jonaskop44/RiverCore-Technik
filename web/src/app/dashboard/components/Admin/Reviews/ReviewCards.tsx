@@ -4,6 +4,7 @@ import { Avatar } from "@nextui-org/react";
 import { Review } from "@/types/reviews";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import ApiClient from "@/api";
+import { toast } from "sonner";
 
 interface ReviewCardsProps {
   data: Review[];
@@ -11,6 +12,19 @@ interface ReviewCardsProps {
 
 const ReviewCards: React.FC<ReviewCardsProps> = ({ data }) => {
   const apiClient = new ApiClient();
+
+  const handleUpadteReviewStatus = async (reviewId: number, status: string) => {
+    const response = await apiClient.reviews.helper.updateReviewStatus(
+      reviewId,
+      status
+    );
+
+    if (response.status) {
+      toast.success("Die Bewertung wurde erfolgreich aktualisiert.");
+    } else {
+      toast.error("Die Bewertung konnte nicht aktualisiert werden.");
+    }
+  };
 
   return (
     <>
@@ -66,7 +80,9 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data }) => {
                 <div className="-ml-px w-0 flex-1 flex">
                   <button
                     className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
-                    onClick={() => {}}
+                    onClick={() => {
+                      handleUpadteReviewStatus(item.id, "ACCEPTED");
+                    }}
                   >
                     <RiEdit2Fill
                       className="w-5 h-5 text-gray-400 dark:text-gray-300 "
@@ -77,7 +93,9 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data }) => {
                 </div>
                 <div className="w-0 flex-1 flex">
                   <button
-                    onClick={() => {}}
+                    onClick={() => {
+                      handleUpadteReviewStatus(item.id, "REJECTED");
+                    }}
                     className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
                   >
                     <MdDelete

@@ -21,7 +21,7 @@ const AdminEditReviews = () => {
     };
 
     fetchReviews();
-  });
+  }, []);
 
   const handleFilterChange = (filter: string) => {
     setSelectedFilter(filter);

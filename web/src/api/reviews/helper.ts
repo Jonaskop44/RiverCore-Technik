@@ -43,4 +43,19 @@ export default class Helper {
         return { status: false, data: null };
       });
   }
+
+  async updateReviewStatus(reviewId: number, status: string) {
+    return axios
+      .patch(`${Constants.API_BASE}/admin/review/update/${reviewId}`, {
+        status: status,
+      })
+      .then((response) => {
+        if (response.status !== 200) return { status: false, data: null };
+
+        return { status: true, data: response.data };
+      })
+      .catch((error) => {
+        return { status: false, data: null };
+      });
+  }
 }
