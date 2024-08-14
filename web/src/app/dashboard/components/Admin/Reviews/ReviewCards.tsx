@@ -2,12 +2,16 @@ import { MdDelete } from "react-icons/md";
 import { RiEdit2Fill } from "react-icons/ri";
 import { Avatar } from "@nextui-org/react";
 import { Review } from "@/types/reviews";
+import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
+import ApiClient from "@/api";
 
 interface ReviewCardsProps {
   data: Review[];
 }
 
 const ReviewCards: React.FC<ReviewCardsProps> = ({ data }) => {
+  const apiClient = new ApiClient();
+
   return (
     <>
       <ul
@@ -30,14 +34,32 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data }) => {
                       ? item.author.user.companyName
                       : "Privatperson"}
                   </span>
+                  <div className="pl-25">
+                    <Avatar
+                      src=""
+                      alt={`${item.author.user.firstName} ${item.author.user.lastName}`}
+                    />
+                  </div>
                 </div>
-                <p className="mt-1 text-gray-500 text-sm truncate">Okace</p>
+                <div className="flex items-center mt-1.5">
+                  {Array.from({ length: 5 }, (_, i) => {
+                    const starValue = i + 1;
+                    return starValue <= item.rating ? (
+                      <IoStar key={i} className="text-primary" />
+                    ) : starValue - 0.5 === item.rating ? (
+                      <IoStarHalf key={i} className="text-primary" />
+                    ) : (
+                      <IoStarOutline key={i} className="text-primary" />
+                    );
+                  })}
+                </div>
+                <p className="mt-1 text-gray-800 text-sm truncate">
+                  {item.title}
+                </p>
+                <p className="mt-1 text-gray-500 text-sm truncate">
+                  {item.content}
+                </p>
               </div>
-              <Avatar
-                src=""
-                alt={`${item.author.user.firstName} ${item.author.user.lastName}`}
-                className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"
-              />
             </div>
             <div>
               <div className="-mt-px flex divide-x divide-gray-200 dark:divide-[#3f3f46]">
@@ -50,7 +72,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data }) => {
                       className="w-5 h-5 text-gray-400 dark:text-gray-300 "
                       aria-hidden="true"
                     />
-                    <span className="ml-3">Bearbeiten</span>
+                    <span className="ml-3">Akzeptieren</span>
                   </button>
                 </div>
                 <div className="w-0 flex-1 flex">
@@ -62,7 +84,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data }) => {
                       className="w-5 h-5 text-gray-400 dark:text-gray-300"
                       aria-hidden="true"
                     />
-                    <span className="ml-3">Löschen</span>
+                    <span className="ml-3">Ablehnen</span>
                   </button>
                 </div>
               </div>

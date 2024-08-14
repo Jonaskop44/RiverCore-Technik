@@ -52,7 +52,7 @@ const SingleTestimonial = ({ review }: { review: Review }) => {
         />
       </div>
 
-      <p>{review.body}</p>
+      <p>{review.content}</p>
     </div>
   );
 };
