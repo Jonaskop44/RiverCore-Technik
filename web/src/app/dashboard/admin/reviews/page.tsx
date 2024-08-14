@@ -45,6 +45,17 @@ const AdminEditReviews = () => {
     }
   };
 
+  const handleBlockAuthor = async (authorId: number) => {
+    const reponse = await apiClient.reviews.helper.updateAuthor(authorId);
+
+    if (reponse.status) {
+      await fetchReviews();
+      toast.success("Der Autor wurde erfolgreich blockiert.");
+    } else {
+      toast.error("Der Autor konnte nicht blockiert werden.");
+    }
+  };
+
   const filteredReviews = reviews.filter((review) => {
     if (selectedFilter === "Pending") return review.status === "PENDING";
     if (selectedFilter === "Accepted") return review.status === "ACCEPTED";
@@ -65,6 +76,7 @@ const AdminEditReviews = () => {
         data={reviewsToShow}
         selectedFilter={selectedFilter}
         onStatusUpdate={handleStatusUpdate}
+        onBlockAuthor={handleBlockAuthor}
       />
     </div>
   );

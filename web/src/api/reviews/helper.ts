@@ -58,4 +58,17 @@ export default class Helper {
         return { status: false, data: null };
       });
   }
+
+  async updateAuthor(authorId: number) {
+    return axios
+      .patch(`${Constants.API_BASE}/admin/author/update/${authorId}`)
+      .then((response) => {
+        if (response.status !== 200) return { status: false, data: null };
+
+        return { status: true, data: response.data };
+      })
+      .catch((error) => {
+        return { status: false, data: null };
+      });
+  }
 }

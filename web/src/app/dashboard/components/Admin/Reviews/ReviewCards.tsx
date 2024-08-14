@@ -1,4 +1,13 @@
-import { Avatar } from "@nextui-org/react";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownSection,
+  DropdownTrigger,
+  User,
+} from "@nextui-org/react";
 import { Review } from "@/types/reviews";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import { IoMdStopwatch } from "react-icons/io";
@@ -11,12 +20,14 @@ interface ReviewCardsProps {
   data: Review[];
   selectedFilter: string;
   onStatusUpdate: (reviewId: number, status: string) => void;
+  onBlockAuthor: (reviewId: number) => void;
 }
 
 const ReviewCards: React.FC<ReviewCardsProps> = ({
   data,
   selectedFilter,
   onStatusUpdate,
+  onBlockAuthor,
 }) => {
   const { getProfilePicture } = useUserStore();
   const [profilePictures, setProfilePictures] = useState<{
@@ -156,10 +167,68 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
                       : "Privatperson"}
                   </span>
                   <div className="pl-25">
-                    <Avatar
-                      src={profilePictures[item.author.user.id]}
-                      alt={`${item.author.user.firstName} ${item.author.user.lastName}`}
-                    />
+                    <Dropdown
+                      showArrow
+                      backdrop="blur"
+                      radius="sm"
+                      classNames={{
+                        base: "before:bg-default-200",
+                        content:
+                          "p-0 border-small border-divider bg-background dark:bg-blacksection",
+                      }}
+                    >
+                      <DropdownTrigger>
+                        <Avatar
+                          src={profilePictures[item.author.user.id]}
+                          alt={`${item.author.user.firstName} ${item.author.user.lastName}`}
+                        />
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label="Custom item styles"
+                        disabledKeys={["profile"]}
+                        className="p-3"
+                        itemClasses={{
+                          base: [
+                            "rounded-md",
+                            "text-default-500",
+                            "transition-opacity",
+                            "data-[hover=true]:text-foreground",
+                            "data-[hover=true]:bg-default-100",
+                            "dark:data-[hover=true]:bg-white/10",
+                            "data-[selectable=true]:focus:bg-default-50",
+                            "data-[pressed=true]:opacity-70",
+                            "data-[focus-visible=true]:ring-default-500",
+                          ],
+                        }}
+                      >
+                        <DropdownSection aria-label="Profile & Actions">
+                          <DropdownItem
+                            isReadOnly
+                            key="profile"
+                            className="h-14 gap-2 opacity-100"
+                          >
+                            <User
+                              name={`${item.author.user.firstName} ${item.author.user.lastName}`}
+                              description={item.author.user.email}
+                              classNames={{
+                                name: "text-default-600",
+                                description: "text-default-500",
+                              }}
+                              avatarProps={{
+                                size: "sm",
+                                src: profilePictures[item.author.user.id],
+                              }}
+                            />
+                          </DropdownItem>
+                          <DropdownItem
+                            key="dashboard"
+                            onPress={() => onBlockAuthor(item.author.id)}
+                          >
+                            Blockieren
+                          </DropdownItem>
+                        </DropdownSection>
+                      </DropdownMenu>
+                    </Dropdown>
                   </div>
                 </div>
                 <div className="flex items-center mt-1.5">
