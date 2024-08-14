@@ -67,7 +67,7 @@ export class AuthorService {
       data: {
         title: dto.title,
         rating: dto.rating,
-        body: dto.body,
+        content: dto.content,
         authorId: author.id,
       },
     });

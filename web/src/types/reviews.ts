@@ -19,7 +19,7 @@ export type Review = {
   id: number;
   title: string;
   rating: number;
-  body: string;
+  content: string;
   status: string;
   createdAt: string;
   updatedAt: string;

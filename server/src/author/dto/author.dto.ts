@@ -12,7 +12,7 @@ export class CreateReviewDto {
 
   @IsString()
   @IsNotEmpty()
-  readonly body: string;
+  readonly content: string;
 }
 
 export class UpadateReviewDto {
