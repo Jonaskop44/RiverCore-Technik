@@ -7,6 +7,7 @@ import { MailController } from './mail.controller';
 import { UserService } from 'src/user/user.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
+import { AuthorService } from 'src/author/author.service';
 
 @Global()
 @Module({
@@ -33,7 +34,13 @@ import { JwtService } from '@nestjs/jwt';
       },
     }),
   ],
-  providers: [MailService, UserService, PrismaService, JwtService],
+  providers: [
+    MailService,
+    UserService,
+    PrismaService,
+    JwtService,
+    AuthorService,
+  ],
   exports: [MailService],
   controllers: [MailController],
 })

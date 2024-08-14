@@ -11,6 +11,7 @@ import { AuthorService } from 'src/author/author.service';
 @Injectable()
 export class UserService {
   constructor(
+    private authorService: AuthorService,
     private prisma: PrismaService,
     private mailService: MailService,
     private jwtService: JwtService,
@@ -152,6 +153,9 @@ export class UserService {
         activated: true,
       },
     });
+
+    //Create author profile
+    await this.authorService.createAuthor(newUser.id);
 
     //Mark the token as activated
     await this.prisma.verificationToken.update({
