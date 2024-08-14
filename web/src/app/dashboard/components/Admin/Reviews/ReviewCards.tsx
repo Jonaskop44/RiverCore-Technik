@@ -1,19 +1,21 @@
-import { MdDelete } from "react-icons/md";
-import { RiEdit2Fill } from "react-icons/ri";
 import { Avatar } from "@nextui-org/react";
 import { Review } from "@/types/reviews";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import ApiClient from "@/api";
 import { toast } from "sonner";
+import { IoMdStopwatch } from "react-icons/io";
+import { FaRegCheckCircle } from "react-icons/fa";
+import { FaRegCircleXmark } from "react-icons/fa6";
 
 interface ReviewCardsProps {
   data: Review[];
+  selectedFilter: string;
 }
 
-const ReviewCards: React.FC<ReviewCardsProps> = ({ data }) => {
+const ReviewCards: React.FC<ReviewCardsProps> = ({ data, selectedFilter }) => {
   const apiClient = new ApiClient();
 
-  const handleUpadteReviewStatus = async (reviewId: number, status: string) => {
+  const handleUpdateReviewStatus = async (reviewId: number, status: string) => {
     const response = await apiClient.reviews.helper.updateReviewStatus(
       reviewId,
       status
@@ -23,6 +25,103 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data }) => {
       toast.success("Die Bewertung wurde erfolgreich aktualisiert.");
     } else {
       toast.error("Die Bewertung konnte nicht aktualisiert werden.");
+    }
+  };
+
+  const renderButtons = (item: Review) => {
+    if (selectedFilter === "Pending") {
+      return (
+        <>
+          <div className="-ml-px w-0 flex-1 flex">
+            <button
+              className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
+              onClick={() => handleUpdateReviewStatus(item.id, "ACCEPTED")}
+            >
+              <FaRegCheckCircle
+                className="text-gray-400 dark:text-gray-300"
+                aria-hidden="true"
+                size={20}
+              />
+              <span className="ml-3">Akzeptieren</span>
+            </button>
+          </div>
+          <div className="w-0 flex-1 flex">
+            <button
+              onClick={() => handleUpdateReviewStatus(item.id, "REJECTED")}
+              className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
+            >
+              <FaRegCircleXmark
+                className="text-gray-400 dark:text-gray-300"
+                aria-hidden="true"
+                size={20}
+              />
+              <span className="ml-3">Ablehnen</span>
+            </button>
+          </div>
+        </>
+      );
+    } else if (selectedFilter === "Accepted") {
+      return (
+        <>
+          <div className="-ml-px w-0 flex-1 flex">
+            <button
+              className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
+              onClick={() => handleUpdateReviewStatus(item.id, "PENDING")}
+            >
+              <IoMdStopwatch
+                className="text-gray-400 dark:text-gray-300"
+                aria-hidden="true"
+                size={25}
+              />
+              <span className="ml-3">Ausstehend</span>
+            </button>
+          </div>
+          <div className="w-0 flex-1 flex">
+            <button
+              onClick={() => handleUpdateReviewStatus(item.id, "REJECTED")}
+              className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
+            >
+              <FaRegCircleXmark
+                className="text-gray-400 dark:text-gray-300"
+                aria-hidden="true"
+                size={20}
+              />
+              <span className="ml-3">Ablehnen</span>
+            </button>
+          </div>
+        </>
+      );
+    } else if (selectedFilter === "Rejected") {
+      return (
+        <>
+          <div className="-ml-px w-0 flex-1 flex">
+            <button
+              className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
+              onClick={() => handleUpdateReviewStatus(item.id, "PENDING")}
+            >
+              <IoMdStopwatch
+                className="text-gray-400 dark:text-gray-300"
+                aria-hidden="true"
+                size={25}
+              />
+              <span className="ml-3">Ausstehend</span>
+            </button>
+          </div>
+          <div className="w-0 flex-1 flex">
+            <button
+              onClick={() => handleUpdateReviewStatus(item.id, "ACCEPTED")}
+              className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
+            >
+              <FaRegCheckCircle
+                className="text-gray-400 dark:text-gray-300"
+                aria-hidden="true"
+                size={20}
+              />
+              <span className="ml-3">Akzeptiert</span>
+            </button>
+          </div>
+        </>
+      );
     }
   };
 
@@ -77,34 +176,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data }) => {
             </div>
             <div>
               <div className="-mt-px flex divide-x divide-gray-200 dark:divide-[#3f3f46]">
-                <div className="-ml-px w-0 flex-1 flex">
-                  <button
-                    className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
-                    onClick={() => {
-                      handleUpadteReviewStatus(item.id, "ACCEPTED");
-                    }}
-                  >
-                    <RiEdit2Fill
-                      className="w-5 h-5 text-gray-400 dark:text-gray-300 "
-                      aria-hidden="true"
-                    />
-                    <span className="ml-3">Akzeptieren</span>
-                  </button>
-                </div>
-                <div className="w-0 flex-1 flex">
-                  <button
-                    onClick={() => {
-                      handleUpadteReviewStatus(item.id, "REJECTED");
-                    }}
-                    className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
-                  >
-                    <MdDelete
-                      className="w-5 h-5 text-gray-400 dark:text-gray-300"
-                      aria-hidden="true"
-                    />
-                    <span className="ml-3">Ablehnen</span>
-                  </button>
-                </div>
+                {renderButtons(item)}
               </div>
             </div>
           </li>

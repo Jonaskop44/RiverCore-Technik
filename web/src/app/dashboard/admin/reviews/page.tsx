@@ -6,7 +6,6 @@ import { Review } from "@/types/reviews";
 import { useEffect, useState } from "react";
 import ReviewCards from "../../components/Admin/Reviews/ReviewCards";
 import FilterTabs from "../../components/Admin/Reviews/FilterTabs";
-import FilterAutocomplete from "../../components/Admin/Reviews/FilterAutocomplete";
 
 const AdminEditReviews = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -45,13 +44,9 @@ const AdminEditReviews = () => {
 
       <div className="flex bg-white dark:bg-blacksection rounded-lg pb-4 mb-10 sm:space-x-60 md:space-x-5 lg:space-x-60 shadow-md">
         <FilterTabs data={reviews} onFilterChange={handleFilterChange} />
-        {/* <FilterAutocomplete
-          data={filteredReviews}
-          onReviewSelect={handleReviewSelect}
-        /> */}
       </div>
 
-      <ReviewCards data={reviewsToShow} />
+      <ReviewCards data={reviewsToShow} selectedFilter={selectedFilter} />
     </div>
   );
 };
