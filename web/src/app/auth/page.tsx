@@ -285,6 +285,15 @@ const Signup = () => {
                       variant="underlined"
                       defaultItems={designation}
                       className="w-full pb-3.5 lg:w-1/2"
+                      classNames={{
+                        popoverContent: "dark:bg-blacksection",
+                      }}
+                      listboxProps={{
+                        emptyContent: "Ihre Eingabe wurde nicht gefunden",
+                        itemClasses: {
+                          base: ["dark:data-[hover=true]:bg-white/10"],
+                        },
+                      }}
                       onInputChange={(value) => {
                         const selectedItem = designation.find(
                           (item) => item.label === value
