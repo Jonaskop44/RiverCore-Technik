@@ -1,11 +1,11 @@
 import { Avatar } from "@nextui-org/react";
 import { Review } from "@/types/reviews";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
-import ApiClient from "@/api";
-import { toast } from "sonner";
 import { IoMdStopwatch } from "react-icons/io";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { FaRegCircleXmark } from "react-icons/fa6";
+import { useUserStore } from "@/data/userStore";
+import { useEffect, useState } from "react";
 
 interface ReviewCardsProps {
   data: Review[];
@@ -18,6 +18,24 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
   selectedFilter,
   onStatusUpdate,
 }) => {
+  const { getProfilePicture } = useUserStore();
+  const [profilePictures, setProfilePictures] = useState<{
+    [key: number]: string;
+  }>({});
+
+  useEffect(() => {
+    const fetchProfilePictures = async () => {
+      const pictures: { [key: number]: string } = {};
+      for (const person of data) {
+        const pictureUrl = await getProfilePicture(person);
+        pictures[person.author.user.id] = pictureUrl;
+      }
+      setProfilePictures(pictures);
+    };
+
+    fetchProfilePictures();
+  }, [data, getProfilePicture]);
+
   const renderButtons = (item: Review) => {
     if (selectedFilter === "Pending") {
       return (
@@ -139,7 +157,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
                   </span>
                   <div className="pl-25">
                     <Avatar
-                      src=""
+                      src={profilePictures[item.author.user.id]}
                       alt={`${item.author.user.firstName} ${item.author.user.lastName}`}
                     />
                   </div>
