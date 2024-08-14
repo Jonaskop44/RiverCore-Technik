@@ -19,7 +19,7 @@ enum Role {
   USER
 }
 
-enum Status {
+enum ReviewStatus {
   PENDING
   ACCEPTED
   REJECTED
@@ -59,21 +59,21 @@ model Author {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId  Int     @unique
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  reviews Review?
+  userId  Int      @unique
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reviews Review[]
 }
 
 model Review {
-  id        Int      @id @default(autoincrement())
+  id        Int          @id @default(autoincrement())
   title     String
-  rating    Int
+  rating    Float
   body      String
-  status    Status   @default(PENDING)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  status    ReviewStatus @default(PENDING)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
 
-  authorId Int    @unique
+  authorId Int
   author   Author @relation(fields: [authorId], references: [id])
 }
 
