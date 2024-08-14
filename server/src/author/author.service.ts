@@ -52,7 +52,7 @@ export class AuthorService {
 
     const author = await this.prisma.author.findUnique({
       where: {
-        id: user.id,
+        userId: user.id,
       },
     });
 
@@ -108,6 +108,8 @@ export class AuthorService {
               select: {
                 firstName: true,
                 lastName: true,
+                designation: true,
+                companyName: true,
                 profilePicture: true,
               },
             },

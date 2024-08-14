@@ -30,7 +30,6 @@ export class UploadController {
     return this.uploadService.saveProfilePicture(request, file);
   }
 
-  @UseGuards(JwtGuard)
   @Get('profilePicture/:filename')
   async getProfilePicture(
     @Param('filename') filename: string,

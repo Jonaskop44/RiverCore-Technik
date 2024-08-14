@@ -49,9 +49,6 @@ export const useUserStore = create<UserState>((set) => ({
       .get(
         `${Constants.API_BASE}/upload/profilePicture/${user.profilePicture}`,
         {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
-          },
           responseType: "blob",
         }
       )

@@ -7,9 +7,27 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { motion } from "framer-motion";
 import SingleReview from "./SingleReview";
-import { reviewsData } from "./reviewsData";
+import ApiClient from "@/api";
+import { useEffect, useState } from "react";
+import type { Review } from "@/types/reviews";
 
 const Reviews = () => {
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const apiClient = new ApiClient();
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      await apiClient.reviews.helper
+        .getAllAcceptedReviews()
+        .then((response) => {
+          setReviews(response);
+        })
+        .catch((error) => {});
+    };
+
+    fetchReviews();
+  }, []);
+
   return (
     <>
       <section>
@@ -70,7 +88,7 @@ const Reviews = () => {
                 },
               }}
             >
-              {reviewsData.map((review) => (
+              {reviews.map((review) => (
                 <SwiperSlide key={review?.id}>
                   <SingleReview review={review} />
                 </SwiperSlide>
