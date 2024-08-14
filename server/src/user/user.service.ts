@@ -6,6 +6,7 @@ import { MailService } from 'src/mail/mail.service';
 import { User } from './entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { Designation, TokenType } from '@prisma/client';
+import { AuthorService } from 'src/author/author.service';
 
 @Injectable()
 export class UserService {
@@ -142,6 +143,7 @@ export class UserService {
       throw new ConflictException('The token is invalid or expired');
     }
 
+    //Activate User
     const newUser = await this.prisma.user.update({
       where: {
         id: user.id,
@@ -151,6 +153,7 @@ export class UserService {
       },
     });
 
+    //Mark the token as activated
     await this.prisma.verificationToken.update({
       where: {
         token: token,
