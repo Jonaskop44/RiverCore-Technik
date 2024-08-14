@@ -2,8 +2,9 @@ export type User = {
   firstName: string;
   lastName: string;
   designation: string;
-  companyName?: string | null;
-  profilePicture?: string | null;
+  companyName?: string;
+  profilePicture?: string;
+  email?: string;
 };
 
 export type Author = {

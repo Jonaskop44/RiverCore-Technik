@@ -6,7 +6,7 @@ import ReviewUserForm from "../../components/User/Review/ReviewForm";
 const UserReviews = () => {
   return (
     <div className="mx-auto w-full max-w-[1080px]">
-      <Breadcrumb pageName="Bewertungen" />
+      <Breadcrumb pageName="Bewertung" />
 
       <div className="bg-white p-4 rounded-lg">
         <ReviewUserForm />

@@ -30,4 +30,17 @@ export default class Helper {
         return { status: false };
       });
   }
+
+  async getAllReviews() {
+    return axios
+      .get(`${Constants.API_BASE}/admin/reviews`)
+      .then((response) => {
+        if (response.status !== 200) return { status: false, data: null };
+
+        return { status: true, data: response.data };
+      })
+      .catch((error) => {
+        return { status: false, data: null };
+      });
+  }
 }
