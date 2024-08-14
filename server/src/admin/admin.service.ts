@@ -82,6 +82,15 @@ export class AdminService {
 
     if (!author) throw new Error('Author not found');
 
+    await this.prisma.review.updateMany({
+      where: {
+        authorId: author.id,
+      },
+      data: {
+        status: 'REJECTED',
+      },
+    });
+
     return await this.prisma.author.update({
       where: {
         id: author.id,
