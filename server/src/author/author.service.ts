@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateReviewDto, UpadateReviewDto } from './dto/author.dto';
+import { CreateReviewDto } from './dto/author.dto';
 
 @Injectable()
 export class AuthorService {
@@ -18,25 +18,6 @@ export class AuthorService {
     return await this.prisma.author.create({
       data: {
         userId: user.id,
-      },
-    });
-  }
-
-  async updateAuthor(id: number) {
-    const author = await this.prisma.author.findUnique({
-      where: {
-        id: id,
-      },
-    });
-
-    if (!author) throw new Error('Author not found');
-
-    return await this.prisma.author.update({
-      where: {
-        id: author.id,
-      },
-      data: {
-        blocked: !author.blocked,
       },
     });
   }
@@ -75,25 +56,6 @@ export class AuthorService {
     const { status, ...reviewData } = review;
 
     return reviewData;
-  }
-
-  async updateReview(id: number, dto: UpadateReviewDto) {
-    const review = await this.prisma.review.findUnique({
-      where: {
-        id: id,
-      },
-    });
-
-    if (!review) throw new ConflictException('Review not found');
-
-    return await this.prisma.review.update({
-      where: {
-        id: review.id,
-      },
-      data: {
-        status: dto.status,
-      },
-    });
   }
 
   async getAllAcceptedReviews() {

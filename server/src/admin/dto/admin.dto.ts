@@ -1,4 +1,4 @@
-import { Designation, Role } from '@prisma/client';
+import { Designation, ReviewStatus, Role } from '@prisma/client';
 import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
 export class UpdateUserDto {
@@ -27,4 +27,10 @@ export class UpdateUserDto {
 
   @IsNotEmpty()
   readonly activated: boolean;
+}
+
+export class UpadateReviewDto {
+  @IsEnum(ReviewStatus)
+  @IsNotEmpty()
+  readonly status: ReviewStatus;
 }

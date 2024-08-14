@@ -1,5 +1,4 @@
-import { ReviewStatus } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateReviewDto {
   @IsString()
@@ -13,10 +12,4 @@ export class CreateReviewDto {
   @IsString()
   @IsNotEmpty()
   readonly content: string;
-}
-
-export class UpadateReviewDto {
-  @IsEnum(ReviewStatus)
-  @IsNotEmpty()
-  readonly status: ReviewStatus;
 }

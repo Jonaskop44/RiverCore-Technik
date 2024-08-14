@@ -26,7 +26,7 @@ const sidebarData: SidebarGroup[] = [
       },
       {
         icon: <MdOutlineRateReview size={25} />,
-        label: "Bewertungen",
+        label: "Bewertung",
         route: "/user/reviews",
       },
       {
@@ -140,6 +140,12 @@ const sidebarData: SidebarGroup[] = [
         icon: <FaRegPaperPlane size={25} />,
         label: "Newsletter",
         route: "admin/newsletter",
+        roles: ["ADMIN"],
+      },
+      {
+        icon: <MdOutlineRateReview size={25} />,
+        label: "Bewertungen",
+        route: "admin/reviews",
         roles: ["ADMIN"],
       },
     ],
