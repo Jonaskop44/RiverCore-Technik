@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import dynamic from "next/dynamic";
@@ -61,7 +62,8 @@ const NewsletterEditor = () => {
       cleanContent === "" ||
       cleanContent === "<p><br></p>" ||
       cleanSubject === "" ||
-      cleanSubject === "<p><br></p>"
+      cleanSubject === "<p><br></p>" ||
+      users.length === 0
     );
   };
 

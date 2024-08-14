@@ -174,10 +174,10 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
                     );
                   })}
                 </div>
-                <p className="mt-1 text-gray-800 text-sm truncate">
+                <p className="mt-1 text-gray-800 dark:text-gray-300 text-sm truncate">
                   {item.title}
                 </p>
-                <p className="mt-1 text-gray-500 text-sm truncate">
+                <p className="mt-1 text-gray-500 dark:text-gray-400 text-sm truncate">
                   {item.content}
                 </p>
               </div>
