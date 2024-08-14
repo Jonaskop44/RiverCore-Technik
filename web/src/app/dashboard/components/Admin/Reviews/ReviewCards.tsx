@@ -10,24 +10,14 @@ import { FaRegCircleXmark } from "react-icons/fa6";
 interface ReviewCardsProps {
   data: Review[];
   selectedFilter: string;
+  onStatusUpdate: (reviewId: number, status: string) => void;
 }
 
-const ReviewCards: React.FC<ReviewCardsProps> = ({ data, selectedFilter }) => {
-  const apiClient = new ApiClient();
-
-  const handleUpdateReviewStatus = async (reviewId: number, status: string) => {
-    const response = await apiClient.reviews.helper.updateReviewStatus(
-      reviewId,
-      status
-    );
-
-    if (response.status) {
-      toast.success("Die Bewertung wurde erfolgreich aktualisiert.");
-    } else {
-      toast.error("Die Bewertung konnte nicht aktualisiert werden.");
-    }
-  };
-
+const ReviewCards: React.FC<ReviewCardsProps> = ({
+  data,
+  selectedFilter,
+  onStatusUpdate,
+}) => {
   const renderButtons = (item: Review) => {
     if (selectedFilter === "Pending") {
       return (
@@ -35,7 +25,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data, selectedFilter }) => {
           <div className="-ml-px w-0 flex-1 flex">
             <button
               className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
-              onClick={() => handleUpdateReviewStatus(item.id, "ACCEPTED")}
+              onClick={() => onStatusUpdate(item.id, "ACCEPTED")}
             >
               <FaRegCheckCircle
                 className="text-gray-400 dark:text-gray-300"
@@ -47,7 +37,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data, selectedFilter }) => {
           </div>
           <div className="w-0 flex-1 flex">
             <button
-              onClick={() => handleUpdateReviewStatus(item.id, "REJECTED")}
+              onClick={() => onStatusUpdate(item.id, "REJECTED")}
               className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
             >
               <FaRegCircleXmark
@@ -66,7 +56,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data, selectedFilter }) => {
           <div className="-ml-px w-0 flex-1 flex">
             <button
               className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
-              onClick={() => handleUpdateReviewStatus(item.id, "PENDING")}
+              onClick={() => onStatusUpdate(item.id, "PENDING")}
             >
               <IoMdStopwatch
                 className="text-gray-400 dark:text-gray-300"
@@ -78,7 +68,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data, selectedFilter }) => {
           </div>
           <div className="w-0 flex-1 flex">
             <button
-              onClick={() => handleUpdateReviewStatus(item.id, "REJECTED")}
+              onClick={() => onStatusUpdate(item.id, "REJECTED")}
               className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
             >
               <FaRegCircleXmark
@@ -97,7 +87,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data, selectedFilter }) => {
           <div className="-ml-px w-0 flex-1 flex">
             <button
               className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
-              onClick={() => handleUpdateReviewStatus(item.id, "PENDING")}
+              onClick={() => onStatusUpdate(item.id, "PENDING")}
             >
               <IoMdStopwatch
                 className="text-gray-400 dark:text-gray-300"
@@ -109,7 +99,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({ data, selectedFilter }) => {
           </div>
           <div className="w-0 flex-1 flex">
             <button
-              onClick={() => handleUpdateReviewStatus(item.id, "ACCEPTED")}
+              onClick={() => onStatusUpdate(item.id, "ACCEPTED")}
               className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400"
             >
               <FaRegCheckCircle

@@ -6,19 +6,20 @@ import { Review } from "@/types/reviews";
 import { useEffect, useState } from "react";
 import ReviewCards from "../../components/Admin/Reviews/ReviewCards";
 import FilterTabs from "../../components/Admin/Reviews/FilterTabs";
+import { toast } from "sonner";
 
 const AdminEditReviews = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("Pending");
-  const [selectedReview, setSelectedReview] = useState<Review>(null);
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const apiClient = new ApiClient();
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      const response = await apiClient.reviews.helper.getAllReviews();
-      setReviews(response.data);
-    };
+  const fetchReviews = async () => {
+    const response = await apiClient.reviews.helper.getAllReviews();
+    setReviews(response.data);
+  };
 
+  useEffect(() => {
     fetchReviews();
   }, []);
 
@@ -28,6 +29,19 @@ const AdminEditReviews = () => {
 
   const handleReviewSelect = (review: Review) => {
     setSelectedReview(review);
+  };
+
+  const handleStatusUpdate = async (reviewId: number, status: string) => {
+    const response = await apiClient.reviews.helper.updateReviewStatus(
+      reviewId,
+      status
+    );
+    if (response.status) {
+      await fetchReviews();
+      toast.success("Die Bewertung wurde erfolgreich aktualisiert.");
+    } else {
+      toast.error("Die Bewertung konnte nicht aktualisiert werden.");
+    }
   };
 
   const filteredReviews = reviews.filter((review) => {
@@ -46,7 +60,11 @@ const AdminEditReviews = () => {
         <FilterTabs data={reviews} onFilterChange={handleFilterChange} />
       </div>
 
-      <ReviewCards data={reviewsToShow} selectedFilter={selectedFilter} />
+      <ReviewCards
+        data={reviewsToShow}
+        selectedFilter={selectedFilter}
+        onStatusUpdate={handleStatusUpdate}
+      />
     </div>
   );
 };
