@@ -5,6 +5,7 @@ import { Tabs, Tab, Chip } from "@nextui-org/react";
 import { Review } from "@/types/reviews";
 import { IoMdStopwatch } from "react-icons/io";
 import { GoShieldCheck, GoShieldSlash, GoShieldX } from "react-icons/go";
+import { motion } from "framer-motion";
 
 interface FilterTabsProps {
   data: Review[];
@@ -46,7 +47,22 @@ const FilterTabs: React.FC<FilterTabsProps> = ({ data, onFilterChange }) => {
   }, []);
 
   return (
-    <div
+    <motion.div
+      variants={{
+        hidden: {
+          opacity: 0,
+          x: -20,
+        },
+
+        visible: {
+          opacity: 1,
+          x: 0,
+        },
+      }}
+      initial="hidden"
+      whileInView="visible"
+      transition={{ duration: 0.5, delay: 0.3 }}
+      viewport={{ once: true }}
       className={
         isVertical
           ? "flex flex-wrap gap-4 mt-[20px] mx-auto"
@@ -115,7 +131,7 @@ const FilterTabs: React.FC<FilterTabsProps> = ({ data, onFilterChange }) => {
           }
         />
       </Tabs>
-    </div>
+    </motion.div>
   );
 };
 

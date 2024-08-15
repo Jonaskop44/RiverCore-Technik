@@ -15,6 +15,7 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import { FaRegCircleXmark } from "react-icons/fa6";
 import { useUserStore } from "@/data/userStore";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 interface ReviewCardsProps {
   data: Review[];
@@ -151,7 +152,22 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
         {data.map((item) => (
-          <li
+          <motion.li
+            variants={{
+              hidden: {
+                opacity: 0,
+                y: -20,
+              },
+
+              visible: {
+                opacity: 1,
+                y: 0,
+              },
+            }}
+            initial="hidden"
+            whileInView="visible"
+            transition={{ duration: 1, delay: 0.3 + item.id * 0.05 }}
+            viewport={{ once: true }}
             key={item.id}
             className="col-span-1 bg-white dark:bg-blacksection shadow-md rounded-lg divide-y divide-gray-200 dark:divide-[#3f3f46]"
           >
@@ -258,7 +274,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
                 {renderButtons(item)}
               </div>
             </div>
-          </li>
+          </motion.li>
         ))}
       </ul>
     </>

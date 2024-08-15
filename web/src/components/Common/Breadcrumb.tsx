@@ -21,7 +21,7 @@ const Breadcrumb = ({ pageName }: BreadcrumbProps) => {
       }}
       initial="hidden"
       whileInView="visible"
-      transition={{ duration: 1, delay: 0.25 }}
+      transition={{ duration: 1, delay: 0.2 }}
       viewport={{ once: true }}
       className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
     >

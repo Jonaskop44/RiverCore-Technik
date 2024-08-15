@@ -77,7 +77,7 @@ const UserCards: React.FC<UserCardProps> = ({
             }}
             initial="hidden"
             whileInView="visible"
-            transition={{ duration: 1, delay: 0.3 + person.id * 0.02 }}
+            transition={{ duration: 1, delay: 0.3 + person.id * 0.05 }}
             viewport={{ once: true }}
             key={person.email}
             className="col-span-1 bg-white dark:bg-blacksection shadow-md rounded-lg divide-y divide-gray-200 dark:divide-[#3f3f46]"

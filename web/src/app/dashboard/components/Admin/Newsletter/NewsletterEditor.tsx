@@ -11,6 +11,7 @@ import { User } from "@/types/user";
 import { Button, Input } from "@nextui-org/react";
 import { toast } from "sonner";
 import { VscSend } from "react-icons/vsc";
+import { motion } from "framer-motion";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -98,7 +99,24 @@ const NewsletterEditor = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-blacksection shadow-md rounded-lg p-4">
+    <motion.div
+      variants={{
+        hidden: {
+          opacity: 0,
+          y: -20,
+        },
+
+        visible: {
+          opacity: 1,
+          y: 0,
+        },
+      }}
+      initial="hidden"
+      whileInView="visible"
+      transition={{ duration: 1, delay: 0.35 }}
+      viewport={{ once: true }}
+      className="bg-white dark:bg-blacksection shadow-md rounded-lg p-4"
+    >
       <div className="block justify-between mb-10 sm:flex">
         {/* usercount for small screens */}
         <div className="block sm:hidden mb-5">
@@ -158,7 +176,7 @@ const NewsletterEditor = () => {
       >
         Newsletter senden
       </Button>
-    </div>
+    </motion.div>
   );
 };
 
