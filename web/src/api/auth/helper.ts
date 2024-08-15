@@ -101,7 +101,7 @@ export default class Helper {
         }
       );
 
-      if (response.status !== 201)
+      if (response.status !== 200)
         return { status: false, message: "Invalid token" };
 
       const data = await response.data;

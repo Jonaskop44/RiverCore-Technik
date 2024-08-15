@@ -68,7 +68,9 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
 
   const onSubmit = async () => {
     setIsLoading(true);
-    const token = await apiClient.auth.helper.checkPasswordRestToken(code);
+    const token = await apiClient.auth.helper.checkPasswordRestToken(
+      code.trim()
+    );
 
     if (token.status) {
       onOpenChange(false);
@@ -101,7 +103,7 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
     const reset = await apiClient.auth.helper.resetPassword(
       email,
       password,
-      token
+      token.trim()
     );
 
     if (reset.status) {
