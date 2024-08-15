@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
   ActivateUserDto,
@@ -28,7 +28,7 @@ export class UserController {
     return this.userService.resendActivationEmail(dto.email);
   }
 
-  @Post('password/check/resttoken')
+  @Post('password/check/restToken')
   async checkPasswordRestToken(@Body() dto: CheckPasswordResetTokenDto) {
     return this.userService.checkPasswordRestToken(dto.token);
   }
@@ -38,7 +38,7 @@ export class UserController {
     return this.userService.sendPasswordResetEmail(dto.email);
   }
 
-  @Post('password/reset')
+  @Patch('password/reset')
   async resetPassword(@Body() dto: ResetPasswordDto) {
     return this.userService.resetPassword(dto);
   }

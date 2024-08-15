@@ -27,8 +27,10 @@ export default class Helper {
   public async checkPasswordRestToken(token: string) {
     try {
       const response = await axios.post(
-        `${Constants.API_BASE}/user/password/check/resttoken`,
-        { token: token }
+        `${Constants.API_BASE}/user/password/check/restToken`,
+        {
+          token: token,
+        }
       );
 
       if (response.status !== 201) {
@@ -90,7 +92,7 @@ export default class Helper {
 
   public async resetPassword(email: string, password: string, token: string) {
     try {
-      const response = await axios.post(
+      const response = await axios.patch(
         `${Constants.API_BASE}/user/password/reset`,
         {
           email: email,
