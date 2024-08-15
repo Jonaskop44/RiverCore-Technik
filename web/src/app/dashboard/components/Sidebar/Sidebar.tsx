@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -26,15 +24,23 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
     .filter((group) => group.menuItems.length > 0);
 
   return (
-    <div>
+    <div className="relative">
+      {/* Overlay, das erscheint, wenn die Sidebar geöffnet ist */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black opacity-50"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       <aside
-        className={`absolute left-0 top-0 z-999 flex h-screen w-72.5 flex-col overflow-y-hidden border-r border-stroke bg-white dark:border-strokedark dark:bg-blacksection lg:static lg:translate-x-0 ${
+        className={`fixed left-0 top-0 z-999 flex h-screen w-72.5 flex-col overflow-y-hidden border-r border-stroke bg-white dark:border-strokedark dark:bg-blacksection lg:static lg:translate-x-0 ${
           sidebarOpen
             ? "translate-x-0 duration-300 ease-linear"
             : "-translate-x-full"
         }`}
       >
-        {/* <!-- SIDEBAR HEADER --> */}
+        {/* SIDEBAR HEADER */}
         <div className="flex items-center justify-between gap-2 px-6 pb-5.5 lg:pb-6.5 xl:pb-10">
           <Link href="/">
             <Image
@@ -79,10 +85,10 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
             </svg>
           </button>
         </div>
-        {/* <!-- SIDEBAR HEADER --> */}
+        {/* SIDEBAR HEADER */}
 
         <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
-          {/* <!-- Sidebar Menu --> */}
+          {/* Sidebar Menu */}
           <nav className="mt-1 px-4 lg:px-6">
             {filteredSidebarData.map((group, groupIndex) => (
               <div key={groupIndex}>
@@ -103,7 +109,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
               </div>
             ))}
           </nav>
-          {/* <!-- Sidebar Menu --> */}
+          {/* Sidebar Menu */}
         </div>
       </aside>
     </div>
