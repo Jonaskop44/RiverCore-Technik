@@ -10,7 +10,7 @@ import { AuthorService } from './author.service';
 import { CreateReviewDto } from './dto/author.dto';
 import { JwtGuard } from 'src/guards/jwt.guard';
 
-@Controller('api/v1/author')
+@Controller('author')
 export class AuthorController {
   constructor(private authorService: AuthorService) {}
 

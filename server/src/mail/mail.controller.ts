@@ -6,7 +6,7 @@ import {
 } from './dto/mail.dto';
 import { MailService } from './mail.service';
 
-@Controller('api/v1/mail')
+@Controller('mail')
 export class MailController {
   constructor(private mailService: MailService) {}
 

@@ -9,7 +9,7 @@ import {
   SendPasswordResetEmailDto,
 } from './dto/user.dto';
 
-@Controller('api/v1/user')
+@Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 

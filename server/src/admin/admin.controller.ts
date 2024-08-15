@@ -16,7 +16,7 @@ import { SendNewsletterDto } from 'src/mail/dto/mail.dto';
 import { MailService } from 'src/mail/mail.service';
 
 @UseGuards(RolesGuard)
-@Controller('api/v1/admin')
+@Controller('admin')
 export class AdminController {
   constructor(
     private readonly adminService: AdminService,

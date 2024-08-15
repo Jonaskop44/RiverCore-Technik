@@ -16,7 +16,7 @@ import multerConfig from './config/multer.config';
 import { JwtGuard } from 'src/guards/jwt.guard';
 import { Response } from 'express';
 
-@Controller('api/v1/upload')
+@Controller('upload')
 export class UploadController {
   constructor(private uploadService: UploadService) {}
 
