@@ -76,7 +76,19 @@ export class UploadService {
         },
       });
 
+      //Check if the user has a profile picture
       if (!file) {
+        return response.sendFile(
+          join(process.cwd(), 'public/images/profilePictures/pb-default.png'),
+        );
+      }
+
+      //Check if file exists
+      if (
+        !existsSync(
+          join(process.cwd(), 'public/images/profilePictures', filename),
+        )
+      ) {
         return response.sendFile(
           join(process.cwd(), 'public/images/profilePictures/pb-default.png'),
         );
@@ -127,31 +139,4 @@ export class UploadService {
       },
     });
   }
-
-  // async getProfilePicture(response: Response) {
-  //   try {
-  //     const authorizationHeader =
-  //       response.req.headers['authorization'].split(' ')[1];
-
-  //     const user =
-  //       await this.userService.getUserDataFromToken(authorizationHeader);
-
-  //     if (!user) throw new ConflictException('User not found');
-
-  //     if (!user.profilePicture) {
-  //       return response.sendFile(
-  //         join(process.cwd(), 'public/images/profilePictures/pb-default.png'),
-  //       );
-  //     }
-  //     return response.sendFile(
-  //       join(
-  //         process.cwd(),
-  //         'public/images/profilePictures',
-  //         user.profilePicture,
-  //       ),
-  //     );
-  //   } catch (error) {
-  //     throw new ConflictException('File not found');
-  //   }
-  // }
 }
