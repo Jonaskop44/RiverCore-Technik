@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import { toast } from "sonner";
 import ApiClient from "@/api";
 import { Avatar } from "@nextui-org/react";
+import { motion } from "framer-motion";
 
 const UserSettings = () => {
   const { user, profilePicture, fetchUser } = useUserStore();
@@ -110,7 +111,24 @@ const UserSettings = () => {
       <Breadcrumb pageName="Einstellungen" />
 
       <div className="grid grid-cols-5 gap-8">
-        <div className="col-span-5 xl:col-span-3">
+        <motion.div
+          variants={{
+            hidden: {
+              opacity: 0,
+              x: -20,
+            },
+
+            visible: {
+              opacity: 1,
+              x: 0,
+            },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="col-span-5 xl:col-span-3"
+        >
           <div className="rounded-[10px] border border-stroke bg-white  dark:border-strokedark dark:bg-blacksection shadow-solid-3">
             <div className="border-b border-stroke px-7 py-4 dark:border-strokedark">
               <h3 className="font-medium text-dark dark:text-white">
@@ -304,8 +322,25 @@ const UserSettings = () => {
               </form>
             </div>
           </div>
-        </div>
-        <div className="col-span-5 xl:col-span-2">
+        </motion.div>
+        <motion.div
+          variants={{
+            hidden: {
+              opacity: 0,
+              x: 20,
+            },
+
+            visible: {
+              opacity: 1,
+              x: 0,
+            },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="col-span-5 xl:col-span-2"
+        >
           <div className="rounded-[10px] border border-stroke bg-white  dark:border-strokedark dark:bg-blacksection shadow-solid-3">
             <div className="border-b border-stroke px-7 py-4 dark:border-strokedark">
               <h3 className="font-medium text-dark dark:text-white">
@@ -416,7 +451,7 @@ const UserSettings = () => {
               </form>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

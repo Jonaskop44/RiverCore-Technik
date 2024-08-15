@@ -5,6 +5,7 @@ import EditUserModal from "./EditUserModal";
 import { useState } from "react";
 import { Avatar, useDisclosure } from "@nextui-org/react";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 interface UserCardProps {
   data: User[];
@@ -62,7 +63,22 @@ const UserCards: React.FC<UserCardProps> = ({
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
         {data.map((person) => (
-          <li
+          <motion.li
+            variants={{
+              hidden: {
+                opacity: 0,
+                y: -20,
+              },
+
+              visible: {
+                opacity: 1,
+                y: 0,
+              },
+            }}
+            initial="hidden"
+            whileInView="visible"
+            transition={{ duration: 1, delay: 0.3 + person.id * 0.02 }}
+            viewport={{ once: true }}
             key={person.email}
             className="col-span-1 bg-white dark:bg-blacksection shadow-md rounded-lg divide-y divide-gray-200 dark:divide-[#3f3f46]"
           >
@@ -124,7 +140,7 @@ const UserCards: React.FC<UserCardProps> = ({
                 </div>
               </div>
             </div>
-          </li>
+          </motion.li>
         ))}
       </ul>
     </>

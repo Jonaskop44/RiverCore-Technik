@@ -8,6 +8,7 @@ import { useFilter } from "@react-aria/i18n";
 import { User } from "@/types/user";
 import { useEffect, useState } from "react";
 import { useUserStore } from "@/data/userStore";
+import { motion } from "framer-motion";
 
 type FieldState = {
   selectedKey: string | null;
@@ -78,43 +79,61 @@ const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({
   };
 
   return (
-    <Autocomplete
-      className="max-w-xs z-10"
-      classNames={{
-        popoverContent: "dark:bg-blacksection",
-      }}
-      inputValue={fieldState.inputValue}
-      items={fieldState.items}
-      label="Benutzer suchen"
-      listboxProps={{
-        emptyContent: "Keinen Benutzer gefunden",
-        itemClasses: {
-          base: ["dark:data-[hover=true]:bg-white/10"],
+    <motion.div
+      variants={{
+        hidden: {
+          opacity: 0,
+          x: 20,
+        },
+
+        visible: {
+          opacity: 1,
+          x: 0,
         },
       }}
-      selectedKey={fieldState.selectedKey}
-      variant="underlined"
-      onInputChange={onInputChange}
-      onOpenChange={onOpenChange}
-      onSelectionChange={onSelectionChange}
+      initial="hidden"
+      whileInView="visible"
+      transition={{ duration: 0.5, delay: 0.3 }}
+      viewport={{ once: true }}
     >
-      {(item) => (
-        <AutocompleteItem key={item.id.toString()}>
-          <div className="flex gap-2 items-center">
-            <Avatar
-              alt={getFullName(item)}
-              className="flex-shrink-0"
-              size="sm"
-              src={item.profilePicture}
-            />
-            <div className="flex flex-col">
-              <span className="text-small">{getFullName(item)}</span>
-              <span className="text-tiny text-default-400">{item.email}</span>
+      <Autocomplete
+        className="max-w-xs z-10"
+        classNames={{
+          popoverContent: "dark:bg-blacksection",
+        }}
+        inputValue={fieldState.inputValue}
+        items={fieldState.items}
+        label="Benutzer suchen"
+        listboxProps={{
+          emptyContent: "Keinen Benutzer gefunden",
+          itemClasses: {
+            base: ["dark:data-[hover=true]:bg-white/10"],
+          },
+        }}
+        selectedKey={fieldState.selectedKey}
+        variant="underlined"
+        onInputChange={onInputChange}
+        onOpenChange={onOpenChange}
+        onSelectionChange={onSelectionChange}
+      >
+        {(item) => (
+          <AutocompleteItem key={item.id.toString()}>
+            <div className="flex gap-2 items-center">
+              <Avatar
+                alt={getFullName(item)}
+                className="flex-shrink-0"
+                size="sm"
+                src={item.profilePicture}
+              />
+              <div className="flex flex-col">
+                <span className="text-small">{getFullName(item)}</span>
+                <span className="text-tiny text-default-400">{item.email}</span>
+              </div>
             </div>
-          </div>
-        </AutocompleteItem>
-      )}
-    </Autocomplete>
+          </AutocompleteItem>
+        )}
+      </Autocomplete>
+    </motion.div>
   );
 };
 

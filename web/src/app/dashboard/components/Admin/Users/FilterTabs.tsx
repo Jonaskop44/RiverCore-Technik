@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Tabs, Tab, Chip } from "@nextui-org/react";
 import { FaUserGroup, FaBuildingUser, FaUserLarge } from "react-icons/fa6";
 import { User } from "@/types/user";
+import { motion } from "framer-motion";
 
 interface FilterTabsProps {
   data: User[];
@@ -43,7 +44,24 @@ const FilterTabs: React.FC<FilterTabsProps> = ({ data, onFilterChange }) => {
   };
 
   return (
-    <div className="flex flex-wrap gap-4 mt-[20px]">
+    <motion.div
+      variants={{
+        hidden: {
+          opacity: 0,
+          x: -20,
+        },
+
+        visible: {
+          opacity: 1,
+          x: 0,
+        },
+      }}
+      initial="hidden"
+      whileInView="visible"
+      transition={{ duration: 0.5, delay: 0.3 }}
+      viewport={{ once: true }}
+      className="flex flex-wrap gap-4 mt-[20px]"
+    >
       <Tabs
         variant="underlined"
         isVertical={isVertical}
@@ -106,7 +124,7 @@ const FilterTabs: React.FC<FilterTabsProps> = ({ data, onFilterChange }) => {
           }
         />
       </Tabs>
-    </div>
+    </motion.div>
   );
 };
 
