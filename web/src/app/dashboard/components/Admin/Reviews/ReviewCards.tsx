@@ -38,7 +38,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
     const fetchProfilePictures = async () => {
       const pictures: { [key: number]: string } = {};
       for (const person of data) {
-        const pictureUrl = await getProfilePicture(person);
+        const pictureUrl = await getProfilePicture(person.author.user);
         pictures[person.author.user.id] = pictureUrl;
       }
       setProfilePictures(pictures);
