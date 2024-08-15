@@ -56,7 +56,7 @@ const Users = () => {
       <div className="mx-auto w-full max-w-[1080px]">
         <Breadcrumb pageName="Benutzerverwaltung" />
 
-        <div className="flex bg-white dark:bg-blacksection rounded-lg pb-4 mb-10 sm:space-x-60 md:space-x-5 lg:space-x-60 shadow-md">
+        <div className="block justify-between bg-white dark:bg-blacksection rounded-lg pb-4 px-6 mb-10 md:flex shadow-md">
           <FilterTabs data={users} onFilterChange={handleFilterChange} />
           <FilterAutocomplete
             data={filteredUsers}
