@@ -16,7 +16,7 @@ import ApiClient from "@/api";
 import { Avatar } from "@nextui-org/react";
 
 const UserSettings = () => {
-  const { user, profilePicture } = useUserStore();
+  const { user, profilePicture, fetchUser } = useUserStore();
   const [file, setFile] = useState(null);
   const apiClient = new ApiClient();
 
@@ -49,7 +49,7 @@ const UserSettings = () => {
         toast.error("Sie besitzen kein Profilbild was gelöscht werden kann.");
       } else {
         toast.success("Profilbild erfolgreich gelöscht.");
-        window.location.reload();
+        await fetchUser();
       }
     } catch (error) {
       toast.error(
@@ -83,7 +83,7 @@ const UserSettings = () => {
             Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
         })
-        .then((response) => {
+        .then(async (response) => {
           if (response.status !== 201) {
             toast.error(
               "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
@@ -96,7 +96,7 @@ const UserSettings = () => {
           (document.getElementById("profilePhoto") as HTMLInputElement).value =
             null;
           setFile(null);
-          window.location.reload();
+          await fetchUser();
         });
     } catch (error) {
       toast.error(
