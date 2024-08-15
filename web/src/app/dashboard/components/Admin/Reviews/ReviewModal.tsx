@@ -66,7 +66,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
       return (
         <>
           <Button
-            color="warning"
+            color="primary"
             className="cursor-pointer"
             onClick={() => {
               onStatusUpdate(item.id, "PENDING");
@@ -91,7 +91,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
       return (
         <>
           <Button
-            color="warning"
+            color="primary"
             className="cursor-pointer"
             onClick={() => {
               onStatusUpdate(item.id, "PENDING");
@@ -107,7 +107,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
               onStatusUpdate(item.id, "ACCEPTED");
             }}
           >
-            Akzeptiert
+            Akzeptieren
           </Button>
         </>
       );
