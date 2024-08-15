@@ -44,7 +44,7 @@ CREATE TABLE "Review" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
     "rating" DOUBLE PRECISION NOT NULL,
-    "body" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
     "status" "ReviewStatus" NOT NULL DEFAULT 'PENDING',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
