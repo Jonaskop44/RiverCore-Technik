@@ -101,7 +101,6 @@ const UserCards: React.FC<UserCardProps> = ({ data, onUserDelete }) => {
               <Avatar
                 src={profilePictures[person.id]}
                 alt={`${person.firstName} ${person.lastName}`}
-                className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"
               />
             </div>
             <div>
