@@ -9,6 +9,7 @@ const FunFact = () => {
       <section className="px-4 py-20 md:px-8 lg:py-22.5 2xl:px-0">
         <div className="relative z-1 mx-auto max-w-c-1390 rounded-lg bg-gradient-to-t from-[#F8F9FF] to-[#DEE7FF] py-22.5 dark:bg-blacksection dark:bg-gradient-to-t dark:from-transparent dark:to-transparent dark:stroke-strokedark xl:py-27.5">
           <Image
+            draggable={false}
             width={335}
             height={384}
             src="/images/shape/shape-04.png"
@@ -16,12 +17,14 @@ const FunFact = () => {
             className="absolute -left-15 -top-25 -z-1 lg:left-0"
           />
           <Image
+            draggable={false}
             fill
             src="/images/shape/shape-dotted-light-02.svg"
             alt="Dotted"
             className="absolute left-0 top-0 -z-1 dark:hidden"
           />
           <Image
+            draggable={false}
             fill
             src="/images/shape/shape-dotted-dark-02.svg"
             alt="Dotted"

@@ -100,6 +100,7 @@ const Footer = () => {
               >
                 <Link href="index.html" className="relative">
                   <Image
+                    draggable={false}
                     width={110}
                     height={80}
                     src="/images/logo/ELBE_Technik_Logo-mitSchatten.png"
@@ -107,6 +108,7 @@ const Footer = () => {
                     className="dark:hidden"
                   />
                   <Image
+                    draggable={false}
                     width={110}
                     height={80}
                     src="/images/logo/ELBE_Technik_Logo-mitSchatten.png"

@@ -7,6 +7,7 @@ const ErrorPage = () => {
         <Image
           src="/images/shape/404.svg"
           alt="404"
+          draggable={false}
           className="mx-auto mb-7.5"
           width={400}
           height={400}

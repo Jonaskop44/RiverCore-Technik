@@ -111,6 +111,7 @@ const Navbar = () => {
         <div className="flex w-full items-center justify-between xl:w-1/4">
           <a href="/">
             <Image
+              draggable={false}
               src="/images/logo/ELBE_Technik_Logo-mitSchatten.png"
               alt="logo"
               width={60}
@@ -118,6 +119,7 @@ const Navbar = () => {
               className="hidden w-full dark:block"
             />
             <Image
+              draggable={false}
               src="/images/logo/ELBE_Technik_Logo-mitSchatten.png"
               alt="logo"
               width={60}

@@ -23,6 +23,7 @@ const Integration = () => {
         <div className="pattern-dots pattern-blue-500 pattern-bg-white pattern-size-4 pattern-opacity-10 relative z-10 mx-auto mt-15 max-w-c-1154 px-4 md:px-8 xl:mt-20 xl:px-0">
           <div className="absolute -top-3/4 left-0 right-0 -z-1 mx-auto h-full w-full">
             <Image
+              draggable={false}
               width={1200}
               height={400}
               sizes="(max-width: 768px) 100vw"
@@ -32,6 +33,7 @@ const Integration = () => {
               style={{ position: "static" }}
             />
             <Image
+              draggable={false}
               fill
               src="/images/shape/shape-dotted-dark.svg"
               alt="Dotted"
@@ -106,6 +108,7 @@ const Integration = () => {
             >
               <div className="inline-block rounded-[10px] bg-white p-4.5 shadow-solid-7 dark:bg-btndark">
                 <Image
+                  draggable={false}
                   width={50}
                   height={50}
                   src="./images/brand/anydesk.svg"
@@ -155,6 +158,7 @@ const Integration = () => {
             >
               <div className="inline-block rounded-[10px] bg-white p-4.5 shadow-solid-7 dark:bg-btndark">
                 <Image
+                  draggable={false}
                   width={50}
                   height={50}
                   src="./images/brand/microsoft-office-365.svg"
@@ -223,6 +227,7 @@ const Integration = () => {
             >
               <div className="inline-block rounded-[10px] bg-white p-4.5 shadow-solid-7 dark:bg-btndark">
                 <Image
+                  draggable={false}
                   width={50}
                   height={50}
                   src="./images/brand/brand-10.svg"
@@ -272,6 +277,7 @@ const Integration = () => {
             >
               <div className="inline-block rounded-[10px] bg-white p-4.5 shadow-solid-7 dark:bg-btndark">
                 <Image
+                  draggable={false}
                   width={50}
                   height={50}
                   src="./images/brand/brand-11.svg"
@@ -321,6 +327,7 @@ const Integration = () => {
             >
               <div className="inline-block rounded-[10px] bg-white p-4.5 shadow-solid-7 dark:bg-btndark">
                 <Image
+                  draggable={false}
                   width={50}
                   height={50}
                   src="./images/brand/brand-08.svg"

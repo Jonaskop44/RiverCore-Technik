@@ -57,6 +57,7 @@ const CTA = () => {
             >
               <div className="flex items-center justify-end xl:justify-between">
                 <Image
+                  draggable={false}
                   width={299}
                   height={299}
                   src="/images/shape/shape-06.png"
@@ -69,6 +70,7 @@ const CTA = () => {
                 >
                   Einloggen
                   <Image
+                    draggable={false}
                     width={20}
                     height={20}
                     src="/images/icon/icon-arrow-dark.svg"
@@ -76,6 +78,7 @@ const CTA = () => {
                     className="dark:hidden"
                   />
                   <Image
+                    draggable={false}
                     width={20}
                     height={20}
                     src="/images/icon/icon-arrow-light.svg"
