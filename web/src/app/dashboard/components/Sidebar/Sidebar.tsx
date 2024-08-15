@@ -4,6 +4,7 @@ import Image from "next/image";
 import SidebarItem from "./SidebarItem";
 import sidebarData, { MenuItem, SidebarGroup } from "./sidebarData";
 import { useUserStore } from "@/data/userStore";
+import { motion } from "framer-motion";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -41,7 +42,24 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
         }`}
       >
         {/* SIDEBAR HEADER */}
-        <div className="flex items-center justify-between gap-2 px-6 pb-5.5 lg:pb-6.5 xl:pb-10">
+        <motion.div
+          variants={{
+            hidden: {
+              opacity: 0,
+              y: -20,
+            },
+
+            visible: {
+              opacity: 1,
+              y: 0,
+            },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 1, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="flex items-center justify-between gap-2 px-6 pb-5.5 lg:pb-6.5 xl:pb-10"
+        >
           <Link href="/">
             <Image
               width={60}
@@ -86,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
               />
             </svg>
           </button>
-        </div>
+        </motion.div>
         {/* SIDEBAR HEADER */}
 
         <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
