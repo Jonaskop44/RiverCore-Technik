@@ -51,7 +51,9 @@ const SingleTestimonial = ({ review }: { review: Review }) => {
           alt={review.author.user.firstName}
         />
       </div>
-
+      <h1 className="font-bold text-gray-800 dark:text-gray-300">
+        {review.title}
+      </h1>
       <p>{review.content}</p>
     </div>
   );

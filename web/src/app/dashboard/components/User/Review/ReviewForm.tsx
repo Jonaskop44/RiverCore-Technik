@@ -15,15 +15,17 @@ const ReviewUserForm = () => {
   };
 
   const handleSubmit = async () => {
-    if (title.trim() === "" || content.trim() === "") {
-      toast.error("Bitte füllen Sie alle Felder aus");
+    if (title.trim() === "" || content.trim() === "" || title.length > 30) {
+      toast.error("Bitte überprüfen Sie Ihre Eingaben");
       return;
     }
+
+    const sanitizedContent = content.replace(/(\r\n|\n|\r)/gm, " ").trim();
 
     const reponse = await apiClient.reviews.helper.createReview(
       title,
       rating,
-      content
+      sanitizedContent
     );
 
     if (reponse.status) {
@@ -54,11 +56,18 @@ const ReviewUserForm = () => {
           variant="underlined"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          isInvalid={title.length > 30}
+          errorMessage="Der Titel darf maximal 30 Zeichen lang sein"
+          endContent={
+            <span className="text-gray-500">
+              {30 - title.length < 0 ? 0 : 30 - title.length}
+            </span>
+          }
         />
         <Textarea
           label="Bewertung"
           variant="underlined"
-          rows={4}
+          rows={6}
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />

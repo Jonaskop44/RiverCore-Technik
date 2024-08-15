@@ -45,11 +45,15 @@ export class AuthorService {
       );
 
     if (author.blocked) return;
+
+    // Convert content to a single line string without paragraphs
+    const sanitizedContent = dto.content.replace(/(\r\n|\n|\r)/gm, ' ').trim();
+
     const review = await this.prisma.review.create({
       data: {
         title: dto.title,
         rating: dto.rating,
-        content: dto.content,
+        content: sanitizedContent,
         authorId: author.id,
       },
     });
