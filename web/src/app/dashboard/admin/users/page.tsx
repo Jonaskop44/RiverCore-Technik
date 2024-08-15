@@ -16,12 +16,12 @@ const Users = () => {
   const [selectedUser, setSelectedUser] = useState<User>(null);
   const apiClient = new ApiClient();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const data = await apiClient.user.helper.getAllUsers();
-      setUsers(data);
-    };
+  const fetchUsers = async () => {
+    const data = await apiClient.user.helper.getAllUsers();
+    setUsers(data);
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, []);
 
@@ -37,7 +37,7 @@ const Users = () => {
     const response = await apiClient.user.helper.deleteUser(id);
     if (response.status) {
       toast.success("Benutzer erfolgreich gelöscht");
-      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+      await fetchUsers();
     } else {
       toast.error("Benutzer konnte nicht gelöscht werden");
     }

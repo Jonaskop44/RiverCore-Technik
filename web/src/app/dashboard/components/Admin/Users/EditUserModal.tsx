@@ -86,27 +86,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
     isInvalidCompanyName,
   ]);
 
-  useEffect(() => {
-    const updatedUser = {
-      firstName,
-      lastName,
-      email,
-      role,
-      designation: designationValue,
-      companyName: designationValue === "COMPANY" ? companyName : "",
-      activated,
-    };
-    console.log("updatedUser", updatedUser);
-  }, [
-    firstName,
-    lastName,
-    email,
-    role,
-    designationValue,
-    companyName,
-    activated,
-  ]);
-
   const handleSave = async () => {
     const updatedUser = {
       firstName,
@@ -119,9 +98,18 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
     };
 
     try {
-      await apiClient.user.helper.updateUser(data.id, updatedUser);
-      toast.success("Benutzer erfolgreich aktualisiert");
-      onOpenChange(false);
+      const response = await apiClient.user.helper.updateUser(
+        data.id,
+        updatedUser
+      );
+      if (response.status) {
+        toast.success("Benutzer erfolgreich aktualisiert");
+        onOpenChange(false);
+      } else {
+        toast.error(
+          "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut!"
+        );
+      }
     } catch (error) {
       toast.error(
         "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut!"
