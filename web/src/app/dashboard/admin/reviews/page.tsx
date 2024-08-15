@@ -12,7 +12,6 @@ import { toast } from "sonner";
 const AdminEditReviews = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("Pending");
-  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const apiClient = new ApiClient();
 
   const fetchReviews = async () => {
@@ -26,10 +25,6 @@ const AdminEditReviews = () => {
 
   const handleFilterChange = (filter: string) => {
     setSelectedFilter(filter);
-  };
-
-  const handleReviewSelect = (review: Review) => {
-    setSelectedReview(review);
   };
 
   const handleStatusUpdate = async (reviewId: number, status: string) => {
@@ -66,8 +61,6 @@ const AdminEditReviews = () => {
     if (selectedFilter === "Rejected") return review.status === "REJECTED";
   });
 
-  const reviewsToShow = selectedReview ? [selectedReview] : filteredReviews;
-
   return (
     <div className="mx-auto w-full max-w-[1080px]">
       <Breadcrumb pageName="Bewertungen" />
@@ -77,7 +70,7 @@ const AdminEditReviews = () => {
       </div>
 
       <ReviewCards
-        data={reviewsToShow}
+        data={filteredReviews}
         selectedFilter={selectedFilter}
         onStatusUpdate={handleStatusUpdate}
         onBlockAuthor={handleBlockAuthor}
