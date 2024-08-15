@@ -1,4 +1,4 @@
-import React, { use, useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -20,6 +20,7 @@ interface EditUserModalProps {
   onOpen: () => void;
   onOpenChange: (open: boolean) => void;
   data: User;
+  onUserUpdate: () => void;
 }
 
 const designation = [
@@ -38,6 +39,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
   onOpen,
   onOpenChange,
   data,
+  onUserUpdate,
 }) => {
   const apiClient = new ApiClient();
   const [firstName, setFirstName] = useState(data.firstName);
@@ -104,6 +106,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
       );
       if (response.status) {
         toast.success("Benutzer erfolgreich aktualisiert");
+        onUserUpdate();
         onOpenChange(false);
       } else {
         toast.error(

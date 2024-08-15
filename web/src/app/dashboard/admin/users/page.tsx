@@ -43,6 +43,10 @@ const Users = () => {
     }
   };
 
+  const handleUserUpdate = async () => {
+    await fetchUsers();
+  };
+
   const filteredUsers = users.filter((user) => {
     if (selectedFilter === "All") return user;
     if (selectedFilter === "Company") return user.designation === "COMPANY";
@@ -64,7 +68,11 @@ const Users = () => {
           />
         </div>
         {Array.isArray(usersToShow) && (
-          <UserCards data={usersToShow} onUserDelete={handleUserDelete} />
+          <UserCards
+            data={usersToShow}
+            onUserDelete={handleUserDelete}
+            onUserUpdate={handleUserUpdate}
+          />
         )}
       </div>
     </>

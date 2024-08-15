@@ -10,9 +10,14 @@ import { useUserStore } from "@/data/userStore";
 interface UserCardProps {
   data: User[];
   onUserDelete: (id: number) => void;
+  onUserUpdate: () => void;
 }
 
-const UserCards: React.FC<UserCardProps> = ({ data, onUserDelete }) => {
+const UserCards: React.FC<UserCardProps> = ({
+  data,
+  onUserDelete,
+  onUserUpdate,
+}) => {
   const [user, setUser] = useState<User>(null);
   const [deletingUserId, setDeletingUserId] = useState<number | null>(null);
   const [confirmationTimer, setConfirmationTimer] =
@@ -67,6 +72,7 @@ const UserCards: React.FC<UserCardProps> = ({ data, onUserDelete }) => {
           onOpen={onOpen}
           onOpenChange={onOpenChange}
           data={user}
+          onUserUpdate={onUserUpdate}
         />
       )}
       <ul
