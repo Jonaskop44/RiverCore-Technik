@@ -97,7 +97,7 @@ const NewsletterEditor = () => {
 
   return (
     <div className="bg-white dark:bg-blacksection shadow-md rounded-lg p-4">
-      <div className="flex justify-between mb-10">
+      {/* <div className="block justify-between mb-10 sm:flex">
         <Input
           label="Betreff"
           variant="underlined"
@@ -115,7 +115,45 @@ const NewsletterEditor = () => {
             Keine Abonnenten
           </p>
         )}
+      </div> */}
+
+      <div className="block justify-between mb-10 sm:flex">
+        {/* Benutzeranzahl Anzeige für Handyansicht */}
+        <div className="block sm:hidden mb-5">
+          {users.length > 0 ? (
+            <p className="text-black dark:text-white font-bold">
+              {users.length} {users.length === 1 ? "Abonnent" : "Abonnenten"}
+            </p>
+          ) : (
+            <p className="text-black font-black dark:text-white">
+              Keine Abonnenten
+            </p>
+          )}
+        </div>
+
+        {/* Input-Feld */}
+        <Input
+          label="Betreff"
+          variant="underlined"
+          className="max-w-[250px] w-full sm:w-1/2"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+        />
+
+        {/* Benutzeranzahl Anzeige für größere Bildschirme */}
+        <div className="hidden sm:block">
+          {users.length > 0 ? (
+            <p className="text-black dark:text-white font-bold mt-5">
+              {users.length} {users.length === 1 ? "Abonnent" : "Abonnenten"}
+            </p>
+          ) : (
+            <p className="text-black font-black mt-5 dark:text-white ">
+              Keine Abonnenten
+            </p>
+          )}
+        </div>
       </div>
+
       <div className={theme === "dark" ? "quill-dark" : "quill-light"}>
         <ReactQuill
           modules={{
