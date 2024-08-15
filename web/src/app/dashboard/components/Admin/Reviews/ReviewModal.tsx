@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import {
   Modal,
   ModalContent,
@@ -10,13 +10,12 @@ import {
   Avatar,
   Textarea,
 } from "@nextui-org/react";
-import { User } from "@/types/user";
-import ApiClient from "@/api";
-import { toast } from "sonner";
 import { Review } from "@/types/reviews";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import { FaRegCircleXmark } from "react-icons/fa6";
 import { FaRegCheckCircle } from "react-icons/fa";
+import { IoMdStopwatch } from "react-icons/io";
+import { on } from "events";
 
 interface ReviewModalProps {
   isOpen: boolean;
@@ -24,6 +23,8 @@ interface ReviewModalProps {
   onOpenChange: (open: boolean) => void;
   data: Review;
   profilePicture: string;
+  onStatusUpdate: (reviewId: number, status: string) => void;
+  selectedFilter: string;
 }
 
 const ReviewModal: React.FC<ReviewModalProps> = ({
@@ -32,7 +33,87 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
   onOpenChange,
   data,
   profilePicture,
+  onStatusUpdate,
+  selectedFilter,
 }) => {
+  const renderButtons = (item: Review) => {
+    if (selectedFilter === "Pending") {
+      return (
+        <>
+          <Button
+            color="danger"
+            className="cursor-pointer"
+            onClick={() => {
+              onStatusUpdate(item.id, "REJECTED");
+              onOpenChange(false);
+            }}
+          >
+            Ablehnen
+          </Button>
+          <Button
+            color="primary"
+            className="cursor-pointer"
+            onClick={() => {
+              onStatusUpdate(item.id, "ACCEPTED");
+              onOpenChange(false);
+            }}
+          >
+            Akzeptieren
+          </Button>
+        </>
+      );
+    } else if (selectedFilter === "Accepted") {
+      return (
+        <>
+          <Button
+            color="warning"
+            className="cursor-pointer"
+            onClick={() => {
+              onStatusUpdate(item.id, "PENDING");
+              onOpenChange(false);
+            }}
+          >
+            Ausstehend
+          </Button>
+          <Button
+            color="danger"
+            className="cursor-pointer"
+            onClick={() => {
+              onStatusUpdate(item.id, "REJECTED");
+              onOpenChange(false);
+            }}
+          >
+            Ablehnen
+          </Button>
+        </>
+      );
+    } else if (selectedFilter === "Rejected") {
+      return (
+        <>
+          <Button
+            color="warning"
+            className="cursor-pointer"
+            onClick={() => {
+              onStatusUpdate(item.id, "PENDING");
+              onOpenChange(false);
+            }}
+          >
+            Ausstehend
+          </Button>
+          <Button
+            color="primary"
+            className="cursor-pointer"
+            onClick={() => {
+              onStatusUpdate(item.id, "ACCEPTED");
+            }}
+          >
+            Akzeptiert
+          </Button>
+        </>
+      );
+    }
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -106,34 +187,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                 variant="underlined"
               />
             </ModalBody>
-            <ModalFooter>
-              <Button
-                startContent={
-                  <FaRegCircleXmark
-                    className="text-gray-400 dark:text-gray-300"
-                    aria-hidden="true"
-                    size={20}
-                  />
-                }
-                color="danger"
-                className="cursor-pointer"
-              >
-                Ablehnen
-              </Button>
-              <Button
-                startContent={
-                  <FaRegCheckCircle
-                    className="text-gray-400 dark:text-gray-300"
-                    aria-hidden="true"
-                    size={20}
-                  />
-                }
-                color="primary"
-                className="cursor-pointer"
-              >
-                Akzeptieren
-              </Button>
-            </ModalFooter>
+            <ModalFooter>{renderButtons(data)}</ModalFooter>
           </>
         )}
       </ModalContent>

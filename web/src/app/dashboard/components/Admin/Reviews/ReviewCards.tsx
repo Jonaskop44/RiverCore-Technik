@@ -158,6 +158,8 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
           onOpenChange={onOpenChange}
           data={selectedReview}
           profilePicture={profilePictures[selectedReview.author.user.id]}
+          onStatusUpdate={onStatusUpdate}
+          selectedFilter={selectedFilter}
         />
       )}
       <ul
@@ -179,7 +181,7 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
             }}
             initial="hidden"
             whileInView="visible"
-            transition={{ duration: 1, delay: 0.3 + item.id * 0.05 }}
+            transition={{ duration: 1, delay: 0.3 }}
             viewport={{ once: true }}
             key={item.id}
             className="col-span-1 bg-white dark:bg-blacksection shadow-md rounded-lg divide-y divide-gray-200 dark:divide-[#3f3f46]"
