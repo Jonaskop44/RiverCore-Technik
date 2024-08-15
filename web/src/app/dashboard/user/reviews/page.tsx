@@ -8,7 +8,7 @@ const UserReviews = () => {
     <div className="mx-auto w-full max-w-[1080px]">
       <Breadcrumb pageName="Bewertung" />
 
-      <div className="bg-white p-4 rounded-lg">
+      <div className="bg-white dark:bg-black p-4 rounded-lg">
         <ReviewUserForm />
       </div>
     </div>

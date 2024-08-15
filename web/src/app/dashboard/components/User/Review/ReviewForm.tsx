@@ -36,12 +36,6 @@ const ReviewUserForm = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(rating);
-    console.log(title);
-    console.log(content);
-  }, [rating, title, content]);
-
   return (
     <div>
       <form className="mt-4 space-y-4">
