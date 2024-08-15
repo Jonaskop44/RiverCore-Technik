@@ -15,6 +15,7 @@ const FilterTabs: React.FC<FilterTabsProps> = ({ data, onFilterChange }) => {
   const [pendingCount, setPendingCount] = useState(0);
   const [acceptedCount, setAcceptedCount] = useState(0);
   const [rejectedCount, setRejectedCount] = useState(0);
+  const [isVertical, setIsVertical] = useState(false);
 
   useEffect(() => {
     if (data) {
@@ -34,10 +35,27 @@ const FilterTabs: React.FC<FilterTabsProps> = ({ data, onFilterChange }) => {
     onFilterChange(key);
   };
 
+  useEffect(() => {
+    setIsVertical(window.innerWidth < 520);
+    const handleResize = () => {
+      setIsVertical(window.innerWidth < 520);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <div className="flex flex-wrap gap-4 mt-[20px]">
+    <div
+      className={
+        isVertical
+          ? "flex flex-wrap gap-4 mt-[20px] mx-auto"
+          : "flex flex-wrap gap-4 mt-[20px]"
+      }
+    >
       <Tabs
         variant="underlined"
+        isVertical={isVertical}
         aria-label="Tabs variants"
         color="primary"
         onSelectionChange={handleTabChange}
