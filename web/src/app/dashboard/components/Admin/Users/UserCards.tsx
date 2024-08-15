@@ -2,10 +2,9 @@ import { User } from "@/types/user";
 import { MdDelete } from "react-icons/md";
 import { RiEdit2Fill } from "react-icons/ri";
 import EditUserModal from "./EditUserModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Avatar, useDisclosure } from "@nextui-org/react";
 import { toast } from "sonner";
-import { useUserStore } from "@/data/userStore";
 
 interface UserCardProps {
   data: User[];
@@ -23,23 +22,6 @@ const UserCards: React.FC<UserCardProps> = ({
   const [confirmationTimer, setConfirmationTimer] =
     useState<NodeJS.Timeout | null>(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { getProfilePicture } = useUserStore();
-  const [profilePictures, setProfilePictures] = useState<{
-    [key: number]: string;
-  }>({});
-
-  useEffect(() => {
-    const fetchProfilePictures = async () => {
-      const pictures: { [key: number]: string } = {};
-      for (const person of data) {
-        const pictureUrl = await getProfilePicture(person);
-        pictures[person.id] = pictureUrl;
-      }
-      setProfilePictures(pictures);
-    };
-
-    fetchProfilePictures();
-  }, [data, getProfilePicture]);
 
   const handleUserDelete = (id: number) => {
     if (deletingUserId === id) {
@@ -105,7 +87,7 @@ const UserCards: React.FC<UserCardProps> = ({
                 </p>
               </div>
               <Avatar
-                src={profilePictures[person.id]}
+                src={person.profilePicture}
                 alt={`${person.firstName} ${person.lastName}`}
               />
             </div>

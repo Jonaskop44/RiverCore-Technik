@@ -29,23 +29,6 @@ const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({
     inputValue: "",
     items: data,
   });
-  const { getProfilePicture } = useUserStore();
-  const [profilePictures, setProfilePictures] = useState<{
-    [key: number]: string;
-  }>({});
-
-  useEffect(() => {
-    const fetchProfilePictures = async () => {
-      const pictures: { [key: number]: string } = {};
-      for (const person of data) {
-        const pictureUrl = await getProfilePicture(person);
-        pictures[person.id] = pictureUrl;
-      }
-      setProfilePictures(pictures);
-    };
-
-    fetchProfilePictures();
-  }, [data, getProfilePicture]);
 
   useEffect(() => {
     setFieldState((prevState) => ({
@@ -122,7 +105,7 @@ const FilterAutocomplete: React.FC<FilterAutocompleteProps> = ({
               alt={getFullName(item)}
               className="flex-shrink-0"
               size="sm"
-              src={profilePictures[item.id]}
+              src={item.profilePicture}
             />
             <div className="flex flex-col">
               <span className="text-small">{getFullName(item)}</span>

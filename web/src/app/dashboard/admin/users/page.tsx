@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import FilterTabs from "../../components/Admin/Users/FilterTabs";
@@ -9,16 +8,27 @@ import ApiClient from "@/api";
 import { User } from "@/types/user";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import { toast } from "sonner";
+import { useUserStore } from "@/data/userStore";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("All");
   const [selectedUser, setSelectedUser] = useState<User>(null);
   const apiClient = new ApiClient();
+  const { getProfilePicture } = useUserStore();
 
   const fetchUsers = async () => {
     const data = await apiClient.user.helper.getAllUsers();
-    setUsers(data);
+
+    // Profilbilder abrufen und in die Benutzerdaten integrieren
+    const usersWithPictures = await Promise.all(
+      data.map(async (user) => {
+        const pictureUrl = await getProfilePicture(user);
+        return { ...user, profilePicture: pictureUrl };
+      })
+    );
+
+    setUsers(usersWithPictures);
   };
 
   useEffect(() => {
