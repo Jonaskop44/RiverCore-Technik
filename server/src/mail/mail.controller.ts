@@ -24,14 +24,4 @@ export class MailController {
   async getNewsletterIDInfo(@Param('mailID') mailID: string) {
     return this.mailService.getNewsletterIDInfo(mailID);
   }
-
-  @Post('newsletter/send')
-  async sendNewsletter(@Body() dto: SendNewsletterDto) {
-    return this.mailService.sendNewsletter(dto.email, dto.subject, dto.content);
-  }
-
-  @Get('newsletter/subscribers')
-  async getAllNewsletterSubscribers() {
-    return this.mailService.getAllNewsletterSubscribers();
-  }
 }

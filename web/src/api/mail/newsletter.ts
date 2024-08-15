@@ -58,7 +58,7 @@ export class Newsletter {
 
   public async sendNewsletter(email: string, subject: string, content: string) {
     return axios
-      .post(`${Constants.API_BASE}/mail/newsletter/send`, {
+      .post(`${Constants.API_BASE}/admin/newsletter/send`, {
         email: email,
         subject: subject,
         content: content,
@@ -75,7 +75,7 @@ export class Newsletter {
 
   public async getAllNewsletterSubscribers() {
     return axios
-      .get(`${Constants.API_BASE}/mail/newsletter/subscribers`)
+      .get(`${Constants.API_BASE}/admin/newsletter/subscribers`)
       .then((response) => {
         if (response.status !== 200) return { status: false, data: null };
 

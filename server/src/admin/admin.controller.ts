@@ -5,17 +5,23 @@ import {
   Get,
   Param,
   Patch,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { Roles, RolesGuard } from 'src/guards/roles.guard';
 import { Role } from '@prisma/client';
 import { UpadateReviewDto, UpdateUserDto } from './dto/admin.dto';
+import { SendNewsletterDto } from 'src/mail/dto/mail.dto';
+import { MailService } from 'src/mail/mail.service';
 
 @UseGuards(RolesGuard)
 @Controller('api/v1/admin')
 export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(
+    private readonly adminService: AdminService,
+    private mailService: MailService,
+  ) {}
 
   @Roles(Role.ADMIN)
   @Get('users')
@@ -51,5 +57,17 @@ export class AdminController {
   @Patch('review/update/:id')
   async updateReview(@Param('id') id: number, @Body() dto: UpadateReviewDto) {
     return this.adminService.updateReview(id, dto);
+  }
+
+  @Roles(Role.ADMIN)
+  @Post('newsletter/send')
+  async sendNewsletter(@Body() dto: SendNewsletterDto) {
+    return this.mailService.sendNewsletter(dto.email, dto.subject, dto.content);
+  }
+
+  @Roles(Role.ADMIN)
+  @Get('newsletter/subscribers')
+  async getAllNewsletterSubscribers() {
+    return this.mailService.getAllNewsletterSubscribers();
   }
 }
