@@ -6,6 +6,7 @@ import {
   DropdownMenu,
   DropdownSection,
   DropdownTrigger,
+  useDisclosure,
   User,
 } from "@nextui-org/react";
 import { Review } from "@/types/reviews";
@@ -16,6 +17,7 @@ import { FaRegCircleXmark } from "react-icons/fa6";
 import { useUserStore } from "@/data/userStore";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import ReviewModal from "./ReviewModal";
 
 interface ReviewCardsProps {
   data: Review[];
@@ -30,6 +32,8 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
   onStatusUpdate,
   onBlockAuthor,
 }) => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [selectedReview, setSelectedReview] = useState<Review>(null);
   const { getProfilePicture } = useUserStore();
   const [profilePictures, setProfilePictures] = useState<{
     [key: number]: string;
@@ -147,6 +151,15 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
 
   return (
     <>
+      {selectedReview && (
+        <ReviewModal
+          isOpen={isOpen}
+          onOpen={onOpen}
+          onOpenChange={onOpenChange}
+          data={selectedReview}
+          profilePicture={profilePictures[selectedReview.author.user.id]}
+        />
+      )}
       <ul
         role="list"
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
@@ -237,12 +250,21 @@ const ReviewCards: React.FC<ReviewCardsProps> = ({
                             />
                           </DropdownItem>
                           <DropdownItem
-                            key="dashboard"
+                            key="block"
                             onPress={() => onBlockAuthor(item.author.id)}
                           >
                             {item.author.blocked
                               ? "Freischalten"
                               : "Blockieren"}
+                          </DropdownItem>
+                          <DropdownItem
+                            key="showMore"
+                            onPress={() => {
+                              setSelectedReview(item);
+                              onOpen();
+                            }}
+                          >
+                            Mehr Anzeigen
                           </DropdownItem>
                         </DropdownSection>
                       </DropdownMenu>
