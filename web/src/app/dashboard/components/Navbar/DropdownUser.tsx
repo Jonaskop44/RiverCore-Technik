@@ -42,7 +42,11 @@ const DropdownUser = () => {
             isBordered: false,
             src: profilePicture,
           }}
-          className="transition-transform mr-10"
+          className="transition-transform"
+          // classNames={{
+          //   name: "hidden sm:block lg:block md:block",
+          //   description: "hidden sm:block lg:block md:block",
+          // }}
           description={handleDesignation(user?.designation)}
           name={user?.firstName + " " + user?.lastName}
         />
@@ -89,30 +93,6 @@ const DropdownUser = () => {
             Einstellungen
           </DropdownItem>
           <DropdownItem key="new_project">New Project</DropdownItem>
-        </DropdownSection>
-
-        <DropdownSection aria-label="Preferences" showDivider>
-          <DropdownItem key="quick_search" shortcut="⌘K">
-            Quick search
-          </DropdownItem>
-          <DropdownItem
-            isReadOnly
-            key="theme"
-            className="cursor-default"
-            endContent={
-              <select
-                className="z-10 outline-none w-16 py-0.5 rounded-md text-tiny group-data-[hover=true]:border-default-500 border-small border-default-300 dark:border-default-200 bg-transparent text-default-500"
-                id="theme"
-                name="theme"
-              >
-                <option>System</option>
-                <option>Dark</option>
-                <option>Light</option>
-              </select>
-            }
-          >
-            Theme
-          </DropdownItem>
         </DropdownSection>
 
         <DropdownSection aria-label="Help & Feedback">
