@@ -64,8 +64,7 @@ const AdminEditReviews = () => {
   return (
     <div className="mx-auto w-full max-w-[1080px]">
       <Breadcrumb pageName="Bewertungen" />
-
-      <div className="flex bg-white dark:bg-blacksection rounded-lg pb-4 mb-10 sm:space-x-60 md:space-x-5 lg:space-x-60 shadow-md">
+      <div className="flex bg-white dark:bg-blacksection rounded-lg pb-4 mb-10 shadow-md">
         <FilterTabs data={reviews} onFilterChange={handleFilterChange} />
       </div>
 
