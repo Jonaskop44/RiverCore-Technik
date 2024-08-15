@@ -227,7 +227,7 @@ const Navbar = () => {
             <ThemeToggler />
             {user ? (
               <Button
-                onClick={() => {
+                onPress={() => {
                   window.location.href = "/dashboard";
                 }}
                 className="flex items-center justify-center rounded-full bg-primary px-7.5 py-2.5 text-regular text-white duration-300 ease-in-out hover:bg-primaryho"
@@ -236,7 +236,7 @@ const Navbar = () => {
               </Button>
             ) : (
               <Button
-                onClick={() => {
+                onPress={() => {
                   window.location.href = "/auth";
                 }}
                 className="flex items-center justify-center rounded-full bg-primary px-7.5 py-2.5 text-regular text-white duration-300 ease-in-out hover:bg-primaryho"
