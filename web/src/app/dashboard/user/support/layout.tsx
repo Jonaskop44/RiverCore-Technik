@@ -12,6 +12,7 @@ const SupportLayout: React.FC<SupportLayoutProps> = ({ children }) => {
     <>
       <div className="mx-auto w-full max-w-[1080px]">
         <Breadcrumb pageName="Support/Drucker" />
+        {children}
       </div>
     </>
   );

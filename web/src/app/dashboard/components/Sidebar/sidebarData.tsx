@@ -36,7 +36,8 @@ const sidebarData: SidebarGroup[] = [
         route: "#",
         children: [
           { label: "Drucker", route: "user/support/printer" },
-          { label: "Form Layout", route: "/forms/form-layout" },
+          { label: "Netzwerk", route: "user/support/network" },
+          { label: "Kassen", route: "user/support/payment" },
         ],
       },
     ],
