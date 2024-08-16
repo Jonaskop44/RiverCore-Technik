@@ -6,6 +6,8 @@ interface BreadcrumbProps {
 }
 
 const Breadcrumb = ({ pageName }: BreadcrumbProps) => {
+  const parts = pageName.split("/");
+
   return (
     <motion.div
       variants={{
@@ -26,7 +28,7 @@ const Breadcrumb = ({ pageName }: BreadcrumbProps) => {
       className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
     >
       <h2 className="text-[26px] font-bold leading-[30px] text-dark dark:text-white">
-        {pageName}
+        {pageName.split("/")[0]}
       </h2>
 
       <nav>
@@ -36,7 +38,17 @@ const Breadcrumb = ({ pageName }: BreadcrumbProps) => {
               Dashboard /
             </Link>
           </li>
-          <li className="font-medium text-primary">{pageName}</li>
+          {parts.map((name, index) => (
+            <li key={index}>
+              {index === parts.length - 1 ? (
+                <span className="font-medium text-primary">{name}</span>
+              ) : (
+                <Link className="font-medium" href={`/${name}`}>
+                  {name} /
+                </Link>
+              )}
+            </li>
+          ))}
         </ol>
       </nav>
     </motion.div>
