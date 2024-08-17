@@ -4,13 +4,11 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3001", {
+const socket = io("ws://localhost:3001", {
   auth: {
-    token: `Bearer ${Cookies.get("accessToken")}`,
+    accessToken: `${Cookies.get("accessToken")}`,
   },
 });
-
-console.log(Cookies.get("accessToken"));
 
 const PrinterSupport = () => {
   const [chats, setChats] = useState([]);
@@ -22,8 +20,9 @@ const PrinterSupport = () => {
   useEffect(() => {
     socket.emit("getChats");
 
-    socket.on("chatsList", (chats) => {
-      setChats(chats);
+    socket.on("chatsList", (_chats) => {
+      console.log(_chats);
+      setChats(_chats);
     });
 
     socket.on("receiveMessage", (message) => {
@@ -34,7 +33,8 @@ const PrinterSupport = () => {
       setMessages(messages);
     });
 
-    socket.on("chatCreated", (chat) => {
+    socket.on("justAfriend", (chat) => {
+      console.log(chat);
       setChats((prevChats) => [...prevChats, chat]);
     });
 
@@ -42,13 +42,13 @@ const PrinterSupport = () => {
       socket.off("chatsList");
       socket.off("receiveMessage");
       socket.off("chatMessages");
-      socket.off("chatCreated");
+      socket.off("justAfriend");
     };
   }, []);
 
   const createChat = () => {
     if (newChatTitle.trim()) {
-      socket.emit("createChat", { title: newChatTitle });
+      socket.emit("createNIgga", { title: newChatTitle });
       setNewChatTitle("");
     }
   };

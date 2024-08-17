@@ -17,7 +17,7 @@ export class ChatService {
 
     const user = await this.prisma.user.findUnique({
       where: {
-        email: request.user.email,
+        email: request.email,
       },
     });
 
@@ -40,7 +40,7 @@ export class ChatService {
         id: dto.chatId,
         participants: {
           some: {
-            email: request.user.email,
+            email: request.email,
           },
         },
       },
@@ -50,7 +50,7 @@ export class ChatService {
 
     const user = await this.prisma.user.findUnique({
       where: {
-        email: request.user.email,
+        email: request.email,
       },
     });
 
@@ -70,7 +70,7 @@ export class ChatService {
       where: {
         participants: {
           some: {
-            email: request.user.email,
+            email: request.email,
           },
         },
       },
@@ -84,7 +84,7 @@ export class ChatService {
         id: chatId,
         participants: {
           some: {
-            email: request.user.email,
+            email: request.email,
           },
         },
       },
