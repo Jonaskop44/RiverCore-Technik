@@ -7,6 +7,7 @@ import { AuthorModule } from './author/author.module';
 import { MailModule } from './mail/mail.module';
 import { AdminModule } from './admin/admin.module';
 import { UploadModule } from './upload/upload.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UploadModule } from './upload/upload.module';
     MailModule,
     AdminModule,
     UploadModule,
+    ChatModule,
   ],
   controllers: [],
   providers: [PrismaService],
