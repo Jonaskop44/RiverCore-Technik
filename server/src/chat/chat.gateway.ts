@@ -7,10 +7,10 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
-import { SendMessageDto } from './dto/chat.dto';
+import { CreateChatDto, SendMessageDto } from './dto/chat.dto';
 import { ConflictException } from '@nestjs/common';
 
-@WebSocketGateway({
+@WebSocketGateway(3002, {
   cors: {
     origin: '*',
   },
@@ -21,11 +21,21 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private readonly chatService: ChatService) {}
 
   async handleConnection(client: Socket) {
-    console.log(`Client connected: ${client.id}`);
+    console.log(`Client connected: ${client}`);
   }
 
   async handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);
+  }
+
+  //New chat
+  @SubscribeMessage('createChat')
+  async handleCreateChat(client: Socket, payload: { dto: CreateChatDto }) {
+    const { dto } = payload;
+
+    await this.chatService.createChat(dto, {
+      user: { email: client },
+    });
   }
 
   @SubscribeMessage('joinChat')
