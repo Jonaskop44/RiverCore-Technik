@@ -4,62 +4,74 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
   WebSocketServer,
+  MessageBody,
+  ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
 import { CreateChatDto, SendMessageDto } from './dto/chat.dto';
-import { ConflictException } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
+import { SocketGuard } from 'src/guards/socket.guard';
 
-@WebSocketGateway(3002, {
+@WebSocketGateway({
   cors: {
     origin: '*',
   },
 })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  @WebSocketServer() server: Server;
+  @WebSocketServer()
+  server: Server;
 
   constructor(private readonly chatService: ChatService) {}
 
   async handleConnection(client: Socket) {
-    console.log(`Client connected: ${client}`);
+    // console.log(`Client connected: ${client.id}`);
+    // console.log(client.data);
   }
 
   async handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);
   }
 
-  //New chat
+  @UseGuards(SocketGuard)
   @SubscribeMessage('createChat')
-  async handleCreateChat(client: Socket, payload: { dto: CreateChatDto }) {
-    const { dto } = payload;
-
-    await this.chatService.createChat(dto, {
-      user: { email: client },
-    });
+  async handleCreateChat(
+    @MessageBody() dto: CreateChatDto,
+    @ConnectedSocket() client: Socket,
+  ) {
+    const chat = await this.chatService.createChat(dto, client.handshake);
+    client.join(chat.id.toString());
+    this.server.to(chat.id.toString()).emit('chatCreated', chat);
   }
 
-  @SubscribeMessage('joinChat')
-  async handleJoinChat(client: Socket, chatId: number) {
-    client.join(`chat-${chatId}`);
-    console.log(`Client ${client.id} joined chat-${chatId}`);
-  }
-
+  @UseGuards(SocketGuard)
   @SubscribeMessage('sendMessage')
-  async handleSendMessage(client: Socket, payload: { dto: SendMessageDto }) {
-    const { dto } = payload;
+  async handleSendMessage(
+    @MessageBody() dto: SendMessageDto,
+    @ConnectedSocket() client: Socket,
+  ) {
+    const message = await this.chatService.sendMessage(dto, client.handshake);
+    this.server.to(dto.chatId.toString()).emit('receiveMessage', message);
+  }
 
-    try {
-      const message = await this.chatService.sendMessage(dto, {
-        user: { email: client },
-      });
+  @UseGuards(SocketGuard)
+  @SubscribeMessage('joinChat')
+  async handleJoinChat(
+    @MessageBody('chatId') chatId: number,
+    @ConnectedSocket() client: Socket,
+  ) {
+    client.join(chatId.toString());
+    const messages = await this.chatService.getMessages(
+      chatId,
+      client.handshake,
+    );
+    client.emit('chatMessages', messages);
+  }
 
-      this.server.to(`chat-${dto.chatId}`).emit('receiveMessage', message);
-
-      return message;
-    } catch (error) {
-      throw new ConflictException(
-        'Sometthing during sending message went wrong',
-      );
-    }
+  @UseGuards(SocketGuard)
+  @SubscribeMessage('getChats')
+  async handleGetChats(@ConnectedSocket() client: Socket) {
+    const chats = await this.chatService.getChats(client.handshake);
+    client.emit('chatsList', chats);
   }
 }
