@@ -37,11 +37,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client: Socket,
     payload: { chatId: number; content: string },
   ) {
-    const message = await this.chatService.sendMessage(
-      payload.chatId,
-      payload.content,
-    );
-
-    this.server.to(`chat-${payload.chatId}`).emit('message', message);
+    // const message = await this.chatService.sendMessage(
+    //   payload.chatId,
+    //   payload.content,
+    // );
+    // this.server.to(`chat-${payload.chatId}`).emit('message', message);
   }
 }

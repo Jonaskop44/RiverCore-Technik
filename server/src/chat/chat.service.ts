@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateChatDto } from './dto/chat.dto';
+import { CreateChatDto, CreateMessageDto } from './dto/chat.dto';
 
 @Injectable()
 export class ChatService {
@@ -15,34 +15,49 @@ export class ChatService {
       },
     });
 
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: dto.userId,
+      },
+    });
+
+    if (!user) throw new ConflictException('User not found');
+
     return await this.prisma.chat.create({
       data: {
         title: dto.title,
-        userId: dto.userId,
+        participants: {
+          connect: [
+            { id: dto.userId },
+            ...supporter.map((s) => ({ id: s.id })),
+          ],
+        },
       },
     });
   }
 
-  async getMessages(chatId: number) {
-    return this.prisma.message.findMany({
-      where: { chatId: chatId },
+  async sendMessage(dto: CreateMessageDto) {
+    const chat = await this.prisma.chat.findUnique({
+      where: {
+        id: dto.chatId,
+      },
     });
-  }
 
-  async sendMessage(chatId: number, content: string) {
+    if (!chat) throw new ConflictException('Chat not found');
+
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: dto.userId,
+      },
+    });
+
+    if (!user) throw new ConflictException('User not found');
+
     return this.prisma.message.create({
       data: {
-        content: content,
-        chatId: chatId,
-      },
-    });
-  }
-
-  async getUserChats(userId: number) {
-    return this.prisma.chat.findMany({
-      where: { userId: userId },
-      include: {
-        messages: true,
+        content: dto.content,
+        chatId: dto.chatId,
+        userId: dto.userId,
       },
     });
   }
