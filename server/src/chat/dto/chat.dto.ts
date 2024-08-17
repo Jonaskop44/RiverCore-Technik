@@ -4,10 +4,6 @@ export class CreateChatDto {
   @IsString()
   @IsNotEmpty()
   title: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  userId: number;
 }
 
 export class CreateMessageDto {
@@ -18,8 +14,4 @@ export class CreateMessageDto {
   @IsNumber()
   @IsNotEmpty()
   chatId: number;
-
-  @IsNumber()
-  @IsNotEmpty()
-  userId: number;
 }
