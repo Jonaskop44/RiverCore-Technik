@@ -38,4 +38,14 @@ export class ChatController {
   async getMessages(@Param('chatId') chatId: number, @Request() request) {
     return this.chatService.getMessages(chatId, request);
   }
+
+  @UseGuards(JwtGuard)
+  @Post('message/send/:chatId')
+  async sendMessage(
+    @Param('chatId') chatId: number,
+    @Body() dto: CreateMessageDto,
+    @Request() request,
+  ) {
+    return this.chatService.sendMessage(chatId, dto, request);
+  }
 }

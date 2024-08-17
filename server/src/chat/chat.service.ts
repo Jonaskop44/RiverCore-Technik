@@ -1,6 +1,10 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateChatDto, CreateMessageDto } from './dto/chat.dto';
+import {
+  CreateChatDto,
+  CreateMessageDto,
+  SendMessageDto,
+} from './dto/chat.dto';
 
 @Injectable()
 export class ChatService {
@@ -94,6 +98,38 @@ export class ChatService {
     return this.prisma.message.findMany({
       where: {
         chatId: chatId,
+      },
+    });
+  }
+
+  async sendMessages(chatId: number, dto: SendMessageDto, request) {
+    //Check if user is part of the chat
+    const chat = await this.prisma.chat.findUnique({
+      where: {
+        id: chatId,
+        participants: {
+          some: {
+            email: request.user.email,
+          },
+        },
+      },
+    });
+
+    if (!chat) throw new ConflictException('Chat not found');
+
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: request.user.email,
+      },
+    });
+
+    if (!user) throw new ConflictException('User not found');
+
+    return this.prisma.message.create({
+      data: {
+        content: dto.content,
+        chatId: chatId,
+        userId: user.id,
       },
     });
   }
