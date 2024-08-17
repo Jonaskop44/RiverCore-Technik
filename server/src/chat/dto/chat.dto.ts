@@ -15,9 +15,3 @@ export class CreateMessageDto {
   @IsNotEmpty()
   chatId: number;
 }
-
-export class SendMessageDto {
-  @IsString()
-  @IsNotEmpty()
-  content: string;
-}

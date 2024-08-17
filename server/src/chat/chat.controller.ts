@@ -8,8 +8,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ChatService } from './chat.service';
-import { CreateChatDto, CreateMessageDto } from './dto/chat.dto';
 import { JwtGuard } from 'src/guards/jwt.guard';
+import { CreateChatDto, CreateMessageDto } from './dto/chat.dto';
 
 @Controller('chat')
 export class ChatController {
@@ -24,7 +24,7 @@ export class ChatController {
   @UseGuards(JwtGuard)
   @Post('message/create')
   async createMessage(@Body() dto: CreateMessageDto, @Request() request) {
-    return this.chatService.sendMessage(dto, request);
+    return this.chatService.createMessage(dto, request);
   }
 
   @UseGuards(JwtGuard)
@@ -37,15 +37,5 @@ export class ChatController {
   @Get('messages/:chatId')
   async getMessages(@Param('chatId') chatId: number, @Request() request) {
     return this.chatService.getMessages(chatId, request);
-  }
-
-  @UseGuards(JwtGuard)
-  @Post('message/send/:chatId')
-  async sendMessage(
-    @Param('chatId') chatId: number,
-    @Body() dto: CreateMessageDto,
-    @Request() request,
-  ) {
-    return this.chatService.sendMessage(chatId, dto, request);
   }
 }
