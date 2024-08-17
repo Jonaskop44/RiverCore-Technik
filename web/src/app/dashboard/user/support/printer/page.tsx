@@ -33,7 +33,7 @@ const PrinterSupport = () => {
       setMessages(messages);
     });
 
-    socket.on("justAfriend", (chat) => {
+    socket.on("chatCreated", (chat) => {
       console.log(chat);
       setChats((prevChats) => [...prevChats, chat]);
     });
@@ -42,13 +42,13 @@ const PrinterSupport = () => {
       socket.off("chatsList");
       socket.off("receiveMessage");
       socket.off("chatMessages");
-      socket.off("justAfriend");
+      socket.off("chatCreated");
     };
   }, []);
 
   const createChat = () => {
     if (newChatTitle.trim()) {
-      socket.emit("createNIgga", { title: newChatTitle });
+      socket.emit("createChat", { title: newChatTitle });
       setNewChatTitle("");
     }
   };

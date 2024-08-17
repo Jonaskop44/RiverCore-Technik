@@ -44,7 +44,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     console.log(`Client disconnected: ${client.id}`);
   }
 
-  @SubscribeMessage('createNIgga')
+  @SubscribeMessage('createChat')
   async handleCreateChat(
     @MessageBody() dto: CreateChatDto,
     @ConnectedSocket() client: Socket,
@@ -54,7 +54,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       AuthenticatedUsers.get(client.id),
     );
     client.join(chat.id.toString());
-    this.server.to(chat.id.toString()).emit('justAfriend', chat);
+    this.server.to(chat.id.toString()).emit('chatCreated', chat);
   }
 
   @SubscribeMessage('sendMessage')
