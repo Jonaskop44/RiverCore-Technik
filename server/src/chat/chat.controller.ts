@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { JwtGuard } from 'src/guards/jwt.guard';
-import { CreateChatDto, CreateMessageDto } from './dto/chat.dto';
+import { CreateChatDto, SendMessageDto } from './dto/chat.dto';
 
 @Controller('chat')
 export class ChatController {
@@ -22,9 +22,9 @@ export class ChatController {
   }
 
   @UseGuards(JwtGuard)
-  @Post('message/create')
-  async createMessage(@Body() dto: CreateMessageDto, @Request() request) {
-    return this.chatService.createMessage(dto, request);
+  @Post('message/send')
+  async sendMessage(@Body() dto: SendMessageDto, @Request() request) {
+    return this.chatService.sendMessage(dto, request);
   }
 
   @UseGuards(JwtGuard)

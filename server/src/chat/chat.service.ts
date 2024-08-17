@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateChatDto, CreateMessageDto } from './dto/chat.dto';
+import { CreateChatDto, SendMessageDto } from './dto/chat.dto';
 
 @Injectable()
 export class ChatService {
@@ -33,7 +33,7 @@ export class ChatService {
     });
   }
 
-  async createMessage(dto: CreateMessageDto, request) {
+  async sendMessage(dto: SendMessageDto, request) {
     //Check if user is part of the chat
     const chat = await this.prisma.chat.findUnique({
       where: {

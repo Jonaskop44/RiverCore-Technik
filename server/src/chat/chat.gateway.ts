@@ -7,6 +7,8 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
+import { SendMessageDto } from './dto/chat.dto';
+import { ConflictException } from '@nestjs/common';
 
 @WebSocketGateway({
   cors: {
@@ -33,14 +35,21 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('sendMessage')
-  async handleMessage(
-    client: Socket,
-    payload: { chatId: number; content: string },
-  ) {
-    // const message = await this.chatService.sendMessage(
-    //   payload.chatId,
-    //   payload.content,
-    // );
-    // this.server.to(`chat-${payload.chatId}`).emit('message', message);
+  async handleSendMessage(client: Socket, payload: { dto: SendMessageDto }) {
+    const { dto } = payload;
+
+    try {
+      const message = await this.chatService.sendMessage(dto, {
+        user: { email: client },
+      });
+
+      this.server.to(`chat-${dto.chatId}`).emit('receiveMessage', message);
+
+      return message;
+    } catch (error) {
+      throw new ConflictException(
+        'Sometthing during sending message went wrong',
+      );
+    }
   }
 }

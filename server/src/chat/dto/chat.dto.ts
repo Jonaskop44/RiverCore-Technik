@@ -6,7 +6,7 @@ export class CreateChatDto {
   title: string;
 }
 
-export class CreateMessageDto {
+export class SendMessageDto {
   @IsString()
   @IsNotEmpty()
   content: string;
