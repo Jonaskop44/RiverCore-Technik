@@ -54,7 +54,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       AuthenticatedUsers.get(client.id),
     );
     client.join(chat.id.toString());
-    this.server.to(chat.id.toString()).emit('chatCreated', chat);
+    this.server.emit('chatCreated', chat);
   }
 
   @SubscribeMessage('sendMessage')
