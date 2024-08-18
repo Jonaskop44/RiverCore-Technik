@@ -2,7 +2,7 @@
 
 import { useUserStore } from "@/data/userStore";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 
 const socket = io("ws://localhost:3001", {
@@ -17,20 +17,21 @@ const PrinterSupport = () => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [newMessage, setNewMessage] = useState("");
   const [newChatTitle, setNewChatTitle] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const [typingUser, setTypingUser] = useState(null);
+  const [typingUsers, setTypingUsers] = useState([]);
   const { user } = useUserStore();
+
+  const typingTimeoutRef = useRef(null);
 
   useEffect(() => {
     socket.emit("getChats");
 
     socket.on("chatsList", (_chats) => {
+      console.log(_chats);
       setChats(_chats);
     });
 
     socket.on("receiveMessage", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
-      setTypingUser(null); // Stop typing indicator on message receive
     });
 
     socket.on("chatMessages", (messages) => {
@@ -38,15 +39,19 @@ const PrinterSupport = () => {
     });
 
     socket.on("chatCreated", (chat) => {
+      console.log(chat);
       setChats((prevChats) => [...prevChats, chat]);
     });
 
-    socket.on("userTyping", (username) => {
-      setTypingUser(username);
+    // Listen for typing events
+    socket.on("userTyping", (typingUser) => {
+      setTypingUsers((prevUsers) => [...prevUsers, typingUser]);
     });
 
-    socket.on("stopTyping", () => {
-      setTypingUser(null);
+    socket.on("userStoppedTyping", (stoppedTypingUser) => {
+      setTypingUsers((prevUsers) =>
+        prevUsers.filter((u) => u.id !== stoppedTypingUser.id)
+      );
     });
 
     return () => {
@@ -55,9 +60,26 @@ const PrinterSupport = () => {
       socket.off("chatMessages");
       socket.off("chatCreated");
       socket.off("userTyping");
-      socket.off("stopTyping");
+      socket.off("userStoppedTyping");
     };
   }, []);
+
+  const handleTyping = (e) => {
+    setNewMessage(e.target.value);
+
+    if (!typingTimeoutRef.current) {
+      socket.emit("typing", { chatId: selectedChat });
+    }
+
+    // Clear the previous timeout
+    clearTimeout(typingTimeoutRef.current);
+
+    // Set a new timeout to emit `stopTyping` if the user stops typing for 2 seconds
+    typingTimeoutRef.current = setTimeout(() => {
+      socket.emit("stopTyping", { chatId: selectedChat });
+      typingTimeoutRef.current = null;
+    }, 2000);
+  };
 
   const createChat = () => {
     if (newChatTitle.trim()) {
@@ -71,23 +93,13 @@ const PrinterSupport = () => {
     socket.emit("joinChat", { chatId });
   };
 
-  const handleTyping = () => {
-    if (!isTyping) {
-      setIsTyping(true);
-      socket.emit("typing", { chatId: selectedChat, username: user.firstName });
-    }
-  };
-
-  const stopTyping = () => {
-    setIsTyping(false);
-    socket.emit("stopTyping", { chatId: selectedChat });
-  };
-
   const sendMessage = () => {
     if (newMessage.trim()) {
       socket.emit("sendMessage", { content: newMessage, chatId: selectedChat });
       setNewMessage("");
-      stopTyping();
+      clearTimeout(typingTimeoutRef.current); // Clear the typing timeout when sending a message
+      typingTimeoutRef.current = null;
+      socket.emit("stopTyping", { chatId: selectedChat });
     }
   };
 
@@ -128,19 +140,23 @@ const PrinterSupport = () => {
                     {user.firstName}: {message.content}
                   </li>
                 ))}
-                {typingUser && <li>{typingUser} is typing...</li>}
               </ul>
               <input
                 type="text"
                 value={newMessage}
-                onChange={(e) => {
-                  setNewMessage(e.target.value);
-                  handleTyping();
-                }}
-                onBlur={stopTyping} // Stop typing when input loses focus
+                onChange={handleTyping}
                 placeholder="Nachricht eingeben..."
               />
               <button onClick={sendMessage}>Senden</button>
+
+              {/* Display typing indicator */}
+              {typingUsers.length > 0 && (
+                <div>
+                  {typingUsers.map((typingUser) => (
+                    <span key={typingUser.id}>{typingUser.name} tippt...</span>
+                  ))}
+                </div>
+              )}
             </>
           ) : (
             <p>Wähle eine Konversation aus</p>
