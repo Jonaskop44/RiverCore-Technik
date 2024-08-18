@@ -3,7 +3,7 @@
 import NewChatModal from "@/app/dashboard/components/User/Support/NewChatModal";
 import { useUserStore } from "@/data/userStore";
 import { Avatar, Button, Chip, Input, useDisclosure } from "@nextui-org/react";
-import Cookies, { set } from "js-cookie";
+import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { FiPaperclip } from "react-icons/fi";
 import { IoIosSend } from "react-icons/io";
@@ -25,12 +25,12 @@ const PrinterSupport = () => {
   const [typingUsers, setTypingUsers] = useState([]);
   const typingTimeoutRef = useRef(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     socket.emit("getChats");
 
     socket.on("chatsList", (_chats) => {
-      console.log(_chats);
       setChats(_chats);
     });
 
@@ -43,7 +43,6 @@ const PrinterSupport = () => {
     });
 
     socket.on("chatCreated", (chat) => {
-      console.log(chat);
       setChats((prevChats) => [...prevChats, chat]);
     });
 
@@ -66,6 +65,13 @@ const PrinterSupport = () => {
       socket.off("userStoppedTyping");
     };
   }, []);
+
+  useEffect(() => {
+    // Scroll zum Ende, wenn Nachrichten ankommen oder der Chat gewechselt wird
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, selectedChat]); // Füge `selectedChat` hier hinzu, um auch bei einem neuen Chat zu scrollen
 
   const handleTyping = (e) => {
     setNewMessage(e.target.value);
@@ -125,8 +131,6 @@ const PrinterSupport = () => {
           </div>
           <div className="p-4">
             <div className="relative mb-4">
-              {/* <SearchIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Search..." className="pl-10" /> */}
               <Button color="primary" onPress={onOpen}>
                 Neue Konversation
               </Button>
@@ -162,7 +166,7 @@ const PrinterSupport = () => {
                 <div>
                   <h2 className="text-lg font-semibold">Leon Maier</h2>
                   <p className="text-sm text-muted-foreground">
-                    {typingUsers.length > 0 && (
+                    {typingUsers.length > 0 ? (
                       <div>
                         {typingUsers.map((user) => (
                           <span key={user.id}>
@@ -170,6 +174,8 @@ const PrinterSupport = () => {
                           </span>
                         ))}
                       </div>
+                    ) : (
+                      <div>Online Status</div>
                     )}
                   </p>
                 </div>
@@ -190,26 +196,9 @@ const PrinterSupport = () => {
                       {message.content}
                     </li>
                   ))}
+                  <div ref={messagesEndRef} />{" "}
+                  {/* Ref für das Ende der Liste */}
                 </ul>
-                {/* {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${
-                    chat.from === "me" ? "justify-end" : ""
-                  } mb-4`}
-                >
-                  <div
-                    className={`max-w-xs p-3 rounded-lg ${
-                      chat.from === "me" ? "bg-blue-100" : "bg-gray-100"
-                    }`}
-                  >
-                    <p>{chat.message}</p>
-                    <span className="block mt-1 text-xs text-muted-foreground">
-                      {chat.time}
-                    </span>
-                  </div>
-                </div>
-              ))} */}
               </>
             ) : (
               <p>Wähle eine Konversation aus</p>
