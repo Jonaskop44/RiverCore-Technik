@@ -33,12 +33,7 @@ const sidebarData: SidebarGroup[] = [
       {
         icon: <BiSupport size={25} />,
         label: "Support",
-        route: "#",
-        children: [
-          { label: "Drucker", route: "user/support/printer" },
-          { label: "Netzwerk", route: "user/support/network" },
-          { label: "Kassen", route: "user/support/payment" },
-        ],
+        route: "user/support",
       },
     ],
   },

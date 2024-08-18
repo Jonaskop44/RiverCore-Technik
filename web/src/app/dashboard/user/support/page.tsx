@@ -5,7 +5,6 @@ import { useUserStore } from "@/data/userStore";
 import { Avatar, Button, Chip, Input, useDisclosure } from "@nextui-org/react";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
-import { FiPaperclip } from "react-icons/fi";
 import { IoIosSend } from "react-icons/io";
 import io from "socket.io-client";
 
@@ -15,7 +14,7 @@ const socket = io("ws://localhost:3001", {
   },
 });
 
-const PrinterSupport = () => {
+const PageSupport = () => {
   const { profilePicture } = useUserStore();
   const [chats, setChats] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -25,7 +24,7 @@ const PrinterSupport = () => {
   const [typingUsers, setTypingUsers] = useState([]);
   const typingTimeoutRef = useRef(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null); // Ref für den Nachrichtencontainer
 
   useEffect(() => {
     socket.emit("getChats");
@@ -66,12 +65,20 @@ const PrinterSupport = () => {
     };
   }, []);
 
+  // useEffect(() => {
+  //   // Scrollt ohne Animation zum Ende des Chatbereichs
+  //   if (messagesContainerRef.current) {
+  //     messagesContainerRef.current.scrollTop =
+  //       messagesContainerRef.current.scrollHeight;
+  //   }
+  // }, [messages, selectedChat]); // Füge `selectedChat` hinzu, um auch bei einem neuen Chat zu scrollen
+
   useEffect(() => {
     // Scroll zum Ende, wenn Nachrichten ankommen oder der Chat gewechselt wird
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages, selectedChat]); // Füge `selectedChat` hier hinzu, um auch bei einem neuen Chat zu scrollen
+  }, [messages]); // Füge `selectedChat` hier hinzu, um auch bei einem neuen Chat zu scrollen
 
   const handleTyping = (e) => {
     setNewMessage(e.target.value);
@@ -139,13 +146,13 @@ const PrinterSupport = () => {
               {chats.map((chat) => (
                 <li
                   key={chat.id}
-                  className="flex items-center space-x-3 cursor-pointer"
+                  className="flex items-center space-x-3 cursor-pointer hover:bg-gray-200 p-2 rounded-lg"
                   onClick={() => joinChat(chat.id)}
                 >
                   <Avatar src={profilePicture} />
                   <div className="flex-1">
                     <p className="font-medium">{chat.title}</p>
-                    <p className="text-sm text-muted-foreground">Name</p>
+                    <p className="text-sm text-muted-foreground">{chat.id}</p>
                   </div>
                   <Chip color="primary">10</Chip>
                   <span
@@ -186,7 +193,10 @@ const PrinterSupport = () => {
               )}
             </div>
           </header>
-          <div className="flex-1 p-4 overflow-y-auto">
+          <div
+            className="flex-1 p-4 overflow-y-auto"
+            ref={messagesContainerRef}
+          >
             {selectedChat ? (
               <>
                 <ul>
@@ -196,7 +206,7 @@ const PrinterSupport = () => {
                       {message.content}
                     </li>
                   ))}
-                  <div ref={messagesEndRef} />{" "}
+                  <div ref={messagesContainerRef} />{" "}
                   {/* Ref für das Ende der Liste */}
                 </ul>
               </>
@@ -213,9 +223,7 @@ const PrinterSupport = () => {
                 value={newMessage}
                 onChange={handleTyping}
               />
-              <Button variant="ghost" isDisabled={!selectedChat}>
-                <FiPaperclip className="h-6 w-6 text-black" />
-              </Button>
+
               <Button
                 variant="ghost"
                 onPress={sendMessage}
@@ -231,4 +239,4 @@ const PrinterSupport = () => {
   );
 };
 
-export default PrinterSupport;
+export default PageSupport;
