@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import NewChatModal from "@/app/dashboard/components/User/Support/NewChatModal";
