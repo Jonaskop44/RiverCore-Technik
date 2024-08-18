@@ -125,18 +125,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const user = AuthenticatedUsers.get(client.id);
     const message = await this.chatService.sendMessage(dto, user);
 
-    const userWithProfilePicture = await this.userService.getUserById(user.id);
-    const formattedMessage = {
+    this.server.to(dto.chatId.toString()).emit('receiveMessage', {
       ...message,
-      user: {
-        ...user,
-        profilePicture: userWithProfilePicture.profilePicture,
-      },
-    };
-
-    this.server
-      .to(dto.chatId.toString())
-      .emit('receiveMessage', formattedMessage);
+      user: user,
+    });
   }
 
   @SubscribeMessage('joinChat')
