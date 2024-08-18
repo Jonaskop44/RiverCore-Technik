@@ -239,7 +239,7 @@ const PageSupport = () => {
                     ).toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
-                    }); // Formatierung der Uhrzeit
+                    });
 
                     return (
                       <li

@@ -143,8 +143,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     );
 
     const formattedMessages = messages.map((message) => ({
-      id: message.id,
-      content: message.content,
+      ...message,
       user: message.user,
     }));
 
