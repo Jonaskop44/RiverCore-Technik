@@ -125,9 +125,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const user = AuthenticatedUsers.get(client.id);
     const message = await this.chatService.sendMessage(dto, user);
 
-    console.log(user);
-
-    // Include userName in the emitted message
     this.server.to(dto.chatId.toString()).emit('receiveMessage', {
       ...message,
       user: user,

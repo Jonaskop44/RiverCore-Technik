@@ -15,7 +15,7 @@ const socket = io("ws://localhost:3001", {
 });
 
 const PageSupport = () => {
-  const { profilePicture } = useUserStore();
+  const { profilePicture, user } = useUserStore();
   const [chats, setChats] = useState([]);
   const [messages, setMessages] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
@@ -161,7 +161,9 @@ const PageSupport = () => {
                   <Chip color="primary">10</Chip>
                   <span
                     className={`h-2 w-2 rounded-full ${
-                      "online" === "online" ? "bg-green-500" : "bg-red-500"
+                      onlineUsers[chat.user.id] === "ONLINE"
+                        ? "bg-green-500"
+                        : "bg-red-500"
                     }`}
                   />
                 </li>
