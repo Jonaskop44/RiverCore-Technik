@@ -35,7 +35,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       console.log('Token:', client.handshake.auth.accessToken);
       const decoded = this.jwtService.decode(client.handshake.auth.accessToken);
       console.log('Decoded token payload:', decoded);
-
       if (!decoded || !decoded.email) {
         throw new ConflictException('Token is invalid or malformed');
       }
@@ -95,8 +94,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       AuthenticatedUsers.get(client.id),
     );
     client.join(chat.id.toString());
-    this.server.emit('chatCreated', chat);
-    // this.server.to(chat.id.toString()).emit('chatCreated', chat)
+    this.server.emit('chatCreated', chat); // this.server.to(chat.id.toString()).emit('chatCreated', chat)
   }
 
   @SubscribeMessage('sendMessage')
@@ -104,11 +102,14 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() dto: SendMessageDto,
     @ConnectedSocket() client: Socket,
   ) {
-    const message = await this.chatService.sendMessage(
-      dto,
-      AuthenticatedUsers.get(client.id),
-    );
-    this.server.to(dto.chatId.toString()).emit('receiveMessage', message);
+    const user = AuthenticatedUsers.get(client.id);
+    const message = await this.chatService.sendMessage(dto, user);
+
+    // Include userName in the emitted message
+    this.server.to(dto.chatId.toString()).emit('receiveMessage', {
+      ...message,
+      userName: user.firstName,
+    });
   }
 
   @SubscribeMessage('joinChat')
@@ -121,7 +122,14 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       chatId,
       AuthenticatedUsers.get(client.id),
     );
-    client.emit('chatMessages', messages);
+
+    const formattedMessages = messages.map((message) => ({
+      id: message.id,
+      content: message.content,
+      userName: message.user.firstName, // Benutzername hinzufügen
+    }));
+
+    client.emit('chatMessages', formattedMessages);
   }
 
   @SubscribeMessage('getChats')

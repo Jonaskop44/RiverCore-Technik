@@ -18,7 +18,6 @@ const PrinterSupport = () => {
   const [newMessage, setNewMessage] = useState("");
   const [newChatTitle, setNewChatTitle] = useState("");
   const [typingUsers, setTypingUsers] = useState([]);
-  const { user } = useUserStore();
 
   const typingTimeoutRef = useRef(null);
 
@@ -97,7 +96,7 @@ const PrinterSupport = () => {
     if (newMessage.trim()) {
       socket.emit("sendMessage", { content: newMessage, chatId: selectedChat });
       setNewMessage("");
-      clearTimeout(typingTimeoutRef.current); // Clear the typing timeout when sending a message
+      clearTimeout(typingTimeoutRef.current);
       typingTimeoutRef.current = null;
       socket.emit("stopTyping", { chatId: selectedChat });
     }
@@ -137,7 +136,7 @@ const PrinterSupport = () => {
               <ul>
                 {messages.map((message) => (
                   <li key={message.id}>
-                    {user.firstName}: {message.content}
+                    <strong>{message.userName}:</strong> {message.content}
                   </li>
                 ))}
               </ul>

@@ -100,6 +100,9 @@ export class ChatService {
       where: {
         chatId: chatId,
       },
+      include: {
+        user: true,
+      },
     });
   }
 }
