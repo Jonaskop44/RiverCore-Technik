@@ -10,9 +10,8 @@ import {
 import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
 import { CreateChatDto, SendMessageDto } from './dto/chat.dto';
-import { UnauthorizedException, UseGuards } from '@nestjs/common';
-import { AuthService } from 'src/auth/auth.service';
 import { UserService } from 'src/user/user.service';
+import { ConflictException } from '@nestjs/common';
 export const AuthenticatedUsers = new Map();
 
 @WebSocketGateway({
@@ -30,6 +29,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {}
 
   async handleConnection(client: Socket) {
+    console.log(`Client connected: ${client.id}`);
     try {
       const user = await this.userService.getUserDataFromToken(
         client.handshake.auth.accessToken,
@@ -55,6 +55,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     );
     client.join(chat.id.toString());
     this.server.emit('chatCreated', chat);
+    // this.server.to(chat.id.toString()).emit('chatCreated', chat)
   }
 
   @SubscribeMessage('sendMessage')

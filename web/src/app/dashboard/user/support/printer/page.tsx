@@ -1,5 +1,6 @@
 "use client";
 
+import { useUserStore } from "@/data/userStore";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
@@ -16,6 +17,7 @@ const PrinterSupport = () => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [newMessage, setNewMessage] = useState("");
   const [newChatTitle, setNewChatTitle] = useState("");
+  const { user } = useUserStore();
 
   useEffect(() => {
     socket.emit("getChats");
@@ -98,7 +100,9 @@ const PrinterSupport = () => {
               <h2 className="text-lg font-semibold">Nachrichten</h2>
               <ul>
                 {messages.map((message) => (
-                  <li key={message.id}>{message.content}</li>
+                  <li key={message.id}>
+                    {user.firstName}: {message.content}
+                  </li>
                 ))}
               </ul>
               <input
