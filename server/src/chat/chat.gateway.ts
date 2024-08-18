@@ -15,6 +15,11 @@ import { ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 export const AuthenticatedUsers = new Map();
 
+enum OnlineStatus {
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+}
+
 @WebSocketGateway({
   cors: {
     origin: '*',
@@ -32,9 +37,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   async handleConnection(client: Socket) {
     try {
-      console.log('Token:', client.handshake.auth.accessToken);
       const decoded = this.jwtService.decode(client.handshake.auth.accessToken);
-      console.log('Decoded token payload:', decoded);
       if (!decoded || !decoded.email) {
         throw new ConflictException('Token is invalid or malformed');
       }
@@ -47,19 +50,33 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       );
 
       const user = await this.userService.getUserByEmail(verified.email);
-
       if (!user) throw new ConflictException('User not found');
 
       const { password, ...result } = user;
       AuthenticatedUsers.set(client.id, result);
+
+      //Set online status
+      this.server.emit('userStatus', {
+        status: OnlineStatus.ONLINE,
+        userId: user.id,
+      });
     } catch (error) {
       console.error('Error verifying token:', error.message);
     }
   }
 
   async handleDisconnect(client: Socket) {
-    AuthenticatedUsers.delete(client.id);
-    console.log('Client disconnected:', client.id);
+    const user = AuthenticatedUsers.get(client.id);
+    if (user) {
+      AuthenticatedUsers.delete(client.id);
+
+      this.server.emit('userStatus', {
+        userId: user.id,
+        status: OnlineStatus.OFFLINE,
+      });
+
+      console.log('Client disconnected:', client.id);
+    }
   }
 
   @SubscribeMessage('typing')
@@ -93,8 +110,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       dto,
       AuthenticatedUsers.get(client.id),
     );
+
+    const user = await this.userService.getUserById(chat.creatorId);
+
     client.join(chat.id.toString());
-    this.server.emit('chatCreated', chat); // this.server.to(chat.id.toString()).emit('chatCreated', chat)
+    this.server.emit('chatCreated', { ...chat, user }); // this.server.to(chat.id.toString()).emit('chatCreated', chat)
   }
 
   @SubscribeMessage('sendMessage')
@@ -140,10 +160,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       AuthenticatedUsers.get(client.id),
     );
 
+    if (!chats || chats.length === 0) return;
+    const user = await this.userService.getUserById(chats[0].creatorId);
+
     const formattedChats = chats.map((chat) => ({
       id: chat.id,
       title: chat.title,
-      participants: chat.participants,
+      user: user,
     }));
 
     client.emit('chatsList', formattedChats);

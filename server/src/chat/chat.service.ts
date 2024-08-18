@@ -27,6 +27,7 @@ export class ChatService {
     return await this.prisma.chat.create({
       data: {
         title: dto.title,
+        creatorId: newUser.id,
         participants: {
           connect: [
             { id: newUser.id },
@@ -70,6 +71,10 @@ export class ChatService {
   }
 
   async getChats(user: User) {
+    const channelsExist = await this.prisma.chat.findMany({});
+
+    if (!channelsExist) throw new ConflictException('No channels found');
+
     const newUser = await this.prisma.user.findUnique({
       where: {
         email: user.email,
@@ -86,9 +91,6 @@ export class ChatService {
           },
         },
       },
-      include: {
-        participants: true,
-      }
     });
   }
 

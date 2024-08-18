@@ -22,12 +22,22 @@ const PageSupport = () => {
   const [newMessage, setNewMessage] = useState("");
   const [newChatTitle, setNewChatTitle] = useState("");
   const [typingUsers, setTypingUsers] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState([]);
   const typingTimeoutRef = useRef(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const messagesContainerRef = useRef(null); // Ref für den Nachrichtencontainer
+  const messagesContainerRef = useRef(null);
 
   useEffect(() => {
     socket.emit("getChats");
+
+    socket.on("userStatus", ({ userId, status }) => {
+      console.log("ON: ", status);
+      setOnlineUsers((prevUsers) => {
+        const updatedUsers = { ...prevUsers };
+        updatedUsers[userId] = status;
+        return updatedUsers;
+      });
+    });
 
     socket.on("chatsList", (_chats) => {
       setChats(_chats);
@@ -62,23 +72,15 @@ const PageSupport = () => {
       socket.off("chatCreated");
       socket.off("userTyping");
       socket.off("userStoppedTyping");
+      socket.off("userStatus");
     };
   }, []);
 
-  // useEffect(() => {
-  //   // Scrollt ohne Animation zum Ende des Chatbereichs
-  //   if (messagesContainerRef.current) {
-  //     messagesContainerRef.current.scrollTop =
-  //       messagesContainerRef.current.scrollHeight;
-  //   }
-  // }, [messages, selectedChat]); // Füge `selectedChat` hinzu, um auch bei einem neuen Chat zu scrollen
-
   useEffect(() => {
-    // Scroll zum Ende, wenn Nachrichten ankommen oder der Chat gewechselt wird
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages]); // Füge `selectedChat` hier hinzu, um auch bei einem neuen Chat zu scrollen
+  }, [messages]);
 
   const handleTyping = (e) => {
     setNewMessage(e.target.value);
@@ -152,7 +154,9 @@ const PageSupport = () => {
                   <Avatar src={profilePicture} />
                   <div className="flex-1">
                     <p className="font-medium">{chat.title}</p>
-                    <p className="text-sm text-muted-foreground">{chat.id}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {chat.user.firstName} {chat.user.lastName}
+                    </p>
                   </div>
                   <Chip color="primary">10</Chip>
                   <span

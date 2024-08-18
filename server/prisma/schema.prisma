@@ -58,6 +58,7 @@ model User {
 model Chat {
   id        Int      @id @default(autoincrement())
   title     String
+  creatorId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
