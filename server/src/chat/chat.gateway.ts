@@ -39,7 +39,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         throw new ConflictException('Token is invalid or malformed');
       }
 
-      const verified = this.jwtService.verify(
+      const verified = await this.jwtService.verify(
         client.handshake.auth.accessToken,
         {
           secret: process.env.JWT_SECRET,

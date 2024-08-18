@@ -70,11 +70,19 @@ export class ChatService {
   }
 
   async getChats(user: User) {
+    const newUser = await this.prisma.user.findUnique({
+      where: {
+        email: user.email,
+      },
+    });
+
+    if (!newUser) throw new ConflictException('User not found');
+
     return this.prisma.chat.findMany({
       where: {
         participants: {
           some: {
-            email: user.email,
+            email: newUser.email,
           },
         },
       },
