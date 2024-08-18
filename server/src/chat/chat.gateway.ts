@@ -12,6 +12,7 @@ import { ChatService } from './chat.service';
 import { CreateChatDto, SendMessageDto } from './dto/chat.dto';
 import { UserService } from 'src/user/user.service';
 import { ConflictException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 export const AuthenticatedUsers = new Map();
 
 @WebSocketGateway({
@@ -26,22 +27,53 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private readonly chatService: ChatService,
     private userService: UserService,
+    private jwtService: JwtService,
   ) {}
 
   async handleConnection(client: Socket) {
-    console.log(`Client connected: ${client.id}`);
     try {
-      const user = await this.userService.getUserDataFromToken(
+      console.log('Token:', client.handshake.auth.accessToken);
+      const decoded = this.jwtService.decode(client.handshake.auth.accessToken);
+      console.log('Decoded token payload:', decoded);
+
+      if (!decoded || !decoded.email) {
+        throw new ConflictException('Token is invalid or malformed');
+      }
+
+      const verified = this.jwtService.verify(
         client.handshake.auth.accessToken,
+        {
+          secret: process.env.JWT_SECRET,
+        },
       );
-      AuthenticatedUsers.set(client.id, user);
+
+      const user = await this.userService.getUserByEmail(verified.email);
+
+      if (!user) throw new ConflictException('User not found');
+
+      const { password, ...result } = user;
+      AuthenticatedUsers.set(client.id, result);
     } catch (error) {
-      console.log(error);
+      console.error('Error verifying token:', error.message);
     }
   }
 
   async handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
+    AuthenticatedUsers.delete(client.id);
+    console.log('Client disconnected:', client.id);
+  }
+
+  @SubscribeMessage('typing')
+  handleUserTyping(
+    @MessageBody('chatId') chatId: number,
+    @MessageBody('username') username: string,
+  ) {
+    this.server.to(chatId.toString()).emit('userTyping', username);
+  }
+
+  @SubscribeMessage('stopTyping')
+  handleStopTyping(@MessageBody('chatId') chatId: number) {
+    this.server.to(chatId.toString()).emit('stopTyping');
   }
 
   @SubscribeMessage('createChat')
