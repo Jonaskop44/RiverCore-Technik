@@ -1,7 +1,8 @@
 "use client";
 
+import NewChatModal from "@/app/dashboard/components/User/Support/NewChatModal";
 import { useUserStore } from "@/data/userStore";
-import { Avatar, Button, Chip, Input } from "@nextui-org/react";
+import { Avatar, Button, Chip, Input, useDisclosure } from "@nextui-org/react";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { FiPaperclip } from "react-icons/fi";
@@ -23,6 +24,7 @@ const PrinterSupport = () => {
   const [newChatTitle, setNewChatTitle] = useState("");
   const [typingUsers, setTypingUsers] = useState([]);
   const typingTimeoutRef = useRef(null);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
     socket.emit("getChats");
@@ -45,7 +47,6 @@ const PrinterSupport = () => {
       setChats((prevChats) => [...prevChats, chat]);
     });
 
-    // Listen for typing events
     socket.on("userTyping", (typingUser) => {
       setTypingUsers((prevUsers) => [...prevUsers, typingUser]);
     });
@@ -84,13 +85,15 @@ const PrinterSupport = () => {
   const createChat = () => {
     if (newChatTitle.trim()) {
       socket.emit("createChat", { title: newChatTitle });
+      onOpenChange();
       setNewChatTitle("");
     }
   };
 
-  const joinChat = (chatId) => {
+  const joinChat = (chatId: number) => {
     setSelectedChat(chatId);
     socket.emit("joinChat", { chatId });
+    socket.emit("stopTyping", { chatId });
   };
 
   const sendMessage = () => {
@@ -104,62 +107,77 @@ const PrinterSupport = () => {
   };
 
   return (
-    <div className="flex bg-white rounded-lg p-4">
-      <aside className="w-1/4 border-r">
-        <div className="p-4">
-          <h2 className="text-lg font-semibold">Drucker Support</h2>
-        </div>
-        <div className="p-4">
-          <div className="relative mb-4">
-            {/* <SearchIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Search..." className="pl-10" /> */}
-            <Button color="primary">Neue Konversation</Button>
+    <div>
+      <NewChatModal
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onOpenChange={onOpenChange}
+        title={newChatTitle}
+        setTitle={setNewChatTitle}
+        handleCreateChat={createChat}
+      />
+      <div className="flex bg-white rounded-lg max-h-[500px] h-screen">
+        <aside className="w-1/4 border-r">
+          <div className="p-4">
+            <h2 className="text-lg font-semibold text-black">
+              Drucker Support
+            </h2>
           </div>
-          <div className="space-y-4">
-            {chats.map((chat) => (
-              <div
-                key={chat.id}
-                className="flex items-center space-x-3 cursor-pointer"
-                onClick={() => joinChat(chat.id)}
-              >
-                <Avatar src={profilePicture} />
-                <div className="flex-1">
-                  <p className="font-medium">{chat.title}</p>
-                  <p className="text-sm text-muted-foreground">Name</p>
-                </div>
-                {/* {contact.count && (
+          <div className="p-4">
+            <div className="relative mb-4">
+              {/* <SearchIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+            <Input type="search" placeholder="Search..." className="pl-10" /> */}
+              <Button color="primary" onPress={onOpen}>
+                Neue Konversation
+              </Button>
+            </div>
+            <div className="space-y-4">
+              {chats.map((chat) => (
+                <div
+                  key={chat.id}
+                  className="flex items-center space-x-3 cursor-pointer"
+                  onClick={() => joinChat(chat.id)}
+                >
+                  <Avatar src={profilePicture} />
+                  <div className="flex-1">
+                    <p className="font-medium">{chat.title}</p>
+                    <p className="text-sm text-muted-foreground">Name</p>
+                  </div>
+                  {/* {contact.count && (
                   // <Badge variant="secondary">{contact.count}</Badge>
                   <Chip color="primary">{contact.count}</Chip>
                 )} */}
-                <Chip color="primary">10</Chip>
-                <span
-                  className={`h-2 w-2 rounded-full ${
-                    "online" === "online" ? "bg-green-500" : "bg-red-500"
-                  }`}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </aside>
-      <main className="flex-1 flex flex-col">
-        <header className="flex items-center p-4 border-b">
-          <Avatar src={profilePicture} />
-          <div className="ml-3">
-            <h2 className="text-lg font-semibold">Henry Dholi</h2>
-            <p className="text-sm text-muted-foreground">
-              {typingUsers.length > 0 && (
-                <div>
-                  {typingUsers.map((user) => (
-                    <span key={user.id}>{user.firstName} is typing...</span>
-                  ))}
+                  <Chip color="primary">10</Chip>
+                  <span
+                    className={`h-2 w-2 rounded-full ${
+                      "online" === "online" ? "bg-green-500" : "bg-red-500"
+                    }`}
+                  />
                 </div>
-              )}
-            </p>
+              ))}
+            </div>
           </div>
-        </header>
-        <div className="flex-1 p-4 overflow-y-auto">
-          {/* {[
+        </aside>
+        <main className="flex-1 flex flex-col">
+          <header className="flex items-center p-4 border-b">
+            <Avatar src={profilePicture} />
+            <div className="ml-3">
+              <h2 className="text-lg font-semibold">Henry Dholi</h2>
+              <p className="text-sm text-muted-foreground">
+                {typingUsers.length > 0 && (
+                  <div>
+                    {typingUsers.map((user) => (
+                      <span key={user.id}>
+                        {user.firstName} {user.lastName} schreibt ...
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </p>
+            </div>
+          </header>
+          <div className="flex-1 p-4 overflow-y-auto">
+            {/* {[
             {
               name: "Andri Thomas",
               message:
@@ -211,16 +229,17 @@ const PrinterSupport = () => {
             </div>
           ))} */}
 
-          {selectedChat ? (
-            <>
-              <ul>
-                {messages.map((message) => (
-                  <li key={message.id}>
-                    <strong>{message.userName}:</strong> {message.content}
-                  </li>
-                ))}
-              </ul>
-              {/* {messages.map((message) => (
+            {selectedChat ? (
+              <>
+                <ul>
+                  {messages.map((message) => (
+                    <li key={message.id}>
+                      <strong>{message.user.firstName}:</strong>{" "}
+                      {message.content}
+                    </li>
+                  ))}
+                </ul>
+                {/* {messages.map((message) => (
                 <div
                   key={message.id}
                   className={`flex ${
@@ -239,28 +258,34 @@ const PrinterSupport = () => {
                   </div>
                 </div>
               ))} */}
-            </>
-          ) : (
-            <p>Wähle eine Konversation aus</p>
-          )}
-        </div>
-        <footer className="p-4 border-t">
-          <div className="flex items-center space-x-2">
-            <Input
-              placeholder="Gib eine Nachricht ein."
-              className="flex-1"
-              value={newMessage}
-              onChange={handleTyping}
-            />
-            <Button variant="ghost">
-              <FiPaperclip className="h-6 w-6 text-muted-foreground" />
-            </Button>
-            <Button variant="ghost" onPress={sendMessage}>
-              <IoIosSend className="h-6 w-6 text-black" />
-            </Button>
+              </>
+            ) : (
+              <p>Wähle eine Konversation aus</p>
+            )}
           </div>
-        </footer>
-      </main>
+          <footer className="p-4 border-t">
+            <div className="flex items-center space-x-2">
+              <Input
+                isDisabled={!selectedChat}
+                placeholder="Gib eine Nachricht ein."
+                className="flex-1"
+                value={newMessage}
+                onChange={handleTyping}
+              />
+              <Button variant="ghost" isDisabled={!selectedChat}>
+                <FiPaperclip className="h-6 w-6 text-black" />
+              </Button>
+              <Button
+                variant="ghost"
+                onPress={sendMessage}
+                isDisabled={!selectedChat}
+              >
+                <IoIosSend className="h-6 w-6 text-black" />
+              </Button>
+            </div>
+          </footer>
+        </main>
+      </div>
     </div>
   );
 };

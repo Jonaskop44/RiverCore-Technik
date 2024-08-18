@@ -105,10 +105,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const user = AuthenticatedUsers.get(client.id);
     const message = await this.chatService.sendMessage(dto, user);
 
+    console.log(user);
+
     // Include userName in the emitted message
     this.server.to(dto.chatId.toString()).emit('receiveMessage', {
       ...message,
-      userName: user.firstName,
+      user: user,
     });
   }
 
@@ -126,7 +128,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const formattedMessages = messages.map((message) => ({
       id: message.id,
       content: message.content,
-      userName: message.user.firstName, // Benutzername hinzufügen
+      user: message.user,
     }));
 
     client.emit('chatMessages', formattedMessages);

@@ -13,24 +13,25 @@ interface NewChatModalProps {
   isOpen: boolean;
   onOpen: () => void;
   onOpenChange: (open: boolean) => void;
+  title: string;
+  setTitle: (title: string) => void;
+  handleCreateChat: () => void;
 }
 
 const NewChatModal: React.FC<NewChatModalProps> = ({
   isOpen,
   onOpen,
   onOpenChange,
+  title,
+  setTitle,
+  handleCreateChat,
 }) => {
-  const [title, setTitle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [touched, setTouched] = useState(false);
 
   const isTitleValid = useMemo(() => {
     return title.trim() === "";
   }, [title]);
-
-  const handleCreateChat = async () => {
-    onOpenChange(false);
-  };
 
   return (
     <>
@@ -97,12 +98,15 @@ const NewChatModal: React.FC<NewChatModalProps> = ({
                   isLoading={isLoading}
                   disabled={isTitleValid}
                   color="primary"
-                  onPress={handleCreateChat}
+                  onPress={() => {
+                    handleCreateChat();
+                    setTouched(false);
+                  }}
                   className={`cursor-pointer ${
                     isTitleValid ? "cursor-not-allowed opacity-50" : ""
                   }`}
                 >
-                  Bestätigen
+                  Erstellen
                 </Button>
               </ModalFooter>
             </>
