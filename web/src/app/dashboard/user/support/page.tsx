@@ -15,7 +15,7 @@ const socket = io("ws://localhost:3001", {
 });
 
 const PageSupport = () => {
-  const { profilePicture, user } = useUserStore();
+  const { user, getProfilePicture } = useUserStore();
   const [chats, setChats] = useState([]);
   const [messages, setMessages] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
@@ -38,8 +38,27 @@ const PageSupport = () => {
       });
     });
 
-    socket.on("chatsList", (_chats) => {
-      setChats(_chats);
+    socket.on("chatsList", async (_chats) => {
+      // _chats.map((chat) => {
+      //   getProfilePicture(chat.user).then((pricture) => {
+      //     setProfilePicture(pricture);
+      //   });
+      // });
+
+      const chatsWithProfilePictures = await Promise.all(
+        _chats.map(async (chat) => {
+          const picture = await getProfilePicture(chat.user);
+          return {
+            ...chat,
+            user: {
+              ...chat.user,
+              profilePicture: picture,
+            },
+          };
+        })
+      );
+
+      setChats(chatsWithProfilePictures);
     });
 
     socket.on("receiveMessage", (message) => {
@@ -51,7 +70,10 @@ const PageSupport = () => {
     });
 
     socket.on("chatCreated", (chat) => {
-      setChats((prevChats) => [...prevChats, chat]);
+      getProfilePicture(chat.user).then((picture) => {
+        chat.user.profilePicture = picture;
+        setChats((prevChats) => [...prevChats, chat]);
+      });
     });
 
     socket.on("userTyping", (typingUser) => {
@@ -150,7 +172,7 @@ const PageSupport = () => {
                   className="flex items-center space-x-3 cursor-pointer hover:bg-gray-200 p-2 rounded-lg"
                   onClick={() => joinChat(chat.id)}
                 >
-                  <Avatar src={profilePicture} />
+                  <Avatar src={chat.user.profilePicture} />
                   <div className="flex-1">
                     <p className="font-medium">{chat.title}</p>
                     <p className="text-sm text-muted-foreground">
@@ -172,7 +194,7 @@ const PageSupport = () => {
         </aside>
         <main className="flex-1 flex flex-col">
           <header className="flex items-center p-4 border-b">
-            <Avatar src={profilePicture} />
+            <Avatar src={"D"} />
             <div className="ml-3">
               {selectedChat ? (
                 <div>

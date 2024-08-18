@@ -157,14 +157,16 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       AuthenticatedUsers.get(client.id),
     );
 
-    if (!chats || chats.length === 0) return;
-    const user = await this.userService.getUserById(chats[0].creatorId);
-
-    const formattedChats = chats.map((chat) => ({
-      id: chat.id,
-      title: chat.title,
-      user: user,
-    }));
+    const formattedChats = await Promise.all(
+      chats.map(async (chat) => {
+        const user = await this.userService.getUserById(chat.creatorId);
+        return {
+          id: chat.id,
+          title: chat.title,
+          user: user,
+        };
+      }),
+    );
 
     client.emit('chatsList', formattedChats);
   }
