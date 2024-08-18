@@ -31,7 +31,6 @@ const PageSupport = () => {
     socket.emit("getChats");
 
     socket.on("userStatus", ({ userId, status }) => {
-      console.log("ON: ", status);
       setOnlineUsers((prevUsers) => {
         const updatedUsers = { ...prevUsers };
         updatedUsers[userId] = status;
@@ -207,9 +206,24 @@ const PageSupport = () => {
               <>
                 <ul>
                   {messages.map((message) => (
-                    <li key={message.id}>
-                      <strong>{message.user.firstName}:</strong>{" "}
-                      {message.content}
+                    <li
+                      key={message.id}
+                      className={`flex ${
+                        message.user.id === user.id
+                          ? "justify-end"
+                          : "justify-start"
+                      }`}
+                    >
+                      <div
+                        className={`${
+                          message.user.id === user.id
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-200 text-black"
+                        } p-2 rounded-lg max-w-xs`}
+                      >
+                        <strong>{message.user.firstName}:</strong>{" "}
+                        {message.content}
+                      </div>
                     </li>
                   ))}
                   <div ref={messagesContainerRef} />{" "}
