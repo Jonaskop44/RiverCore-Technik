@@ -39,12 +39,6 @@ const PageSupport = () => {
     });
 
     socket.on("chatsList", async (_chats) => {
-      // _chats.map((chat) => {
-      //   getProfilePicture(chat.user).then((pricture) => {
-      //     setProfilePicture(pricture);
-      //   });
-      // });
-
       const chatsWithProfilePictures = await Promise.all(
         _chats.map(async (chat) => {
           const picture = await getProfilePicture(chat.user);
@@ -62,11 +56,23 @@ const PageSupport = () => {
     });
 
     socket.on("receiveMessage", (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      getProfilePicture(message.user).then((picture) => {
+        message.user.profilePicture = picture;
+        setMessages((prevMessages) => [...prevMessages, message]);
+      });
     });
 
     socket.on("chatMessages", (messages) => {
-      setMessages(messages);
+      const messagesWithPictures = messages.map((message) => {
+        return getProfilePicture(message.user).then((picture) => {
+          message.user.profilePicture = picture;
+          return message;
+        });
+      });
+
+      Promise.all(messagesWithPictures).then((updatedMessages) => {
+        setMessages(updatedMessages);
+      });
     });
 
     socket.on("chatCreated", (chat) => {
@@ -227,27 +233,54 @@ const PageSupport = () => {
             {selectedChat ? (
               <>
                 <ul>
-                  {messages.map((message) => (
-                    <li
-                      key={message.id}
-                      className={`flex ${
-                        message.user.id === user.id
-                          ? "justify-end"
-                          : "justify-start"
-                      }`}
-                    >
-                      <div
-                        className={`${
+                  {messages.map((message) => {
+                    const messageTime = new Date(
+                      message.createdAt
+                    ).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }); // Formatierung der Uhrzeit
+
+                    return (
+                      <li
+                        key={message.id}
+                        className={`flex ${
                           message.user.id === user.id
-                            ? "bg-blue-500 text-white"
-                            : "bg-gray-200 text-black"
-                        } p-2 rounded-lg max-w-xs`}
+                            ? "justify-end"
+                            : "justify-start"
+                        } items-center`} // Für korrekte Ausrichtung von Avatar und Text
                       >
-                        <strong>{message.user.firstName}:</strong>{" "}
-                        {message.content}
-                      </div>
-                    </li>
-                  ))}
+                        {message.user.id !== user.id && (
+                          <Avatar
+                            src={message.user.profilePicture}
+                            alt={`${message.user.firstName} ${message.user.lastName}`}
+                          />
+                        )}
+                        <div
+                          className={`${
+                            message.user.id === user.id
+                              ? "bg-blue-500 text-white"
+                              : "bg-gray-200 text-black"
+                          } p-2 rounded-lg max-w-xs`}
+                        >
+                          <div className="flex justify-between items-center">
+                            <strong>{message.user.firstName}</strong>
+                            <span className="text-xs text-gray-500 ml-2">
+                              {messageTime}
+                            </span>
+                            {/* Zeitangabe */}
+                          </div>
+                          <p>{message.content}</p>
+                        </div>
+                        {message.user.id === user.id && (
+                          <Avatar
+                            src={message.user.profilePicture}
+                            alt={`${message.user.firstName} ${message.user.lastName}`}
+                          />
+                        )}
+                      </li>
+                    );
+                  })}
                   <div ref={messagesContainerRef} />{" "}
                   {/* Ref für das Ende der Liste */}
                 </ul>
