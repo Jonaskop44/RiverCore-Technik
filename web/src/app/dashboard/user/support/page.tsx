@@ -290,41 +290,49 @@ const PageSupport = () => {
                           message.user.id === user.id
                             ? "justify-end"
                             : "justify-start"
-                        } items-center`} // Für korrekte Ausrichtung von Avatar und Text
+                        } items-center`}
                       >
                         {message.user.id !== user.id && (
                           <Avatar
                             src={message.user.profilePicture}
                             alt={`${message.user.firstName} ${message.user.lastName}`}
+                            className="m-3"
                           />
                         )}
-                        <div
-                          className={`${
-                            message.user.id === user.id
-                              ? "bg-blue-500 text-white"
-                              : "bg-gray-200 text-black"
-                          } p-2 rounded-lg max-w-xs`}
-                        >
-                          <div className="flex justify-between items-center">
-                            <strong>{message.user.firstName}</strong>
-                            <span className="text-xs text-gray-500 ml-2">
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                            <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                              {message.user.firstName} {message.user.lastName}
+                            </span>
+                            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
                               {messageTime}
                             </span>
-                            {/* Zeitangabe */}
                           </div>
-                          <p>{message.content}</p>
+                          <div
+                            className={`flex flex-col w-full max-w-[320px] leading-1.5 text-black p-2 dark:bg-gray-700 ${
+                              message.user.id === user.id
+                                ? "bg-blue-500 rounded-bl-xl rounded-br-xl rounded-tl-xl"
+                                : "bg-gray-200 rounded-e-xl rounded-es-xl"
+                            }`}
+                          >
+                            <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                              <span className="inline-flex self-center items-center p-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {message.content}
+                              </span>
+                            </div>
+                          </div>
                         </div>
                         {message.user.id === user.id && (
                           <Avatar
                             src={message.user.profilePicture}
                             alt={`${message.user.firstName} ${message.user.lastName}`}
+                            className="m-3"
                           />
                         )}
                       </li>
                     );
                   })}
                   <div ref={messagesContainerRef} />{" "}
-                  {/* Ref für das Ende der Liste */}
                 </ul>
               </>
             ) : (
