@@ -3,17 +3,41 @@
 
 import NewChatModal from "@/app/dashboard/components/User/Support/NewChatModal";
 import { useUserStore } from "@/data/userStore";
-import { Avatar, Button, Chip, Input, useDisclosure } from "@nextui-org/react";
+import {
+  Avatar,
+  Button,
+  Chip,
+  Input,
+  Select,
+  SelectItem,
+  useDisclosure,
+} from "@nextui-org/react";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import io from "socket.io-client";
+import { IoMdAddCircle } from "react-icons/io";
 
 const socket = io("ws://localhost:3001", {
   auth: {
     accessToken: `${Cookies.get("accessToken")}`,
   },
 });
+
+const supportSections = [
+  {
+    key: "Printer",
+    label: "Drucker",
+  },
+  {
+    key: "Payment",
+    label: "Kassen",
+  },
+  {
+    key: "Network",
+    label: "Netzwerk",
+  },
+];
 
 const PageSupport = () => {
   const { user, getProfilePicture } = useUserStore();
@@ -159,17 +183,28 @@ const PageSupport = () => {
         setTitle={setNewChatTitle}
         handleCreateChat={createChat}
       />
-      <div className="flex bg-white rounded-lg max-h-[600px] h-screen">
-        <aside className="w-1/4 border-r">
-          <div className="p-4">
-            <h2 className="text-lg font-semibold text-black">
-              Drucker Support
-            </h2>
+      <div className="flex bg-white rounded-lg max-h-[700px]">
+        <aside className="border-r overflow-y-auto">
+          <div className="p-4 sticky top-0 bg-white z-10">
+            <Select
+              label="Support-Bereiche"
+              variant="underlined"
+              defaultSelectedKeys={[supportSections[0].key]}
+            >
+              {supportSections.map((section) => (
+                <SelectItem key={section.key}>{section.label}</SelectItem>
+              ))}
+            </Select>
           </div>
           <div className="p-4">
-            <div className="relative mb-4">
-              <Button color="primary" onPress={onOpen}>
-                Neue Konversation
+            <div className="mb-4">
+              <Button
+                color="primary"
+                onPress={onOpen}
+                className="w-full"
+                startContent={<IoMdAddCircle size={25} className="" />}
+              >
+                Neues Support-Ticket
               </Button>
             </div>
             <ul className="space-y-4">
@@ -200,33 +235,39 @@ const PageSupport = () => {
           </div>
         </aside>
         <main className="flex-1 flex flex-col">
-          <header className="flex items-center p-4 border-b">
-            <Avatar src={"D"} />
-            <div className="ml-3">
-              {selectedChat ? (
+          {selectedChat && (
+            <header className="flex items-center p-4 border-b">
+              <Avatar src={"D"} />
+              <div className="ml-3">
                 <div>
                   <h2 className="text-lg font-semibold">Leon Maier</h2>
                   <p className="text-sm text-muted-foreground">
                     {typingUsers.length > 0 ? (
                       <div>
-                        {typingUsers.map((user) => (
-                          <span key={user.id}>
-                            {user.firstName} {user.lastName} schreibt ...
+                        {typingUsers.length === 1 ? (
+                          <span>
+                            {typingUsers[0].firstName} {typingUsers[0].lastName}{" "}
+                            schreibt...
                           </span>
-                        ))}
+                        ) : (
+                          <span>
+                            {typingUsers
+                              .map(
+                                (user) => `${user.firstName} ${user.lastName}`
+                              )
+                              .join(", ")}{" "}
+                            schreiben...
+                          </span>
+                        )}
                       </div>
                     ) : (
                       <div>Online Status</div>
                     )}
                   </p>
                 </div>
-              ) : (
-                <h2 className="text-lg font-semibold">
-                  Wähle eine Konversation aus
-                </h2>
-              )}
-            </div>
-          </header>
+              </div>
+            </header>
+          )}
           <div
             className="flex-1 p-4 overflow-y-auto"
             ref={messagesContainerRef}
@@ -287,7 +328,13 @@ const PageSupport = () => {
                 </ul>
               </>
             ) : (
-              <p>Wähle eine Konversation aus</p>
+              <div className="flex justify-center items-center h-full">
+                <h1 className="text-black font-bold text-2xl">
+                  {chats.length > 0
+                    ? "Bitte wähle einen Chat aus um mit dem Support zu schreiben."
+                    : "Um mit dem Support zu schreiben, erstelle ein neues Ticket."}
+                </h1>
+              </div>
             )}
           </div>
           <footer className="p-4 border-t">

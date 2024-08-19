@@ -10,7 +10,7 @@ interface SupportLayoutProps {
 const SupportLayout: React.FC<SupportLayoutProps> = ({ children }) => {
   return (
     <>
-      <div className="mx-auto w-full max-w-[1080px]">
+      <div className="mx-auto w-full">
         <Breadcrumb pageName="Support/Drucker" />
         {children}
       </div>
