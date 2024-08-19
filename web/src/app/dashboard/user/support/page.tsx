@@ -130,16 +130,15 @@ const PageSupport = () => {
       );
     });
 
-    // socket.on("messageReaded", ({ chatId, userId }) => {
-    //   console.log(chatId, userId);
-    //   if (selectedChat === chatId) {
-    //     setMessages((prevMessages) =>
-    //       prevMessages.map((msg) =>
-    //         msg.user.id !== userId ? { ...msg, readed: true } : msg
-    //       )
-    //     );
-    //   }
-    // });
+    socket.on("messageReaded", ({ chatId, userId }) => {
+      if (selectedChatRef.current === chatId) {
+        setMessages((prevMessages) =>
+          prevMessages.map((msg) =>
+            msg.user.id !== userId ? { ...msg, readed: true } : msg
+          )
+        );
+      }
+    });
 
     return () => {
       socket.off("chatsList");
@@ -149,7 +148,7 @@ const PageSupport = () => {
       socket.off("userTyping");
       socket.off("userStoppedTyping");
       socket.off("userStatus");
-      // socket.off("messageReaded");
+      socket.off("messageReaded");
     };
   }, []);
 

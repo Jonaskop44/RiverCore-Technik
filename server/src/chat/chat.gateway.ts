@@ -161,6 +161,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     const user = AuthenticatedUsers.get(client.id);
     await this.chatService.markMessageAsRead(chatId, user);
+
+    //Notify other users
+    this.server.to(chatId.toString()).emit('messageReaded', {
+      chatId,
+      userId: user.id,
+    });
   }
 
   @SubscribeMessage('getChats')
