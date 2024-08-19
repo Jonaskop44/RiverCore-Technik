@@ -338,22 +338,26 @@ const PageSupport = () => {
                             </span>
                           </div>
                           <div
-                            className={`flex flex-col w-full max-w-[320px] p-2 leading-1.5 text-black dark:bg-gray-700 ${
+                            className={`relative flex flex-col w-full max-w-[320px] p-2 leading-1.5 text-black dark:bg-gray-700 ${
                               message.user.id === user.id
                                 ? "bg-blue-500 rounded-bl-xl rounded-br-xl rounded-tl-xl"
                                 : "bg-gray-200 rounded-e-xl rounded-es-xl"
                             }`}
                           >
-                            <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                              <span className="text-sm font-medium text-gray-900 dark:text-white">
-                                {message.content}
-                              </span>
-                              {message.readed ? (
-                                <IoCheckmarkDoneOutline className="text-green-500" />
-                              ) : (
-                                <IoCheckmarkDoneOutline className="text-black" />
-                              )}
-                            </div>
+                            <span
+                              className={`text-sm font-medium ${
+                                message.user.id === user.id
+                                  ? "text-white dark:text-dark"
+                                  : "text-dark dark:text-white"
+                              }`}
+                            >
+                              {message.content}
+                            </span>
+                            <IoCheckmarkDoneOutline
+                              className={`absolute bottom-0 right-0 mb-1 mr-1 ${
+                                message.readed ? "text-white" : "text-black"
+                              }`}
+                            />
                           </div>
                         </div>
                         {message.user.id === user.id && (
