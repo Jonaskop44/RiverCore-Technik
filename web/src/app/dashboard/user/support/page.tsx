@@ -345,9 +345,14 @@ const PageSupport = () => {
                             }`}
                           >
                             <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                              <span className="inline-flex self-center items-center text-sm font-medium text-gray-900 dark:text-white">
+                              <span className="text-sm font-medium text-gray-900 dark:text-white">
                                 {message.content}
                               </span>
+                              {message.readed ? (
+                                <IoCheckmarkDoneOutline className="text-green-500" />
+                              ) : (
+                                <IoCheckmarkDoneOutline className="text-black" />
+                              )}
                             </div>
                           </div>
                         </div>
