@@ -118,4 +118,19 @@ export class ChatService {
       },
     });
   }
+
+  async markMessageAsRead(chatId: number, user: User) {
+    await this.prisma.message.updateMany({
+      where: {
+        chatId: chatId,
+        userId: {
+          not: user.id,
+        },
+        readed: false,
+      },
+      data: {
+        readed: true,
+      },
+    });
+  }
 }

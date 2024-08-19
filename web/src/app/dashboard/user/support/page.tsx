@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import io from "socket.io-client";
 import { IoMdAddCircle } from "react-icons/io";
+import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
 const socket = io("ws://localhost:3001", {
   auth: {
