@@ -386,7 +386,13 @@ const PageSupport = () => {
                             </span>
                             <IoCheckmarkDoneOutline
                               className={`absolute bottom-0 right-0 mb-1 mr-1 ${
-                                message.readed ? "text-white" : "text-black"
+                                message.user.id === user.id
+                                  ? message.readed
+                                    ? "text-white" // Readed and from current user
+                                    : "text-black" // Unread and from current user
+                                  : message.readed
+                                  ? "text-blue-500" // Readed and not from current user
+                                  : "text-gray-500" // Unread and not from current user
                               }`}
                             />
                           </div>
