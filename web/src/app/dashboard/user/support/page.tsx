@@ -278,14 +278,7 @@ const PageSupport = () => {
               <div className="ml-3">
                 <div>
                   <h2 className="text-lg font-semibold">
-                    {
-                      chats.find((chat) => chat.id === selectedChat).user
-                        .firstName
-                    }{" "}
-                    {
-                      chats.find((chat) => chat.id === selectedChat).user
-                        .lastName
-                    }
+                    {chats.find((chat) => chat.id === selectedChat).title}
                   </h2>
                   <p className="text-sm text-muted-foreground">
                     {typingUsers.length > 0 ? (
@@ -315,12 +308,7 @@ const PageSupport = () => {
                         {
                           chats.find((chat) => chat.id === selectedChat).user
                             .lastName
-                        }{" "}
-                        {onlineUsers[
-                          chats.find((chat) => chat.id === selectedChat).user.id
-                        ] === "ONLINE"
-                          ? "ist online"
-                          : "ist offline"}
+                        }
                       </div>
                     )}
                   </p>
