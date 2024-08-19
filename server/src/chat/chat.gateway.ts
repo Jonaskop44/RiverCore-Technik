@@ -129,9 +129,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       ...message,
       user: user,
     });
-
-    //mark messages as read
-    await this.chatService.markMessageAsRead(dto.chatId, user);
   }
 
   @SubscribeMessage('joinChat')
@@ -153,6 +150,17 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }));
 
     client.emit('chatMessages', formattedMessages);
+  }
+
+  @SubscribeMessage('markMessageAsReaded')
+  async handleMarkMessageAsReaded(
+    @MessageBody('chatId') chatId: number,
+    @ConnectedSocket() client: Socket,
+  ) {
+    console.log('markMessageAsReaded', chatId);
+
+    const user = AuthenticatedUsers.get(client.id);
+    await this.chatService.markMessageAsRead(chatId, user);
   }
 
   @SubscribeMessage('getChats')

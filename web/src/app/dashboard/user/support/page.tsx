@@ -52,6 +52,11 @@ const PageSupport = () => {
   const typingTimeoutRef = useRef(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const messagesContainerRef = useRef(null);
+  const selectedChatRef = useRef(selectedChat);
+
+  useEffect(() => {
+    selectedChatRef.current = selectedChat;
+  }, [selectedChat]);
 
   useEffect(() => {
     socket.emit("getChats");
@@ -85,6 +90,13 @@ const PageSupport = () => {
       getProfilePicture(message.user).then((picture) => {
         message.user.profilePicture = picture;
         setMessages((prevMessages) => [...prevMessages, message]);
+
+        if (selectedChatRef.current === message.chatId) {
+          socket.emit("markMessageAsReaded", {
+            chatId: message.chatId,
+            userId: user,
+          });
+        }
       });
     });
 
@@ -118,6 +130,17 @@ const PageSupport = () => {
       );
     });
 
+    // socket.on("messageReaded", ({ chatId, userId }) => {
+    //   console.log(chatId, userId);
+    //   if (selectedChat === chatId) {
+    //     setMessages((prevMessages) =>
+    //       prevMessages.map((msg) =>
+    //         msg.user.id !== userId ? { ...msg, readed: true } : msg
+    //       )
+    //     );
+    //   }
+    // });
+
     return () => {
       socket.off("chatsList");
       socket.off("receiveMessage");
@@ -126,6 +149,7 @@ const PageSupport = () => {
       socket.off("userTyping");
       socket.off("userStoppedTyping");
       socket.off("userStatus");
+      // socket.off("messageReaded");
     };
   }, []);
 
@@ -147,7 +171,7 @@ const PageSupport = () => {
     typingTimeoutRef.current = setTimeout(() => {
       socket.emit("stopTyping", { chatId: selectedChat });
       typingTimeoutRef.current = null;
-    }, 2000);
+    }, 10000);
   };
 
   const createChat = () => {
@@ -184,7 +208,7 @@ const PageSupport = () => {
         setTitle={setNewChatTitle}
         handleCreateChat={createChat}
       />
-      <div className="flex bg-white rounded-lg max-h-[700px]">
+      <div className="flex bg-white rounded-lg max-h-[700px] h-screen">
         <aside className="border-r overflow-y-auto">
           <div className="p-4 sticky top-0 bg-white z-10">
             <Select
