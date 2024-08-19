@@ -89,9 +89,9 @@ const PageSupport = () => {
     socket.on("receiveMessage", (message) => {
       getProfilePicture(message.user).then((picture) => {
         message.user.profilePicture = picture;
-        setMessages((prevMessages) => [...prevMessages, message]);
 
         if (selectedChatRef.current === message.chatId) {
+          setMessages((prevMessages) => [...prevMessages, message]);
           socket.emit("markMessageAsReaded", {
             chatId: message.chatId,
             userId: user,
