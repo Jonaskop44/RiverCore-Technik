@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 import { User } from "@/types/user";
 import { Constants } from "@/api/constants";
 import axios from "axios";
