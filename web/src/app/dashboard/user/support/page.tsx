@@ -237,10 +237,24 @@ const PageSupport = () => {
         <main className="flex-1 flex flex-col">
           {selectedChat && (
             <header className="flex items-center p-4 border-b">
-              <Avatar src={"D"} />
+              <Avatar
+                src={
+                  chats.find((chat) => chat.id === selectedChat).user
+                    .profilePicture
+                }
+              />
               <div className="ml-3">
                 <div>
-                  <h2 className="text-lg font-semibold">Leon Maier</h2>
+                  <h2 className="text-lg font-semibold">
+                    {
+                      chats.find((chat) => chat.id === selectedChat).user
+                        .firstName
+                    }{" "}
+                    {
+                      chats.find((chat) => chat.id === selectedChat).user
+                        .lastName
+                    }
+                  </h2>
                   <p className="text-sm text-muted-foreground">
                     {typingUsers.length > 0 ? (
                       <div>
@@ -261,7 +275,21 @@ const PageSupport = () => {
                         )}
                       </div>
                     ) : (
-                      <div>Online Status</div>
+                      <div>
+                        {
+                          chats.find((chat) => chat.id === selectedChat).user
+                            .firstName
+                        }{" "}
+                        {
+                          chats.find((chat) => chat.id === selectedChat).user
+                            .lastName
+                        }{" "}
+                        {onlineUsers[
+                          chats.find((chat) => chat.id === selectedChat).user.id
+                        ] === "ONLINE"
+                          ? "ist online"
+                          : "ist offline"}
+                      </div>
                     )}
                   </p>
                 </div>
@@ -309,14 +337,14 @@ const PageSupport = () => {
                             </span>
                           </div>
                           <div
-                            className={`flex flex-col w-full max-w-[320px] leading-1.5 text-black p-2 dark:bg-gray-700 ${
+                            className={`flex flex-col w-full max-w-[320px] p-2 leading-1.5 text-black dark:bg-gray-700 ${
                               message.user.id === user.id
                                 ? "bg-blue-500 rounded-bl-xl rounded-br-xl rounded-tl-xl"
                                 : "bg-gray-200 rounded-e-xl rounded-es-xl"
                             }`}
                           >
                             <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                              <span className="inline-flex self-center items-center p-2 text-sm font-medium text-gray-900 dark:text-white">
+                              <span className="inline-flex self-center items-center text-sm font-medium text-gray-900 dark:text-white">
                                 {message.content}
                               </span>
                             </div>
