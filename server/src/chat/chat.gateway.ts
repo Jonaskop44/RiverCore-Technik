@@ -86,7 +86,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {
     const user = AuthenticatedUsers.get(client.id);
     if (user) {
-      this.server.to(chatId.toString()).emit('userTyping', user);
+      this.server.to(chatId.toString()).emit('userTyping', { ...user, chatId });
     }
   }
 
@@ -97,7 +97,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {
     const user = AuthenticatedUsers.get(client.id);
     if (user) {
-      this.server.to(chatId.toString()).emit('userStoppedTyping', user);
+      this.server
+        .to(chatId.toString())
+        .emit('userStoppedTyping', { ...user, chatId });
     }
   }
 

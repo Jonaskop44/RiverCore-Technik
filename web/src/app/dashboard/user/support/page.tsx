@@ -121,13 +121,17 @@ const PageSupport = () => {
     });
 
     socket.on("userTyping", (typingUser) => {
-      setTypingUsers((prevUsers) => [...prevUsers, typingUser]);
+      if (selectedChatRef.current === typingUser.chatId) {
+        setTypingUsers((prevUsers) => [...prevUsers, typingUser]);
+      }
     });
 
     socket.on("userStoppedTyping", (stoppedTypingUser) => {
-      setTypingUsers((prevUsers) =>
-        prevUsers.filter((u) => u.id !== stoppedTypingUser.id)
-      );
+      if (selectedChatRef.current === stoppedTypingUser.chatId) {
+        setTypingUsers((prevUsers) =>
+          prevUsers.filter((u) => u.id !== stoppedTypingUser.id)
+        );
+      }
     });
 
     socket.on("messageReaded", ({ chatId, userId }) => {
@@ -170,7 +174,7 @@ const PageSupport = () => {
     typingTimeoutRef.current = setTimeout(() => {
       socket.emit("stopTyping", { chatId: selectedChat });
       typingTimeoutRef.current = null;
-    }, 10000);
+    }, 3000);
   };
 
   const createChat = () => {
@@ -182,6 +186,10 @@ const PageSupport = () => {
   };
 
   const joinChat = (chatId: number) => {
+    if (selectedChatRef.current !== null) {
+      socket.emit("stopTyping", { chatId: selectedChatRef.current });
+    }
+
     setSelectedChat(chatId);
     socket.emit("joinChat", { chatId });
     socket.emit("stopTyping", { chatId });
