@@ -133,4 +133,17 @@ export class ChatService {
       },
     });
   }
+
+  async getUnreadMessageCount(chatId: number, user: User) {
+    const count = await this.prisma.message.count({
+      where: {
+        chatId: chatId,
+        readed: false,
+        NOT: {
+          userId: user.id, // Exclude messages sent by the user
+        },
+      },
+    });
+    return count;
+  }
 }

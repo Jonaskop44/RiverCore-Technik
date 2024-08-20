@@ -19,7 +19,6 @@ enum OnlineStatus {
   ONLINE = 'ONLINE',
   OFFLINE = 'OFFLINE',
 }
-
 @WebSocketGateway({
   cors: {
     origin: '*',
@@ -181,11 +180,21 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     const formattedChats = await Promise.all(
       chats.map(async (chat) => {
-        const user = await this.userService.getUserById(chat.creatorId);
+        const creatorUser = await this.userService.getUserById(chat.creatorId);
+        const user = await this.userService.getUserById(
+          AuthenticatedUsers.get(client.id).id,
+        );
+
+        const unreaded = await this.chatService.getUnreadMessageCount(
+          chat.id,
+          user,
+        );
+
         return {
           id: chat.id,
           title: chat.title,
-          user: user,
+          user: creatorUser,
+          unreaded: unreaded,
         };
       }),
     );

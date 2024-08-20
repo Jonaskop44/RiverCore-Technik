@@ -253,7 +253,9 @@ const PageSupport = () => {
                       {chat.user.firstName} {chat.user.lastName}
                     </p>
                   </div>
-                  <Chip color="primary">10</Chip>
+                  {chat.unreaded > 0 && (
+                    <Chip color="primary">{chat.unreaded}</Chip>
+                  )}
                   <span
                     className={`h-2 w-2 rounded-full ${
                       onlineUsers[chat.user.id] === "ONLINE"
