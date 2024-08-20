@@ -8,11 +8,13 @@ import {
   CardFooter,
   Divider,
   Link,
-  Image,
   Avatar,
   Button,
+  Calendar,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import ReviewUserForm from "./components/User/Review/ReviewForm";
+import { TiWeatherCloudy } from "react-icons/ti";
 
 const PARTNERCARDS = [
   {
@@ -61,7 +63,8 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid content-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Welcome Card */}
         <Card>
           <CardHeader className="flex gap-3">
             <Avatar alt={user.firstName} src={profilePicture} />
@@ -91,6 +94,7 @@ const Dashboard = () => {
           </CardFooter>
         </Card>
 
+        {/* Partner Card */}
         <Card>
           <CardHeader className="flex gap-3">
             <Avatar alt={currentCard.name} src={currentCard.image} />
@@ -114,12 +118,29 @@ const Dashboard = () => {
           </CardFooter>
         </Card>
 
+        {/* Review Form */}
         <Card>
           <CardHeader>
-            <h3 className="text-xl font-bold">Statistik</h3>
+            <h3 className="text-xl font-bold">Bewerte unser Unternehmen</h3>
           </CardHeader>
           <CardBody>
-            <p>Statistik wird hier angezeigt.</p>
+            <ReviewUserForm />
+          </CardBody>
+        </Card>
+
+        {/* Calendar */}
+        <Card>
+          <CardHeader className="flex gap-3">
+            <TiWeatherCloudy size={24} />
+            <div className="flex flex-col">
+              <p className="text-md">Villach 24°</p>
+              <p className="text-small text-default-500">
+                Bewölkt mit Sonnenschein
+              </p>
+            </div>
+          </CardHeader>
+          <CardBody className="flex justify-center items-center">
+            <Calendar showMonthAndYearPickers />
           </CardBody>
         </Card>
       </div>
