@@ -9,10 +9,10 @@ import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 import { useDisclosure } from "@nextui-org/react";
-import VerificationModal from "@/components/Auth/VerificationModal";
+import VerificationModal from "@/components/auth/VerificationModal";
 import { toast } from "sonner";
 import ApiClient from "@/api";
-import ResetPasswordModal from "@/components/Auth/ResetPasswordModal";
+import ResetPasswordModal from "@/components/auth/ResetPasswordModal";
 import Cookies from "js-cookie";
 
 const apiClient = new ApiClient();
