@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Lines from "@/components/Lines";
-import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "next-themes";
-import ScrollToTop from "@/components/ScrollToTop";
-import Footer from "@/components/Footer";
 import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from "sonner";
 import NextTopLoader from "nextjs-toploader";
