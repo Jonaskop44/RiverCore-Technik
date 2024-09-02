@@ -123,7 +123,7 @@ const Footer = () => {
                   Kontakt
                 </p>
                 <p className="text-itemtitle font-medium text-black dark:text-white">
-                  example@example.com
+                  support@rivercore.com
                 </p>
               </motion.div>
 
