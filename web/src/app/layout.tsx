@@ -15,9 +15,9 @@ import SessionProvider from "@/context/SessionProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Elbe Tehcknik",
+  title: "RiverCore-Technik",
   description:
-    "Elbe Tehcknik is a software development company based in Austria",
+    "RiverCore-Technik is a platform for developers and designers to showcase their work and learn from one another.",
 };
 
 export default function RootLayout({
