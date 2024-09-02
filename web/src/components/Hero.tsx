@@ -74,7 +74,7 @@ const Hero = () => {
                 </div>
               </div>
               <p>
-                Bei <b>Elbe - Technik</b> bieten wir maßgeschneiderte
+                Bei <b>RiverCore - Technik</b> bieten wir maßgeschneiderte
                 Techniklösungen für Ihr Unternehmen. Kontaktieren Sie uns per
                 Telefon oder E-Mail und profitieren Sie von unserer umfassenden
                 Beratung und Unterstützung. Setzen Sie Ihre Projekte mit
