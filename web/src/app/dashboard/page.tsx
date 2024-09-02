@@ -84,11 +84,7 @@ const Dashboard = () => {
           </CardBody>
           <Divider />
           <CardFooter>
-            <Link
-              isExternal
-              showAnchorIcon
-              href="https://www.elbe.at/elbe-miete/"
-            >
+            <Link isExternal showAnchorIcon href="https://www.google.com/">
               Geräte für Ihr Unternehmen
             </Link>
           </CardFooter>
