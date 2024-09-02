@@ -322,7 +322,8 @@ const Footer = () => {
               className="animate_top"
             >
               <p>
-                &copy; {new Date().getFullYear()} Elbe. Alle Rechte vorbehalten
+                &copy; {new Date().getFullYear()} RiverCore-Technik. Alle Rechte
+                vorbehalten
               </p>
             </motion.div>
 
