@@ -264,7 +264,7 @@ const Support = () => {
                 <h3 className="mb-4 text-metatitle3 font-medium text-black dark:text-white">
                   Adresse
                 </h3>
-                <p>Tiroler Straße 21, 9500 Villach, Kärnten, Österreich</p>
+                <p>Kifferstraße 19, Köln, Deutschland</p>
               </div>
               <div className="5 mb-7">
                 <h3 className="mb-4 text-metatitle3 font-medium text-black dark:text-white">
@@ -279,7 +279,7 @@ const Support = () => {
                   Telefonnummer
                 </h4>
                 <p>
-                  <a href="#">+43 4242 / 51115-10</a>
+                  <a href="#">+34 123 456 789</a>
                 </p>
               </div>
             </motion.div>
