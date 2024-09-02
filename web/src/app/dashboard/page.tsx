@@ -129,7 +129,7 @@ const Dashboard = () => {
           <CardHeader className="flex gap-3">
             <TiWeatherCloudy size={24} />
             <div className="flex flex-col">
-              <p className="text-md">Villach 24°</p>
+              <p className="text-md">Köln 24°</p>
               <p className="text-small text-default-500">
                 Bewölkt mit Sonnenschein
               </p>
