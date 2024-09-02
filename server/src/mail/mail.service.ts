@@ -15,7 +15,7 @@ export class MailService {
       await this.mailerService.sendMail({
         to: user.email,
         //from: '"Support Team" <support@example.com>',
-        subject: 'Bestätigungscode für das Elbe-Technik-Konto',
+        subject: 'Bestätigungscode für das RiverCore-Technik',
         template: './ActivateAccount',
         context: {
           name: user.firstName,
@@ -33,7 +33,7 @@ export class MailService {
       await this.mailerService.sendMail({
         to: user.email,
         //from: '"Support Team" <support@example.com>',
-        subject: 'Zurücksetzung des Kennworts für das Elbe-Technik-Konto',
+        subject: 'Zurücksetzung des Kennworts für das RiverCore-Technik',
         template: './ResetPassword',
         context: {
           name: user.firstName,
@@ -51,7 +51,7 @@ export class MailService {
       await this.mailerService.sendMail({
         to: email,
         //from: '"Support Team" <support@example.com>',
-        subject: 'Angemeldet für den Elbe-Technik-Newsletter',
+        subject: 'Angemeldet für den RiverCore-Technik',
         template: './SubscribeNewsletter',
         context: {
           url: `http://localhost:3000/newsletter/unsubscribe/${id}`,
