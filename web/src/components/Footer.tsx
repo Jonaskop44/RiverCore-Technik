@@ -103,7 +103,7 @@ const Footer = () => {
                     draggable={false}
                     width={110}
                     height={80}
-                    src="/images/logo/ELBE_Technik_Logo-mitSchatten.png"
+                    src="/images/logo/logo.png"
                     alt="Logo"
                     className="dark:hidden"
                   />
@@ -111,7 +111,7 @@ const Footer = () => {
                     draggable={false}
                     width={110}
                     height={80}
-                    src="/images/logo/ELBE_Technik_Logo-mitSchatten.png"
+                    src="/images/logo/logo.png"
                     alt="Logo"
                     className="hidden dark:block"
                   />

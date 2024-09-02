@@ -64,7 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
             <Image
               width={60}
               height={30}
-              src={"/images/logo/ELBE_Technik_Logo-mitSchatten.png"}
+              src={"/images/logo/logo.png"}
               alt="Logo"
               draggable={false}
               priority
@@ -75,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
               width={60}
               height={30}
               draggable={false}
-              src={"/images/logo/ELBE_Technik_Logo-mitSchatten.png"}
+              src={"/images/logo/logo.png"}
               alt="Logo"
               priority
               className="hidden dark:block"

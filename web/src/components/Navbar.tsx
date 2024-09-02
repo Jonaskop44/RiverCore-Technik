@@ -112,7 +112,7 @@ const Navbar = () => {
           <a href="/">
             <Image
               draggable={false}
-              src="/images/logo/ELBE_Technik_Logo-mitSchatten.png"
+              src="/images/logo/logo.png"
               alt="logo"
               width={60}
               height={30}
@@ -120,7 +120,7 @@ const Navbar = () => {
             />
             <Image
               draggable={false}
-              src="/images/logo/ELBE_Technik_Logo-mitSchatten.png"
+              src="/images/logo/logo.png"
               alt="logo"
               width={60}
               height={30}
