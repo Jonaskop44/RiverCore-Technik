@@ -39,7 +39,7 @@ This project requires NodeJS (version 16 or later), Yarn VScode. Node, Yarn and 
 
   ```sh
   git clone https://github.com/Jonaskop44/RiverCore-Technik.git
-  cd Adminpanel
+  cd RiverCore-Technik
   code .
   ```
 
