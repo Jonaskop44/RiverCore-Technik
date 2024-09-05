@@ -12,6 +12,7 @@ All information on the website is fictitious. The website is purely for demonstr
   - [tailwindcss](https://www.npmjs.com/package/tailwindcss)
 - Web
   - [Prisma](https://www.npmjs.com/package/prisma)
+  - [typescript](https://www.npmjs.com/package/typescript)
   - [NextAuth](https://www.npmjs.com/package/next-auth)
 
 <!-- GETTING STARTED DEVELOPMENT  -->
