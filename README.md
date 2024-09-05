@@ -1,6 +1,6 @@
 # About The Project
 
-A website offering a service for drone photography. The website has an adminpanel and a newsletter-system.
+A website for, e.g., a company that sells a technical service. The website has a newsletter system, rating system and a chat system. There is also a user administration in the admin dashboard.
 
 All information on the website is fictitious. The website is purely for demonstration purposes
 
