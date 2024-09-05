@@ -7,8 +7,8 @@ All information on the website is fictitious. The website is purely for demonstr
 ## Built With
 
 - Web
-  - [typescript](https://www.npmjs.com/package/typescript)
   - [NextJS](https://nextjs.org/)
+  - [typescript](https://www.npmjs.com/package/typescript)
   - [tailwindcss](https://www.npmjs.com/package/tailwindcss)
   - [Prisma](https://www.npmjs.com/package/prisma)
   - [NextAuth](https://www.npmjs.com/package/next-auth)
