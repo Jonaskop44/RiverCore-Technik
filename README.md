@@ -11,9 +11,9 @@ All information on the website is fictitious. The website is purely for demonstr
   - [typescript](https://www.npmjs.com/package/typescript)
   - [tailwindcss](https://www.npmjs.com/package/tailwindcss)
 - Web
-  - [Prisma](https://www.npmjs.com/package/prisma)
-  - [typescript](https://www.npmjs.com/package/typescript)
   - [NestJS](https://nestjs.com/)
+  - [typescript](https://www.npmjs.com/package/typescript)
+  - [Prisma](https://www.npmjs.com/package/prisma)
 
 <!-- GETTING STARTED DEVELOPMENT  -->
 
