@@ -36,7 +36,7 @@ This project requires NodeJS (version 16 or later), Yarn VScode. Node, Yarn and 
 - Clone the repo
 
   ```sh
-  git clone https://github.com/Jonaskop44/Drone.git
+  git clone https://github.com/Jonaskop44/RiverCore-Technik.git
   cd Adminpanel
   code .
   ```
@@ -59,7 +59,7 @@ This project requires NodeJS (version 16 or later), Yarn VScode. Node, Yarn and 
 
 # Roadmap
 
-See the [open issues](https://github.com/Jonaskop44/Drone/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/Jonaskop44/RiverCore-Technik/issues) for a list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 
