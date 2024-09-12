@@ -36,37 +36,8 @@ const menuData: Navigation[] = [
     submenu: [
       {
         id: 31,
-        title: "Blog Grid",
-        path: "/blog",
-      },
-      {
-        id: 34,
-        title: "Sign In",
-        path: "/auth/signin",
-      },
-      {
-        id: 35,
-        title: "Sign Up",
-
-        path: "/auth/signup",
-      },
-      {
-        id: 35,
-        title: "Docs",
-
-        path: "/docs",
-      },
-      {
-        id: 35.1,
-        title: "Support",
-
-        path: "/support",
-      },
-      {
-        id: 36,
-        title: "404",
-
-        path: "/error",
+        title: "Anmeldung",
+        path: "/auth",
       },
     ],
   },
