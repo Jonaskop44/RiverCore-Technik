@@ -2,8 +2,7 @@
 /dist
 /node_modules
 /build
-/public/*
-!public/images/profilePictures/pb-default.png
+/public
 
 # Logs
 logs
